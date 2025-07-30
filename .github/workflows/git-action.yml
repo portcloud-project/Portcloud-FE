@@ -25,4 +25,4 @@ jobs:
             
       - name: Install dependencies
         working-directory: frontend
-        run: yarn install
+        run: npm install
