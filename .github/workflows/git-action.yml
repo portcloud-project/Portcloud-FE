@@ -18,11 +18,11 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v3
         with:
-          path: front-end/node_modules
+          path: frontend/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('front-end/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node-
             
       - name: Install dependencies
-        working-directory: front-end
+        working-directory: frontend
         run: yarn install
