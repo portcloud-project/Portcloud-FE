@@ -14,6 +14,7 @@ import Image from "next/image";
 import mainBannerImg from "@/app/imgs/mainbanner-img.png";
 import { useState, useEffect } from "react";
 import MainList from "./customComponents/MainList";
+import MainTeamList from "./customComponents/MainTeamList";
 
 export default function Home() {
   // 캐러셀 api state
@@ -93,6 +94,7 @@ export default function Home() {
       <section className="w-[1392px] flex my-[48px] flex-col gap-[48px] ">
         <MainList title="인기 프로젝트" />
         <MainList title="인기 포트폴리오" />
+        <MainTeamList title="팀 구하기" />
       </section>
     </main>
   );
