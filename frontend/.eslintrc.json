@@ -1,16 +1,11 @@
 {
-  "extends": [
-    "next",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "rules": {
-    "no-var": "error",
-    "eqeqeq": "error",
-    "no-unused-vars": "error",
-    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }]
-  }
+    "extends": ["next", "eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "rules": {
+        "no-var": "error",
+        "eqeqeq": "error",
+        "no-unused-vars": "error",
+        "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }]
+    }
 }
