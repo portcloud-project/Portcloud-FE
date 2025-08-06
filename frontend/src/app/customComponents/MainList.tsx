@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getItem } from '../api/listItem';
+
 interface MainListProps {
     title: string;
 }
@@ -18,24 +19,47 @@ const MainList = ({ title }: MainListProps) => {
         };
         fetchItem();
     }, [setItem]);
+
     return (
         <div className="w-full flex flex-col gap-[16px]">
             <p className="font-bold text-[20px]">{title}</p>
             <ul className="flex gap-[24px]">
                 {item.length > 0 ? (
-                    item.map((item, index) => {
+                    item.map((itemText, index) => {
                         return (
                             <li
-                                key={`${index}-${item}`}
-                                className="w-[330px] flex items-center justify-center bg-[url('/listBg.jpg')] bg-cover h-[248px] rounded-[20px] text-white relative px-[24px] cursor-pointer"
-                                // height의 경우 백엔드 api 완성 후 내부에 들어갈 데이터 채워 놓은 후 수정 필요
+                                key={`${index}-${itemText}`}
+                                className="group w-[330px] h-[248px] perspective-[1000px] cursor-pointer"
                             >
-                                {/* 텍스트 */}
-                                <div className="relative z-10 flex items-center justify-center text-white font-bold text-[18px]">
-                                    {item}
+                                {/* 회전 컨테이너 */}
+                                <div className="relative w-full h-full transition-transform duration-500 transform-style-preserve-3d group-hover:rotate-y-180">
+                                    {/* 앞면 */}
+                                    <div className="absolute inset-0 rounded-[20px] backface-hidden overflow-hidden">
+                                        <div
+                                            className="absolute inset-0 bg-cover bg-center"
+                                            style={{
+                                                backgroundImage: 'var(--background-list-default)',
+                                            }}
+                                        ></div>
+                                    </div>
+
+                                    {/* 뒷면 */}
+                                    <div className="absolute inset-0 rounded-[20px] rotate-y-180 backface-hidden overflow-hidden">
+                                        {/* 뒷면 배경 */}
+                                        <div
+                                            className="absolute inset-0 bg-cover bg-center"
+                                            style={{
+                                                backgroundImage: 'var(--background-list-hover)',
+                                            }}
+                                        ></div>
+                                        {/* 오버레이 */}
+                                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                                        {/* 텍스트  */}
+                                        <div className="absolute inset-0 flex items-center justify-center z-10 text-white font-bold text-[18px] p-[24px] mt-[120px]">
+                                            {itemText}
+                                        </div>
+                                    </div>
                                 </div>
-                                {/* 오버레이 */}
-                                <div className="absolute inset-0 bg-black/40 rounded-[20px]"></div>{' '}
                             </li>
                         );
                     })
