@@ -30,13 +30,13 @@ const MainTeamList = ({ title }: MainTeamListProps) => {
     return (
         <div className="flex flex-col gap-[24px]">
             <p className="font-bold text-[20px]">{title}</p>
-            <ul className="flex gap-[24px]">
+            <ul className="tablet:flex gap-[24px] overflow-x-auto mobile:grid grid-cols-2 grid-rows-2 place-items-center xs-mobile:grid xs-mobile:grid-cols-1 xs-mobile:grid-rows-4">
                 {item.length > 0 ? (
                     item.map((teamItem, index) => {
                         return (
                             <li
                                 key={`${teamItem}-${index}`}
-                                className="w-[330px] bg-white border-[2px] border-gray-300 rounded-[20px] p-[24px] cursor-pointer"
+                                className="w-[330px] bg-white border-[2px] border-gray-300 rounded-[20px] p-[24px] cursor-pointer shrink-0 mobile:w-[350px] tablet:w-[330px] xs-mobile:w-[340px] s-mobile:w-[432px] h-[296px]"
                             >
                                 <div className="flex gap-[4px] items-center">
                                     <p className="text-gray-500 text-[14px] font-medium">마감일</p>

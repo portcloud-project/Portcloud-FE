@@ -23,13 +23,13 @@ const MainList = ({ title }: MainListProps) => {
     return (
         <div className="w-full flex flex-col gap-[16px]">
             <p className="font-bold text-[20px]">{title}</p>
-            <ul className="flex gap-[24px]">
+            <ul className="tablet:flex mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 gap-x-[20px] gap-y-[16px] xs-mobile:grid grid-cols-1 grid-rows-4 overflow-x-auto place-items-center">
                 {item.length > 0 ? (
                     item.map((itemText, index) => {
                         return (
                             <li
                                 key={`${index}-${itemText}`}
-                                className="group w-[330px] h-[248px] perspective-[1000px] cursor-pointer"
+                                className="group w-[330px] h-[248px] perspective-[1000px] cursor-pointer shrink-0 overflow-hidden mobile:w-[350px] mobile:h-[248px] tablet:w-[330px] s-mobile:w-[432px] s-mobile:h-[324px]"
                             >
                                 {/* 회전 컨테이너 */}
                                 <div className="relative w-full h-full transition-transform duration-500 transform-style-preserve-3d group-hover:rotate-y-180">
