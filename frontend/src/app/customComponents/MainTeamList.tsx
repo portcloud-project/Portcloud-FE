@@ -30,13 +30,13 @@ const MainTeamList = ({ title }: MainTeamListProps) => {
     return (
         <div className="flex flex-col gap-[24px]">
             <p className="font-bold text-[20px]">{title}</p>
-            <ul className="tablet:flex gap-[24px] overflow-x-auto mobile:grid grid-cols-2 grid-rows-2 place-items-center xs-mobile:grid xs-mobile:grid-cols-1 xs-mobile:grid-rows-4">
+            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-center overflow-x-auto gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start">
                 {item.length > 0 ? (
                     item.map((teamItem, index) => {
                         return (
                             <li
                                 key={`${teamItem}-${index}`}
-                                className="w-[330px] bg-white border-[2px] border-gray-300 rounded-[20px] p-[24px] cursor-pointer shrink-0 mobile:w-[350px] tablet:w-[330px] xs-mobile:w-[340px] s-mobile:w-[432px] h-[296px]"
+                                className="min-w-[220px] min-h-[100px] aspect-[4/3] bg-white border-[2px] border-gray-300 rounded-[20px] p-[24px] flex-1 cursor-pointer      tablet:shrink-0 tablet:min-w-[330px]"
                             >
                                 <div className="flex gap-[4px] items-center">
                                     <p className="text-gray-500 text-[14px] font-medium">마감일</p>
@@ -45,8 +45,8 @@ const MainTeamList = ({ title }: MainTeamListProps) => {
                                         {new Date(teamItem.date).toLocaleDateString()}
                                     </p>
                                 </div>
-                                <h2 className="text-[18px] font-bold my-[4px]">{teamItem.title}</h2>
-                                <p className="w-fit rounded-[20px] bg-purple-50 px-[16px] py-[6px] box-border text-center font-semibold text-purple-500 text-[14px] my-[12px] mb-[76px]">
+                                <h2 className="text-[1em] font-bold my-[4px]">{teamItem.title}</h2>
+                                <p className="w-fit rounded-[20px] bg-purple-50 px-[16px] py-[6px] box-border text-center font-semibold text-purple-500 text-[14px] my-[12px]">
                                     {teamItem.tag}
                                 </p>
                                 <hr />
