@@ -4,7 +4,7 @@ const Header = () => {
     const navArr = ['프로젝트', '포트폴리오', '팀 구하기', '기록'];
 
     return (
-        <header className="fixed top-0 left-0 w-full h-[60px] flex justify-center items-center text-[var(--color-gray-900)] font-semibold text-[16px] z-50 bg-white">
+        <header className="top-0 left-0 w-full h-[60px] flex justify-center items-center text-[var(--color-gray-900)] font-semibold text-[16px] z-50 bg-white mb-[24px]">
             <div className="w-[1440px] h-full flex flex-row justify-between items-center">
                 <div className="w-[130px] h-[28px]">logoImage</div>
 

@@ -39,7 +39,7 @@ export default function Home() {
     }, [api]);
 
     return (
-        <main className="w-full flex flex-col justify-start items-center m-auto py-[84px]  laptop:w-[1392px] tablet:w-full mobile:w-[720px] s-mobile:w-[432px] xs-mobile:w-[345px]">
+        <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full">
             {/* 배너 줄어들기 원하지 않을시 tablet : w-[976px] 이 방법 채택시 전체 폭 가로 스크롤바 생김*/}
             {/* 스타일 통일이 필요해 보임 전체 스크롤바 선택 or 전체스크롤바 x 배너 + 내부 컨텐츠 같이 줄어들기 */}
             {/* mainBanner Section */}
