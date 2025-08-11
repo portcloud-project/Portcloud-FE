@@ -30,7 +30,7 @@ const Login = ({
         <CardLayout setLoginModal={setLoginModal}>
             <Card
                 className="w-[480px] h-[614px] p-[32px] flex flex-col justify-between items-center gap-[32px] relative"
-                onClick={(e) => e.stopPropagation()}
+                onMouseDown={(e) => e.stopPropagation()}
             >
                 <h3 onClick={() => setLoginModal(false)} className="absolute top-8 right-8">
                     <IoMdClose className="w-[24px] h-[24px] cursor-pointer" />
