@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -23,10 +23,10 @@ const Header = () => {
                 </nav>
 
                 <div className="w-[130px] h-[24px] flex justify-end items-center">
-                    <h3 className="cursor-pointer" onClick={() => setLoginModal(true)}>로그인</h3>
-                    {
-                        loginModal && <Login setLoginModal = {setLoginModal}/>
-                    }
+                    <h3 className="cursor-pointer" onClick={() => setLoginModal(true)}>
+                        로그인
+                    </h3>
+                    {loginModal && <Login setLoginModal={setLoginModal} />}
                 </div>
             </div>
         </header>
