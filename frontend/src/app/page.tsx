@@ -39,9 +39,11 @@ export default function Home() {
     }, [api]);
 
     return (
-        <main className="w-[100vw] flex flex-col justify-start items-center py-[84px]">
+        <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full">
+            {/* 배너 줄어들기 원하지 않을시 tablet : w-[976px] 이 방법 채택시 전체 폭 가로 스크롤바 생김*/}
+            {/* 스타일 통일이 필요해 보임 전체 스크롤바 선택 or 전체스크롤바 x 배너 + 내부 컨텐츠 같이 줄어들기 */}
             {/* mainBanner Section */}
-            <section className="w-[1440px] flex flex-col justify-center items-center">
+            <section className="w-full flex flex-col justify-center items-center">
                 <Carousel
                     plugins={[
                         Autoplay({
@@ -61,11 +63,11 @@ export default function Home() {
                                 key={index}
                                 className="w-full flex justify-center items-center"
                             >
-                                <div className="w-[1392px] h-[336px] m-auto">
+                                <div className="w-full m-auto">
                                     <Image
                                         src={mainBannerImg}
                                         alt="mainbanner"
-                                        className="object-cover w-full h-full rounded-[20px]"
+                                        className="tablet:aspect-[25/6]  w-full rounded-[20px] xs-mobile:aspect-[16/9]"
                                     />
                                 </div>
                             </CarouselItem>
@@ -91,7 +93,7 @@ export default function Home() {
                 </div>
             </section>
             {/* 메인 리스트 */}
-            <section className="w-[1392px] flex my-[48px] flex-col gap-[48px] ">
+            <section className="w-full flex my-[48px] flex-col gap-[48px] overflow-x-auto ">
                 <MainList title="인기 프로젝트" />
                 <MainList title="인기 포트폴리오" />
                 <MainTeamList title="팀 구하기" />

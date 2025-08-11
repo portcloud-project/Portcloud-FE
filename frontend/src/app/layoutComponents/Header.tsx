@@ -10,11 +10,11 @@ const Header = () => {
     const [loginModal, setLoginModal] = useState<boolean>(false);
 
     return (
-        <header className="fixed top-0 left-0 w-[100vw] h-[60px] flex justify-center items-center text-[var(--color-gray-900)] font-semibold text-[16px] z-50 bg-white">
+        <header className="top-0 left-0 w-full h-[60px] flex justify-center items-center text-[var(--color-gray-900)] font-semibold text-[16px] z-50 bg-white mb-[24px]">
             <div className="w-[1440px] h-full flex flex-row justify-between items-center">
                 <div className="w-[130px] h-[28px]">logoImage</div>
 
-                <nav className="w-[286px] h-[36px] flex flex-row justify-between items-center">
+                <nav className="w-[286px] h-[36px] flex flex-row justify-between items-center xs-mobile:hidden tablet:flex">
                     {navArr.map((a, i) => (
                         <Link key={i} href={'/'} className="">
                             {a}

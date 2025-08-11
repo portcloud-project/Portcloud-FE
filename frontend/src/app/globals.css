@@ -49,10 +49,17 @@
     --color-green-800: #166534;
     --color-green-900: #14532d;
     /* breakpoint */
-    --breakpoint-mobile: 480px;
-    --breakpoint-tablet: 768px;
-    --breakpoint-laptop: 1024px;
-    --breakpoint-pc: 1025px;
+    /* 제일 작은 사이즈 */
+    --breakpoint-xs-mobile: 1rem;
+    /* 모바일 세로 */
+    --breakpoint-s-mobile: 24.625rem;
+
+    /* 모바일 가로 , 테블릿 세로 */
+    --breakpoint-mobile: 30.063rem;
+    /* 랩탑, 태블릿 가로 */
+    --breakpoint-tablet: 48.063rem;
+    /* pc */
+    --breakpoint-laptop: 64.063rem;
 }
 
 @theme inline {
