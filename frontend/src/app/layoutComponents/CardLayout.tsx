@@ -8,7 +8,7 @@ const CardLayout = ({
     return (
         <main
             className={`fixed inset-0 bg-[#00000099] z-50 flex justify-center items-center overflow-y-auto`}
-            onClick={() => setLoginModal(false)}
+            onMouseDown={() => setLoginModal(false)}
         >
             {children}
         </main>
