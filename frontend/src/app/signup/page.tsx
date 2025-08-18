@@ -232,7 +232,9 @@ const Signup = () => {
                 </button>
             </form>
 
-            <h3 className='text-[14px] text-[var(--color-gray-900)] font-normal'>만 14세 이상이며, PortCloud 이용약관, 개인 정보 수집 안내를 확인하고, 동의합니다.</h3>
+            <h3 className="text-[14px] text-[var(--color-gray-900)] font-normal">
+                만 14세 이상이며, PortCloud 이용약관, 개인 정보 수집 안내를 확인하고, 동의합니다.
+            </h3>
         </main>
     );
 };

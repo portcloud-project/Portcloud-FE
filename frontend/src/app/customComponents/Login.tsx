@@ -116,7 +116,7 @@ const Login = ({
                     <Link
                         href="/signup"
                         className="underline font-normal text-[14px] text-[var(--color-gray-900)]"
-                        onClick={()=> setLoginModal(false)}
+                        onClick={() => setLoginModal(false)}
                     >
                         회원가입
                     </Link>
