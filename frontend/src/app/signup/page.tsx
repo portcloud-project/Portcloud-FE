@@ -13,13 +13,14 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { FaAngleDown } from 'react-icons/fa6';
+import Link from 'next/link';
 
 const Signup = () => {
     const rules = ['8자 이상 16자 이내', '특수문자 포함', '대문자 포함'];
     const [pwVisible, setPwVisible] = useState<boolean>(false);
 
     return (
-        <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full">
+        <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full gap-[24px]">
             <h3 className="font-bold text-[28px] text-black">회원가입</h3>
             <form
                 action=""
@@ -179,7 +180,7 @@ const Signup = () => {
                     </div>
                 </div>
 
-{/* phone number section */}
+                {/* phone number section */}
                 <div className="w-full flex flex-row justify-between items-center gap-[6px]">
                     <div className="w-[130px] flex flex-col justify-center items-start gap-[6px]">
                         <label
@@ -215,10 +216,23 @@ const Signup = () => {
                     </div>
                 </div>
 
-                <div className="w-full flex flex-row justify-between items-center gap-[6px]">
-                    
+                <div className="w-full flex flex-row justify-between items-center gap-[6px] text-[14px] text-[var(--color-gray-900)] font-normal">
+                    <div className="flex flex-row justify-center items-center gap-[4px]">
+                        <input type="radio" />
+                        <h3>개인정보 제 3자 제공 동의 (필수)</h3>
+                    </div>
+
+                    <Link className="underline" href="/">
+                        내용보기
+                    </Link>
                 </div>
+
+                <button className="w-full h-[48px] rounded-[8px] text-white text-[16px] font-semibold leading-[24px] border border-[var(--color-purple-500)] bg-[var(--color-purple-500)] px-[24px] py-[12px] hover:text-[var(--color-purple-500)] hover:bg-white transition duration-300 ease-in-out cursor-pointer">
+                    동의하고 가입하기
+                </button>
             </form>
+
+            <h3 className='text-[14px] text-[var(--color-gray-900)] font-normal'>만 14세 이상이며, PortCloud 이용약관, 개인 정보 수집 안내를 확인하고, 동의합니다.</h3>
         </main>
     );
 };
