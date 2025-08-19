@@ -180,42 +180,7 @@ const Signup = () => {
                     </div>
                 </div>
 
-                {/* phone number section */}
-                <div className="w-full flex flex-row justify-between items-center gap-[6px]">
-                    <div className="w-[130px] flex flex-col justify-center items-start gap-[6px]">
-                        <label
-                            htmlFor=""
-                            className="text-[14px] font-semibold text-[var(--color-gray-900)]"
-                        >
-                            전화번호 (필수)
-                        </label>
-                        <input
-                            type="text"
-                            id="nickname"
-                            placeholder="대한민국 +82"
-                            className="w-full h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
-                            required
-                        />
-                    </div>
-                    <div className="w-[342px] flex flex-col justify-center items-start gap-[6px]">
-                        <label
-                            htmlFor=""
-                            className="text-[14px] font-semibold text-[var(--color-gray-900)]"
-                        >
-                            번호
-                        </label>
-                        <div className="relative w-full">
-                            <input
-                                type="text"
-                                id="interest"
-                                placeholder="휴대전화 번호"
-                                className="w-full h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
-                                required
-                            />
-                        </div>
-                    </div>
-                </div>
-
+                {/* 개인정보 section */}
                 <div className="w-full flex flex-row justify-between items-center gap-[6px] text-[14px] text-[var(--color-gray-900)] font-normal">
                     <div className="flex flex-row justify-center items-center gap-[4px]">
                         <input type="radio" />
