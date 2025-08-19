@@ -21,7 +21,6 @@ const Header = () => {
     return (
         <header className="top-0 left-0 w-full h-auto flex justify-center items-center z-50 bg-white">
             <div className="w-full h-[60px] mx-auto laptop:max-w-[1440px] tablet:w-full flex flex-row justify-between items-center  text-[var(--color-gray-900)] font-semibold text-[16px] mb-[24px] px-[24px] py-[12px]">
-                
                 <div className="flex items-center justify-center gap-[6px] h-[28px] w-fit">
                     {/* hamburger section */}
                     <Sheet>
@@ -32,9 +31,11 @@ const Header = () => {
                             <RxHamburgerMenu className="w-full h-full" />
                         </SheetTrigger>
                         <SheetContent side="left" aria-label="사이드 메뉴">
-                            <SheetHeader className='p-0 m-0'>
-                                <SheetTitle className='px-[24px] py-[12px] h-[60px] flex flex-row justify-between items-center'>logoImage</SheetTitle>
-                                <SheetDescription className='flex flex-col justify-center items-start gap-[24px] px-[24px] py-[12px]'>
+                            <SheetHeader className="p-0 m-0">
+                                <SheetTitle className="px-[24px] py-[12px] h-[60px] flex flex-row justify-between items-center">
+                                    logoImage
+                                </SheetTitle>
+                                <SheetDescription className="flex flex-col justify-center items-start gap-[24px] px-[24px] py-[12px]">
                                     {navArr.map((a, i) => (
                                         <Link
                                             key={i}
