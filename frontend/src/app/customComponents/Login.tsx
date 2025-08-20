@@ -7,6 +7,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { IoMdClose } from 'react-icons/io';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const Login = ({
     setLoginModal,
@@ -112,12 +113,13 @@ const Login = ({
                     <h3 className="font-normal text-[14px] text-[var(--color-gray-500)]">
                         아직 회원이 아니라면?
                     </h3>
-                    <a
-                        href="/"
+                    <Link
+                        href="/signup"
                         className="underline font-normal text-[14px] text-[var(--color-gray-900)]"
+                        onClick={() => setLoginModal(false)}
                     >
                         회원가입
-                    </a>
+                    </Link>
                 </CardFooter>
             </Card>
         </CardLayout>
