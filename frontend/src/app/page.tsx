@@ -68,6 +68,7 @@ export default function Home() {
                                         src={mainBannerImg}
                                         alt="mainbanner"
                                         className="tablet:aspect-[25/6]  w-full rounded-[20px] xs-mobile:aspect-[16/9]"
+                                        priority
                                     />
                                 </div>
                             </CarouselItem>
@@ -93,7 +94,7 @@ export default function Home() {
                 </div>
             </section>
             {/* 메인 리스트 */}
-            <section className="w-full flex my-[48px] flex-col gap-[48px] overflow-x-auto ">
+            <section className="w-full flex mt-[48px] flex-col gap-[48px] overflow-x-auto">
                 <MainList title="인기 프로젝트" />
                 <MainList title="인기 포트폴리오" />
                 <MainTeamList title="팀 구하기" />
