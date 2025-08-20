@@ -53,7 +53,6 @@
     --breakpoint-xs-mobile: 1rem;
     /* 모바일 세로 */
     --breakpoint-s-mobile: 24.625rem;
-
     /* 모바일 가로 , 테블릿 세로 */
     --breakpoint-mobile: 30.063rem;
     /* 랩탑, 태블릿 가로 */
@@ -173,11 +172,52 @@
     --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* 테일윈드 v4 이미지 그룹호버 버그로 인해 아래와 같이 정의해서 사용하였음 */
+@layer utilities {
+    .rotate-y-180 {
+        transform: rotateY(180deg);
+    }
+    .backface-hidden {
+        backface-visibility: hidden;
+    }
+    .transform-style-preserve-3d {
+        transform-style: preserve-3d;
+    }
+    .perspective-\[1000px\] {
+        perspective: 1000px;
+    }
+}
+
 @layer base {
     * {
         @apply border-border outline-ring/50;
     }
     body {
         @apply bg-background text-foreground;
+    }
+}
+
+/* sidebar 부분 css */
+@layer base {
+    :root {
+        --sidebar: oklch(0.985 0 0);
+        --sidebar-foreground: oklch(0.145 0 0);
+        --sidebar-primary: oklch(0.205 0 0);
+        --sidebar-primary-foreground: oklch(0.985 0 0);
+        --sidebar-accent: oklch(0.97 0 0);
+        --sidebar-accent-foreground: oklch(0.205 0 0);
+        --sidebar-border: oklch(0.922 0 0);
+        --sidebar-ring: oklch(0.708 0 0);
+    }
+
+    .dark {
+        --sidebar: oklch(0.205 0 0);
+        --sidebar-foreground: oklch(0.985 0 0);
+        --sidebar-primary: oklch(0.488 0.243 264.376);
+        --sidebar-primary-foreground: oklch(0.985 0 0);
+        --sidebar-accent: oklch(0.269 0 0);
+        --sidebar-accent-foreground: oklch(0.985 0 0);
+        --sidebar-border: oklch(1 0 0 / 10%);
+        --sidebar-ring: oklch(0.439 0 0);
     }
 }
