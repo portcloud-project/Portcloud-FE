@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import MainList from "@/app/customComponents/MainList";
+import MainList from '@/app/customComponents/MainList';
 
 const UserProject = () => {
     return (
