@@ -20,7 +20,7 @@ const Signup = () => {
     const [pwVisible, setPwVisible] = useState<boolean>(false);
 
     return (
-        <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full gap-[24px] border border-black">
+        <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full gap-[48px]">
             <h3 className="font-bold text-[28px] text-black">회원가입</h3>
             <form
                 action=""

@@ -19,8 +19,8 @@ const Header = () => {
     const [loginModal, setLoginModal] = useState<boolean>(false);
 
     return (
-        <header className="top-0 left-0 w-full h-auto flex justify-center items-center z-50 bg-white">
-            <div className="w-full h-[60px] mx-auto laptop:max-w-[1440px] tablet:w-full flex flex-row justify-between items-center  text-[var(--color-gray-900)] font-semibold text-[16px] mb-[24px] px-[24px] py-[12px]">
+        <header className="top-0 left-0 w-full h-auto flex justify-center items-center z-45 bg-white border-b border-[var(--color-gray-300)]">
+            <div className="w-full h-[60px] mx-auto laptop:max-w-[1440px] tablet:w-full flex flex-row justify-between items-center text-[var(--color-gray-900)] font-semibold text-[16px] px-[24px] py-[12px]">
                 <div className="flex items-center justify-center gap-[6px] h-[28px] w-fit">
                     {/* hamburger section */}
                     <Sheet>
