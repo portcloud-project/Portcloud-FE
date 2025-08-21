@@ -20,9 +20,11 @@ jobs:
 
             - name: Install dependencies
               run: npm install
+              working-directory: frontend
 
             - name: Build project
               run: npm run build
+              working-directory: frontend
 
             - name: Transfer build artifacts to Nginx Home Server
               uses: appleboy/scp-action@v0.1.7
