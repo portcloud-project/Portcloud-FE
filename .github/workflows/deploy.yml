@@ -34,14 +34,3 @@ jobs:
                   key: ${{ secrets.SSH_KEY }}
                   source: '.next/,public/'
                   target: '/home/yohan/portcloud/frontend'
-
-            # - name: Reload Nginx on Home Server # 6. 서버에서 Nginx 설정 재로드
-            #   uses: appleboy/ssh-action@v1.0.3 # SSH를 통해 서버에서 명령을 실행하는 GitHub Action
-            #   with:
-            #       host: ${{ secrets.SSH_HOST }}
-            #       username: ${{ secrets.SSH_USERNAME }}
-            #       key: ${{ secrets.SSH_PRIVATE_KEY }}
-            #       script: |
-            #           sudo systemctl reload nginx # Nginx 설정을 다시 로드하여 새로운 변경사항을 적용합니다.
-            #           # 배포 전략에 따라 추가 명령어를 여기에 작성할 수 있습니다.
-            #           # 예: 기존 빌드 폴더를 백업하고 새로운 빌드 폴더로 심볼릭 링크를 변경하여 무중단 배포를 구현하는 스크립트 등
