@@ -1,101 +1,104 @@
-import Image from "next/image";
+'use client';
+
+import Autoplay from 'embla-carousel-autoplay';
+// import { Card, CardContent } from "@/components/ui/card";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+    type CarouselApi,
+} from '@/components/ui/carousel';
+import Image from 'next/image';
+import mainBannerImg from '@/app/imgs/mainbanner-img.png';
+import { useState, useEffect } from 'react';
+import MainList from './customComponents/MainList';
+import MainTeamList from './customComponents/MainTeamList';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    // 캐러셀 api state
+    const [api, setApi] = useState<CarouselApi>();
+    // 현재 위치 state
+    const [current, setCurrent] = useState(0);
+    // 개수 state
+    const [count, setCount] = useState(0);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    // 현재 위치 알 수 있게
+    useEffect(() => {
+        if (!api) {
+            return;
+        }
+
+        setCount(api.scrollSnapList().length);
+        setCurrent(api.selectedScrollSnap() + 1);
+
+        api.on('select', () => {
+            setCurrent(api.selectedScrollSnap() + 1);
+        });
+    }, [api]);
+
+    return (
+        <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full">
+            {/* 배너 줄어들기 원하지 않을시 tablet : w-[976px] 이 방법 채택시 전체 폭 가로 스크롤바 생김*/}
+            {/* 스타일 통일이 필요해 보임 전체 스크롤바 선택 or 전체스크롤바 x 배너 + 내부 컨텐츠 같이 줄어들기 */}
+            {/* mainBanner Section */}
+            <section className="w-full flex flex-col justify-center items-center">
+                <Carousel
+                    plugins={[
+                        Autoplay({
+                            delay: 4000,
+                        }),
+                    ]}
+                    opts={{
+                        align: 'start',
+                        loop: true,
+                    }}
+                    setApi={setApi}
+                    className="w-full"
+                >
+                    <CarouselContent>
+                        {Array.from({ length: 5 }).map((_, index) => (
+                            <CarouselItem
+                                key={index}
+                                className="w-full flex justify-center items-center"
+                            >
+                                <div className="w-full m-auto">
+                                    <Image
+                                        src={mainBannerImg}
+                                        alt="mainbanner"
+                                        className="tablet:aspect-[25/6]  w-full rounded-[20px] xs-mobile:aspect-[16/9]"
+                                        priority
+                                    />
+                                </div>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <CarouselPrevious className="cursor-pointer" />
+                    <CarouselNext className="cursor-pointer" />
+                </Carousel>
+
+                {/* 현재 위치 bullet point 부분*/}
+                <div className="flex flex-row justify-center items-center w-[108px] h-[12px] gap-[12px] -mt-[24px] z-10">
+                    {Array.from({ length: count }).map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => api?.scrollTo(index)}
+                            className={`w-[12px] h-[12px] rounded-full transition-all duration-300 cursor-pointer shadow-sm ${
+                                current === index + 1
+                                    ? 'bg-[var(--color-purple-500)]'
+                                    : 'bg-gray-50'
+                            }`}
+                        />
+                    ))}
+                </div>
+            </section>
+            {/* 메인 리스트 */}
+            <section className="w-full flex mt-[48px] flex-col gap-[48px] overflow-x-auto">
+                <MainList title="인기 프로젝트" />
+                <MainList title="인기 포트폴리오" />
+                <MainTeamList title="팀 구하기" />
+            </section>
+        </main>
+    );
 }
