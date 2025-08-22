@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Searchbar from '../customComponents/Searbar';
 import UploadBtn from '../customComponents/UploadBtn';
 
@@ -6,10 +6,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return (
         <main className="w-full mx-auto max-w-[1440px] flex gap-[48px] flex-col">
             <div className="w-full flex gap-[12px]">
-                <Searchbar />
+                <Suspense fallback={null}>
+                    <Searchbar />
+                </Suspense>
                 <UploadBtn />
             </div>
-            {children}
+            <Suspense fallback={null}>
+                {children}
+            </Suspense>
         </main>
     );
 }
