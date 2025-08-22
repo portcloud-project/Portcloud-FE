@@ -24,7 +24,7 @@ const Signup = () => {
             <h3 className="font-bold text-[28px] text-black">회원가입</h3>
             <form
                 action=""
-                className="w-[480px] flex flex-col justify-start items-start gap-[22px]"
+                className="w-[345px] tablet:w-[480px] flex flex-col justify-start items-start gap-[22px]"
             >
                 {/* email section */}
                 <div className="w-full h-fit flex flex-col justify-center items-start gap-[6px]">
