@@ -33,4 +33,16 @@ jobs:
                   username: ${{ secrets.USER_NAME }}
                   key: ${{ secrets.SSH_KEY }}
                   source: 'frontend/.next/,frontend/public/,frontend/package.json,frontend/next.config.js'
-                  target: '/home/yohan/portcloud/frontend'
+                  target: '/home/yohan/portcloud/frontend/frontend'
+
+    
+            - name: Next.js restart Nginx reload
+              uses: appleboy/ssh-action@master 
+              with:
+                    host: ${{ secrets.SERVER }}
+                    username: ${{ secrets.USER_NAME }}
+                    key: ${{ secrets.SSH_KEY }}
+                    script: |
+                       cd /home/yohan/portcloud/frontend/frontend
+                       pm2 restart portcloud
+                       
