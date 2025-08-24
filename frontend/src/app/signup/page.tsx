@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { FaCheck } from 'react-icons/fa6';
-import { LuCalendarMinus2 } from 'react-icons/lu';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -119,13 +118,12 @@ const Signup = () => {
                         </label>
                         <div className="relative w-full">
                             <input
-                                type="text"
+                                type="date"
                                 id="birth"
                                 placeholder="생년월일"
                                 className="w-full h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
                                 required
                             />
-                            <LuCalendarMinus2 className="w-[24px] h-[24px] text-[var(--color-gray-400)] text-[2px] absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer" />
                         </div>
                     </div>
                 </div>
