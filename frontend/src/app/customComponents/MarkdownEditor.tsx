@@ -20,7 +20,7 @@ const MarkdownEditor = ({ editorHeight = 500 }: Props) => {
                     onChange={(v) => setValue(v ?? '')}
                     height={editorHeight}
                     preview="live"
-                    className='border border-[var(--color-gray-400)] rounded-[8px]  focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out overflow-hidden'
+                    className="border border-[var(--color-gray-400)] rounded-[8px]  focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out overflow-hidden"
                 />
             </div>
         </div>

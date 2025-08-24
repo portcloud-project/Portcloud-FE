@@ -1,8 +1,5 @@
 const UploadPortfolios = () => {
-    return (
-        <>
-        </>
-    )
-}
+    return <></>;
+};
 
 export default UploadPortfolios;

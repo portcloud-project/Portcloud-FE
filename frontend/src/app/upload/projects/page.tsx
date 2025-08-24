@@ -1,4 +1,4 @@
-import MarkdownEditor from "@/app/customComponents/MarkdownEditor";
+import MarkdownEditor from '@/app/customComponents/MarkdownEditor';
 
 const UploadProjects = () => {
     return (
@@ -27,7 +27,6 @@ const UploadProjects = () => {
 
                 {/* name, birth section */}
                 <div className="w-full flex flex-row justify-between items-center gap-[6px]">
-
                     <div className="w-[236px] flex flex-col justify-center items-start gap-[6px]">
                         <label
                             htmlFor=""
@@ -36,7 +35,7 @@ const UploadProjects = () => {
                             프로젝트 기간 *
                         </label>
 
-                        <div className='w-auto flex flex-row justify-center items-center gap-[16px]'>
+                        <div className="w-auto flex flex-row justify-center items-center gap-[16px]">
                             <div className="relative w-auto">
                                 <input
                                     type="date"
@@ -45,7 +44,6 @@ const UploadProjects = () => {
                                     className="w-[245px] h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
                                     required
                                 />
-                                
                             </div>
 
                             <div className="relative w-auto">
@@ -58,7 +56,6 @@ const UploadProjects = () => {
                                 />
                             </div>
                         </div>
-
                     </div>
 
                     <div className="w-[236px] flex flex-col justify-center items-start gap-[6px]">
@@ -72,7 +69,9 @@ const UploadProjects = () => {
                             type="number"
                             id="people"
                             className="w-full h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
-                            min="1" max="15" step="1"
+                            min="1"
+                            max="15"
+                            step="1"
                             required
                         />
                     </div>
@@ -87,10 +86,9 @@ const UploadProjects = () => {
                         프로젝트 내용 *
                     </label>
                     <div className="w-[768px] flex flex-row justify-between items-center gap-[6px]">
-                        <MarkdownEditor editorHeight={312}/>
+                        <MarkdownEditor editorHeight={312} />
                     </div>
                 </div>
-
             </form>
         </>
     );

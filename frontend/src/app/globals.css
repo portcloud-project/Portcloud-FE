@@ -223,7 +223,7 @@
 }
 
 /* input date 아이콘 스타일링 */
-input[type="date"]::-webkit-calendar-picker-indicator {
+input[type='date']::-webkit-calendar-picker-indicator {
     @apply w-[17px] h-[19px] opacity-40 text-[2px] absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer;
 }
 
