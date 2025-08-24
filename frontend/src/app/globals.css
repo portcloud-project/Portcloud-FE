@@ -227,8 +227,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     @apply w-[17px] h-[19px] opacity-40 text-[2px] absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer;
 }
 
-..w-md-editor-toolbar {
-    @apply w-full flex flex-row justify-between items-center;
+/* markdown 스타일링 */
+.w-md-editor-toolbar {
+    @apply w-full flex flex-row justify-between items-center p-3 border-b border-[var(--color-gray-400)];
 }
 
 .w-md-editor-toolbar > ul {
@@ -241,8 +242,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .w-md-editor-toolbar > ul li button svg {
     @apply w-3.5 h-3.5;
-}
-
-.w-md-editor-toolbar {
-    @apply p-3 border-b border-[var(--color-gray-400)];
 }
