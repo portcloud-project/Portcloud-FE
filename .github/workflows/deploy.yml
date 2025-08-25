@@ -32,8 +32,8 @@ jobs:
                   host: ${{ secrets.SERVER }}
                   username: ${{ secrets.USER_NAME }}
                   key: ${{ secrets.SSH_KEY }}
-                  source: '/frontend/.next,/frontend/public/,/frontend/package.json,/frontend/next.config.js'
-                  target: '/home/yohan/portcloud/frontend/'
+                  source: '/frontend/.next/,/frontend/public/,/frontend/package.json,/frontend/next.config.js'
+                  target: '/home/yohan/portcloud/frontend'
 
     
             - name: Next.js restart Nginx reload
