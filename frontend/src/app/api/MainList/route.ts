@@ -2,7 +2,9 @@ import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
     try {
         const type = request.nextUrl.searchParams.get('type');
