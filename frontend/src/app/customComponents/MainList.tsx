@@ -62,6 +62,7 @@ const MainList = ({ title }: MainListProps) => {
 
     return (
         <div className="w-full flex flex-col gap-[16px]">
+            <p className="font-bold text-[20px]">{title}</p>
             <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-center overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
                 {items && items.length > 0 ? (
                     items?.map((item) => {
