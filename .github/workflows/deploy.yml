@@ -43,6 +43,6 @@ jobs:
                     username: ${{ secrets.USER_NAME }}
                     key: ${{ secrets.SSH_KEY }}
                     script: |
-                       cd /home/yohan/portcloud/frontend/frontend
+                       cd /home/yohan/portcloud/frontend
                        pm2 restart portcloud
                        
