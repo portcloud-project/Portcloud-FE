@@ -30,7 +30,7 @@ const Login = ({
     return (
         <CardLayout setLoginModal={setLoginModal}>
             <Card
-                className="w-[480px] h-[614px] p-[32px] flex flex-col justify-between items-center gap-[32px] relative"
+                className="w-[345px] tablet:w-[480px] h-[602px] tablet:h-[614px] p-[32px] flex flex-col justify-center items-center gap-[32px] relative"
                 onMouseDown={(e) => e.stopPropagation()}
             >
                 <h3 onClick={() => setLoginModal(false)} className="absolute top-8 right-8">

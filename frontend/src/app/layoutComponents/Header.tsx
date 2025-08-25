@@ -14,7 +14,12 @@ import {
 import { RxHamburgerMenu } from 'react-icons/rx';
 
 const Header = () => {
-    const navArr = ['프로젝트', '포트폴리오', '팀 구하기', '기록'];
+    const navArr = [
+        { title: '프로젝트', link: '/works/projects' },
+        { title: '포트폴리오', link: '/works/portfolios' },
+        { title: '팀 구하기', link: '/' },
+        { title: '기록', link: '/' },
+    ];
 
     const [loginModal, setLoginModal] = useState<boolean>(false);
 
@@ -39,10 +44,10 @@ const Header = () => {
                                     {navArr.map((a, i) => (
                                         <Link
                                             key={i}
-                                            href={'/'}
+                                            href={a.link}
                                             className="text-[16px] font-semibold text-[var(--color-gray-900)]"
                                         >
-                                            {a}
+                                            {a.title}
                                         </Link>
                                     ))}
                                 </SheetDescription>
@@ -62,10 +67,10 @@ const Header = () => {
                     {navArr.map((a, i) => (
                         <Link
                             key={i}
-                            href={'/'}
+                            href={a.link}
                             className="text-[16px] font-semibold text-[var(--color-gray-900)]"
                         >
-                            {a}
+                            {a.title}
                         </Link>
                     ))}
                 </nav>
