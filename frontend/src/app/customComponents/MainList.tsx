@@ -76,7 +76,7 @@ const MainList = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: 'var(--background-list-default)',
+                                            backgroundImage: `/opt/portcloud/images/${item.thumbnailURL}`,
                                         }}
                                     ></div>
                                 </div>
@@ -87,21 +87,22 @@ const MainList = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: 'var(--background-list-hover)',
+                                            backgroundImage: `/opt/portcloud/images/${item.thumbnailURL}`,
                                         }}
                                     ></div>
                                     {/* 오버레이 */}
                                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                                     {/* 텍스트  */}
                                     <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
+                                        <p>{item.title}</p>
                                         <p>{item.description}</p>
                                         <p className="text-[14px] text-gray-100">
                                             {item.writeName}
                                         </p>
                                     </div>
                                     <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
-                                        <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px]">
-                                            {item.title}
+                                        <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
+                                            개발
                                         </p>
                                     </div>
                                 </div>
