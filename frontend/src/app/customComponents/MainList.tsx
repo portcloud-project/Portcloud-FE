@@ -1,34 +1,73 @@
-import { useEffect, useState } from 'react';
-import { getItem } from '../api/listItem';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
 interface MainListProps {
     title: string;
 }
 
-const MainList = ({ title }: MainListProps) => {
-    const [item, setItem] = useState<string[]>([]);
+interface Item {
+    id: number;
+    title: string;
+    description: string;
+    writeName: string;
+    thumbnailURL: string | null;
+}
 
-    useEffect(() => {
-        const fetchItem = async () => {
-            try {
-                const fetchData = await getItem();
-                setItem(fetchData);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        fetchItem();
-    }, [setItem]);
+interface ApiResponse {
+    status: number;
+    message: string | null;
+    data: Item[];
+}
+
+const fetchMainItems = async (): Promise<Item[]> => {
+    const response = await axios.get<ApiResponse>('/api/MainList?type=MainList');
+
+    if (response.data && Array.isArray(response.data.data)) {
+        return response.data.data;
+    } else {
+        throw new Error('API 응답 형식이 올바르지 않습니다.');
+    }
+};
+
+const MainList = ({ title }: MainListProps) => {
+    const {
+        data: items,
+        isLoading,
+        isError,
+        error,
+    } = useQuery<Item[], Error>({
+        queryKey: ['mainList'],
+        queryFn: fetchMainItems,
+        staleTime: 1000 * 60 * 5,
+    });
+
+    if (isLoading) {
+        return (
+            <div>
+                <p className="font-bold text-[20px]">{title}</p>
+                <p className="w-full h-[248px] rounded-[20px] items-center flex justify-center text-black text-[20px] font-bold">
+                    데이터 로딩중...
+                </p>
+            </div>
+        );
+    }
+
+    if (isError) {
+        return (
+            <div className="flex justify-center items-center">
+                <p className="text-red-500">오류:{error?.message || '알수없는 오류'}</p>
+            </div>
+        );
+    }
 
     return (
         <div className="w-full flex flex-col gap-[16px]">
-            <p className="font-bold text-[20px]">{title}</p>
             <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-center overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
-                {item.length > 0 ? (
-                    item.map((itemText, index) => {
+                {items && items.length > 0 ? (
+                    items?.map((item) => {
                         return (
                             <li
-                                key={`${index}-${itemText}`}
+                                key={`${item.id}`}
                                 className="group min-w-[220px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:min-w-[330px]"
                             >
                                 {/* 앞면 */}
@@ -53,8 +92,16 @@ const MainList = ({ title }: MainListProps) => {
                                     {/* 오버레이 */}
                                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                                     {/* 텍스트  */}
-                                    <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px]">
-                                        {itemText}
+                                    <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
+                                        <p>{item.description}</p>
+                                        <p className="text-[14px] text-gray-100">
+                                            {item.writeName}
+                                        </p>
+                                    </div>
+                                    <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
+                                        <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px]">
+                                            {item.title}
+                                        </p>
                                     </div>
                                 </div>
                             </li>
