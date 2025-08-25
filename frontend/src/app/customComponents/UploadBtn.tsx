@@ -7,7 +7,6 @@ const UploadBtn = () => {
     const pathName = usePathname();
     const router = useRouter();
     const pathNameWord = pathName.split('/')[2];
-    console.log(pathNameWord);
 
     return (
         <button
