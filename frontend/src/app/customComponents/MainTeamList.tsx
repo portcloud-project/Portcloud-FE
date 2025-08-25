@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getTeamItem } from '../api/listItem';
 
 interface TeamItem {
     title: string;
@@ -18,8 +17,8 @@ const MainTeamList = ({ title }: MainTeamListProps) => {
     useEffect(() => {
         const fetchItem = async () => {
             try {
-                const fetchData = await getTeamItem();
-                setItem(fetchData);
+                // const fetchData = await getTeamItem();
+                // setItem(fetchData);
             } catch (err) {
                 console.error(err);
             }
