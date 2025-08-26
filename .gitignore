@@ -23,7 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 .env*.local
 .vercel
-.gitattributes
 
 /frontend/.next
 /frontend/node_modules
