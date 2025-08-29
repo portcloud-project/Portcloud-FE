@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
         if (type === 'MainList') {
             const res = await axios.get(`${BASE_URL}api/projects/recommend`);
             const data = res.data;
+
             return NextResponse.json(data, { status: 200 });
         }
         if (type === 'TeamList') {

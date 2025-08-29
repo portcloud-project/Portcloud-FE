@@ -76,7 +76,7 @@ const MainList = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `/opt/portcloud/images/${item.thumbnailURL}`,
+                                            backgroundImage: `var(--background-list-default)`,
                                         }}
                                     ></div>
                                 </div>
