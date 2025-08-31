@@ -1,6 +1,7 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
 interface SKILLITEM {
@@ -73,19 +74,19 @@ const SearchSkill = () => {
         }
     };
 
-    const handleSkillClick = (skill: SKILLITEM) => {
-        if (!selectedSkill.some((s) => s.id === skill.id)) {
-            setSelectedSkill((prev) => [...prev, skill]);
-        }
-        setInputValue('');
-        setToggleDropdown(false); // 드롭다운 닫기
-        setDebouncedSearchTerm(''); // 선택했으니 검색 쿼리 상태 초기화 (필요시)
-    };
-
     // 선택된 스킬 제거 핸들러
     const handleRemoveSkill = (skillToRemove: SKILLITEM) => {
         setSelectedSkill((prev) => prev.filter((s) => s.id !== skillToRemove.id));
     };
+
+    const handleSkillSelectionChange = (skillToHandle: SKILLITEM, isChecked: boolean) => {
+        if (isChecked) {
+            setSelectedSkill((prevSkills) => [...prevSkills, skillToHandle]);
+        } else {
+            setSelectedSkill((prevSkills) => prevSkills.filter((s) => s.id !== skillToHandle.id));
+        }
+    };
+
     return (
         <div className="relative w-full flex gap-[16px] flex-col" ref={ref}>
             <input
@@ -104,18 +105,18 @@ const SearchSkill = () => {
                     }
                 }}
             />
-            <div className=" flex flex-wrap gap-2 p-2">
+            <div className="flex flex-wrap gap-2 p-2">
                 {selectedSkill.length > 0 ? (
                     selectedSkill.map((skill) => (
                         <span
                             key={skill.id}
-                            className="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-m font-medium cursor-pointer"
+                            className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-m font-medium cursor-pointer"
                         >
                             {skill.name}
                             <button
                                 type="button"
                                 onClick={() => handleRemoveSkill(skill)}
-                                className="ml-2 -mr-0.5 h-4 w-4 flex items-center justify-center rounded-full bg-purple-200 text-purple-600 hover:bg-purple-300 cursor-pointer"
+                                className="ml-2 -mr-0.5 h-4 w-4 flex items-center justify-center rounded-full bg-gray-200 text-gray-500 hover:bg-gray-300 cursor-pointer"
                             >
                                 <svg className="h-2 w-2" fill="currentColor" viewBox="0 0 20 20">
                                     <path
@@ -131,28 +132,47 @@ const SearchSkill = () => {
                     <p className="text-gray-500 text-sm"></p>
                 )}
             </div>
-            {toggleDropdown && (
-                <ul
-                    id="skill-search-results"
-                    role="listbox"
-                    className="w-full border border-gray-300 rounded-[16px] p-[16px] flex gap-[20px] justify-center flex-wrap"
-                >
-                    {isLoading && <li className="">검색 중...</li>}
-                    {isError && <li>오류: {error?.message}</li>}
-                    {searchResult && searchResult.length > 0 && !isLoading
-                        ? searchResult.map((skill) => (
-                              <li
-                                  key={skill.id}
-                                  onClick={() => handleSkillClick(skill)}
-                                  className="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-m font-medium cursor-pointer"
-                              >
-                                  {skill.name}
-                              </li>
-                          ))
-                        : !isLoading &&
-                          debouncedSearchTerm.trim().length > 0 && <li>검색 결과가 없습니다</li>}
-                </ul>
-            )}
+            {toggleDropdown &&
+                (isLoading || (searchResult && searchResult.length > 0) || isError) && (
+                    <ul
+                        id="skill-search-results"
+                        role="listbox"
+                        className="w-full rounded-[16px] p-[16px] flex gap-[20px] justify-center flex-wrap"
+                    >
+                        {isLoading ? (
+                            <li className="">검색 중...</li>
+                        ) : searchResult && searchResult.length > 0 && !isLoading ? (
+                            searchResult.map((skill) => (
+                                <label
+                                    key={skill.id}
+                                    htmlFor={`skill-${skill.id}`}
+                                    className={clsx(
+                                        'inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-m font-medium cursor-pointer border border-gray-200',
+                                        {
+                                            'bg-purple-50 border border-purple-500':
+                                                selectedSkill.some((s) => s.id === skill.id),
+                                        },
+                                    )}
+                                >
+                                    {skill.name}
+                                    <input
+                                        type="checkbox"
+                                        id={`skill-${skill.id}`}
+                                        checked={selectedSkill.some((s) => s.id === skill.id)}
+                                        onChange={(e) =>
+                                            handleSkillSelectionChange(skill, e.target.checked)
+                                        }
+                                        className=" ml-2 h-4 w-4 rounded accent-purple-500 peer"
+                                    />
+                                </label>
+                            ))
+                        ) : (
+                            !isLoading &&
+                            debouncedSearchTerm.trim().length > 0 && <li>검색 결과가 없습니다</li>
+                        )}
+                        {isError && <li>오류: {error?.message}</li>}
+                    </ul>
+                )}
         </div>
     );
 };

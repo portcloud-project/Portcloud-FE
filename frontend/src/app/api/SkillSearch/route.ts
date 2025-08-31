@@ -9,7 +9,6 @@ export async function GET(request: NextRequest) {
         const query = request.nextUrl.searchParams.get('q');
 
         if (USE_MOCK_DATA) {
-            console.log('목 데이터 반환 중 (GET)...');
             const mockData = {
                 message: `성공적으로 목 데이터를 받았습니다! 검색어: ${query || '없음'}`,
                 data: [
