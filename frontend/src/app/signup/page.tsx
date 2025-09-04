@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
-interface FormValuesType {
+interface SignUpFormValuesType {
     email: string;
     password: string;
     passwordConfirm: string;
@@ -38,7 +38,7 @@ const Signup = () => {
         watch,
         setValue,
         formState: { errors },
-    } = useForm<FormValuesType>({
+    } = useForm<SignUpFormValuesType>({
         mode: 'onChange',
         reValidateMode: 'onChange',
     });
@@ -51,7 +51,7 @@ const Signup = () => {
         { label: '대문자 포함', valid: /[A-Z]/.test(password) },
     ];
 
-    const onSignUpSubmit = async (data: FormValuesType) => {
+    const onSignUpSubmit = async (data: SignUpFormValuesType) => {
         const { email, password, name, nickname, birth } = data;
 
         try {
