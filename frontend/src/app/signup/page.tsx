@@ -2,19 +2,11 @@
 
 import { useState } from 'react';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
-import { FaAngleUp, FaCheck } from 'react-icons/fa6';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    // DropdownMenuLabel,
-    // DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { FaAngleDown } from 'react-icons/fa6';
+import { FaCheck } from 'react-icons/fa6';
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import axios from 'axios';
+import UploadDropDown from '../customComponents/UploadDropDown';
 
 interface SignUpFormValuesType {
     email: string;
@@ -24,19 +16,19 @@ interface SignUpFormValuesType {
     birth: Date;
     nickname: string;
     interest: string;
+    personalInformationCheck: boolean;
 }
 
 const Signup = () => {
     const isInterestArr = ['', 'PM', 'DESIGNER', 'FE', 'BE', 'QA'];
     const [pwVisible, setPwVisible] = useState<boolean>(false);
-    const [open, setOpen] = useState<boolean>(false);
-    const [selected, setSelected] = useState<string>('');
     const {
         getValues,
         register,
         handleSubmit,
         watch,
-        setValue,
+        // setValue,
+        control,
         formState: { errors },
     } = useForm<SignUpFormValuesType>({
         mode: 'onChange',
@@ -287,6 +279,7 @@ const Signup = () => {
                                 min="1900-01-01"
                                 max={`${new Date().getFullYear()}-${new Date().getMonth}-${new Date().getDate()}`}
                                 {...register('birth', {
+                                    required: '생년월일을 입력해 주세요',
                                     // validate: (a) => {
                                     //     const year = Number(a.getFullYear);
                                     //     const current = new Date().getFullYear();
@@ -311,7 +304,7 @@ const Signup = () => {
                     </div>
                 </div>
 
-                {/* nickname,number section */}
+                {/* nickname, interest section */}
                 <div className="w-full flex flex-row justify-between items-center gap-[6px]">
                     {/* 닉네임 section */}
                     <div className="w-[236px] flex flex-col justify-center items-start gap-[6px] relative">
@@ -345,83 +338,60 @@ const Signup = () => {
                             </p>
                         )}
                     </div>
-                    <div className="w-[236px] flex flex-col justify-center items-start gap-[6px] relative">
-                        <label
-                            htmlFor="interest"
-                            className="text-[14px] font-semibold text-[var(--color-gray-900)]"
-                        >
-                            관심직군 (필수)
-                        </label>
-                        <input
-                            type="hidden"
-                            id="interest"
-                            value={selected}
-                            {...register('interest', {
-                                required: '관심 직군을 선택해 주세요',
-                            })}
-                        />
-                        {/* 여기 input name에서 왜 오류 뜨지 */}
-                        <DropdownMenu open={open} onOpenChange={setOpen}>
-                            <DropdownMenuTrigger
-                                className={`w-full h-[44px] border rounded-[8px] px-[12px] flex items-center justify-between cursor-pointer transition duration-300 ease-in-out
-                          ${open ? 'border-[var(--color-purple-500)]' : 'border-[var(--color-gray-400)]'}`}
-                            >
-                                <span className="flex-1 text-left">
-                                    {selected || (
-                                        <span className="text-[var(--color-gray-600)] text-[16px]">
-                                            관심 직군
-                                        </span>
-                                    )}
-                                </span>
-                                <span className="ml-2 flex-shrink-0">
-                                    {open ? (
-                                        <FaAngleUp className="w-[15px] h-[15px] text-[var(--color-gray-400)]" />
-                                    ) : (
-                                        <FaAngleDown className="w-[15px] h-[15px] text-[var(--color-gray-400)]" />
-                                    )}
-                                </span>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent
-                                className="w-[236px] flex flex-col gap-[4px] p-[6px]"
-                                side="bottom"
-                                align="start"
-                                sideOffset={6}
-                                alignOffset={0}
-                            >
-                                {isInterestArr.map((a, i) => (
-                                    <DropdownMenuItem
-                                        key={i}
-                                        className="text-[16px] text-[var(--color-gray-700)] data-[highlighted]:text-white bg-[white] data-[highlighted]:bg-[var(--color-purple-500)] transition duration-300 ease-in-out w-[364px] h-[48px]"
-                                        onSelect={() => {
-                                            setSelected(a);
-                                            setValue('interest', a, { shouldValidate: true });
-                                        }}
-                                    >
-                                        <FaCheck className="text-white" />
-                                        {a}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                        {/* 관심직군 error section */}
-                        {errors.interest && (
-                            <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[73px]">
-                                {errors.interest.message}
-                            </p>
+                    {/* 관심직군 section */}
+                    <Controller
+                        name="interest"
+                        control={control}
+                        rules={{ required: '관심 직군을 선택해 주세요' }}
+                        render={({ field, fieldState }) => (
+                            <div className='relative'>
+                                <UploadDropDown
+                                    arr={isInterestArr}
+                                    dropDowLabel="관심직군 (필수)"
+                                    dropDownPlaceholoder="관심 직군"
+                                    width='w-[236px]'
+                                    height='h-[44px]'
+                                    gap='gap-[6px]'
+                                    labelFont='font-semibold'
+                                    labelText='text-[14px]'
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                />
+                                {fieldState.error && (
+                                    <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[73px]">
+                                        {fieldState.error.message}
+                                    </p>
+                                )}
+                            </div>
                         )}
-                    </div>
+                    />
                 </div>
 
                 {/* 개인정보 section */}
-                <div className="w-full flex flex-row justify-between items-center gap-[6px] text-[14px] text-[var(--color-gray-900)] font-normal">
+                <div className="w-full flex flex-row justify-between items-center gap-[6px] text-[14px] text-[var(--color-gray-900)] font-normal relative">
                     <div className="flex flex-row justify-center items-center gap-[4px]">
-                        <input type="radio" />
-                        <h3>개인정보 제 3자 제공 동의 (필수)</h3>
+                        <input
+                            type="checkbox"
+                            id="personal-information-check"
+                            {...register('personalInformationCheck', {
+                                required: { value: true, message: '개인정보 동의를 체크해주세요' },
+                            })}
+                        />
+                        <label htmlFor="personal-information-check">
+                            개인정보 제 3자 제공 동의 (필수)
+                        </label>
                     </div>
 
+                    {/* 여기 내용 모달로 */}
                     <Link className="underline" href="/">
                         내용보기
                     </Link>
+                    {/* 개인정보 체크 error section */}
+                    {errors.personalInformationCheck && (
+                        <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[18px]">
+                            {errors.personalInformationCheck.message}
+                        </p>
+                    )}
                 </div>
 
                 <button

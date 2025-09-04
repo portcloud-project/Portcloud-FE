@@ -20,7 +20,7 @@ interface ApiResponse {
 }
 
 const fetchMainItems = async (): Promise<Item[]> => {
-    const response = await axios.get<ApiResponse>('/api/MainList?type=MainList');
+    const response = await axios.get<ApiResponse>('/api/mainlist?type=mainlist');
 
     if (response.data && Array.isArray(response.data.data)) {
         return response.data.data;
