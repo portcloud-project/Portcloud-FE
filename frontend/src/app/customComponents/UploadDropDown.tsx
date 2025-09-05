@@ -66,7 +66,7 @@ const UploadDropDown = ({
                     </span>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                    className="w-[376px] flex flex-col gap-[4px] p-[6px]"
+                    className={`${width} flex flex-col gap-[4px] p-[6px]`}
                     side="bottom"
                     align="start"
                     sideOffset={6}

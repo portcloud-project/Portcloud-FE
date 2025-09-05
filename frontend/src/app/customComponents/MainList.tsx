@@ -36,7 +36,7 @@ const MainList = ({ title }: MainListProps) => {
         isError,
         error,
     } = useQuery<Item[], Error>({
-        queryKey: ['mainList'],
+        queryKey: ['mainlist'],
         queryFn: fetchMainItems,
         staleTime: 1000 * 60 * 5,
     });

@@ -11,16 +11,13 @@ interface UploadProjectsFormValuesType {
     people: number;
     content: string;
     act: string;
-    url:string;
+    url: string;
     skill: string[];
 }
 
 const UploadProjects = () => {
     const isDeployArr = ['', '배포 중', '배포 완료'];
-    const peopleArr = [
-  ...Array.from({ length: 9 }, (_, i) => `${i + 1}명`),
-  '10명 이상'
-];
+    const peopleArr = [...Array.from({ length: 9 }, (_, i) => `${i + 1}명`), '10명 이상'];
 
     const {
         // getValues,
@@ -107,7 +104,7 @@ const UploadProjects = () => {
                 {/* 프로젝트 기간, 진행인원 section */}
                 <div className="w-full flex flex-row justify-between items-center gap-[6px]">
                     {/* 프로젝트 기간 section */}
-                    <div className="w-[236px] flex flex-col justify-center items-start gap-[6px]">
+                    <div className="w-[236px] flex flex-col justify-center items-start gap-[12px]">
                         <label
                             htmlFor="period"
                             className="text-[24px] font-bold text-[var(--color-gray-900)]"
@@ -139,7 +136,16 @@ const UploadProjects = () => {
                     </div>
 
                     {/* 진행 인원 section */}
-                    <UploadDropDown arr={peopleArr} dropDowLabel={'진행 인원 *'} dropDownPlaceholoder={''} width='w-[245px]'/>
+                    <UploadDropDown
+                        arr={peopleArr}
+                        dropDowLabel={'진행 인원 *'}
+                        dropDownPlaceholoder={''}
+                        width="w-[245px]"
+                        height="h-[64px]"
+                        gap="gap-[12px]"
+                        labelFont="font-bold"
+                        labelText="text-[24px]"
+                    />
                 </div>
 
                 {/* 내용 section */}
@@ -200,7 +206,7 @@ const UploadProjects = () => {
                         )}
                     </div>
                     {/* 스킬 section */}
-                    <SearchSkill width='w-[376px]'/>
+                    <SearchSkill width="w-[376px]" />
                 </div>
 
                 {/* URL, 배포 현황 section */}
@@ -223,7 +229,16 @@ const UploadProjects = () => {
                     </div>
 
                     {/* 배포 현황 section */}
-                    <UploadDropDown arr={isDeployArr} dropDowLabel={'배포 현황'} dropDownPlaceholoder={'배포 현황 선택'} width='w-[376px]'/>
+                    <UploadDropDown
+                        arr={isDeployArr}
+                        dropDowLabel={'배포 현황'}
+                        dropDownPlaceholoder={'배포 현황 선택'}
+                        width="w-[376px]"
+                        height="h-[64px]"
+                        gap="gap-[12px]"
+                        labelFont="font-bold"
+                        labelText="text-[24px]"
+                    />
                 </div>
 
                 {/* 대표 이미지 section */}
