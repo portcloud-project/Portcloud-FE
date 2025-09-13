@@ -19,7 +19,7 @@ const Header = () => {
         { title: '프로젝트', link: '/works/projects' },
         { title: '포트폴리오', link: '/works/portfolios' },
         { title: '팀 구하기', link: '/' },
-        { title: '기록', link: '/' },
+        { title: '기록', link: '/works/logs' },
     ];
 
     const [loginModal, setLoginModal] = useState<boolean>(false);

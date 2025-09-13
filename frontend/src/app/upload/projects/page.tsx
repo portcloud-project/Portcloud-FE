@@ -167,7 +167,7 @@ const UploadProjects = () => {
                             required: '내용을 입력해주세요',
                         })}
                     />
-                    {/* 제목 error section */}
+                    {/* 내용 error section */}
                     {errors.content && (
                         <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[370px]">
                             {errors.content.message}
