@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
         const { data } = await axios.post(`${BASE_URL}api/user/register`, body);
 
-        console.log('스웨거 api에 요청 성공', data, body);
+        console.log('api에 요청 성공', data, body);
 
         return NextResponse.json(data, { status: 200 });
     } catch (err: unknown) {

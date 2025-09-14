@@ -11,7 +11,7 @@ import { FaAngleDown, FaAngleUp, FaCheck } from 'react-icons/fa6';
 
 type UploadDropDownPropsType = {
     arr: string[];
-    dropDowLabel: string;
+    dropDownLabel: string;
     dropDownPlaceholoder: string;
     width: string;
     height: string;
@@ -24,7 +24,7 @@ type UploadDropDownPropsType = {
 
 const UploadDropDown = ({
     arr,
-    dropDowLabel,
+    dropDownLabel,
     dropDownPlaceholoder,
     width,
     height,
@@ -42,7 +42,7 @@ const UploadDropDown = ({
                 htmlFor="isDeploy"
                 className={`text-[var(--color-gray-900)] ${labelText} ${labelFont}`}
             >
-                {dropDowLabel}
+                {dropDownLabel}
             </label>
 
             <DropdownMenu open={open} onOpenChange={setOpen}>

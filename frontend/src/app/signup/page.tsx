@@ -347,7 +347,7 @@ const Signup = () => {
                             <div className='relative'>
                                 <UploadDropDown
                                     arr={isInterestArr}
-                                    dropDowLabel="관심직군 (필수)"
+                                    dropDownLabel="관심직군 (필수)"
                                     dropDownPlaceholoder="관심 직군"
                                     width='w-[236px]'
                                     height='h-[44px]'

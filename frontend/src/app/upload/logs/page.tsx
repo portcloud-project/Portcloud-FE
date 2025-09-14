@@ -1,29 +1,39 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import MarkdownEditor from '@/app/customComponents/MarkdownEditor';
+import { Controller, useForm } from 'react-hook-form';
+
+interface UploadLogsFormValuesType {
+    title: string;
+    content: string;
+}
 
 const UploadLogs = () => {
-    interface UploadLogsFormValuesType {
-        title: string;
-        content: string;
-    }
-
     const {
         // getValues,
         register,
-        // handleSubmit,
+        handleSubmit,
         // watch,
         // setValue,
-        formState: { errors },
+        control,
+        formState: { errors, isSubmitting },
     } = useForm<UploadLogsFormValuesType>({
         mode: 'onChange',
         reValidateMode: 'onChange',
     });
 
+    const onLogsSubmit = (data: UploadLogsFormValuesType) => {
+        console.log(data.content);
+    };
+
     return (
         <>
             <h3 className="text-[28px] font-bold">기록하기</h3>
-            <form action="" className="flex flex-col gap-[48px]">
+            <form
+                action=""
+                onSubmit={handleSubmit(onLogsSubmit)}
+                className="flex flex-col gap-[48px]"
+            >
                 {/* 제목 section */}
                 <div className="w-full h-fit flex flex-col justify-center items-start gap-[12px] relative">
                     <label
@@ -59,32 +69,36 @@ const UploadLogs = () => {
                     </div>
                 </div>
 
-                {/* 내용 section */}
-                <div className="w-full h-fit flex flex-col justify-center items-start gap-[12px] relative">
-                    <label
-                        htmlFor="content"
-                        className="text-[24px] font-bold text-[var(--color-gray-900)]"
-                    >
-                        내용 *
-                    </label>
-                    <textarea
-                        placeholder="내용을 입력해 주세요"
-                        className={`w-full min-h-[312px] rounded-[8px] py-[12px] px-[20px] border border-[var(--color-gray-400)] resize-none overflow-y-auto h-[312px] focus:outline-none transition duration-300 ease-in-out flex flex-col justify-start items-start ${
-                            errors.content
-                                ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
-                                : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
-                        }`}
-                        {...register('content', {
-                            required: '내용을 입력해주세요',
-                        })}
-                    />
-                    {/* 내용 error section */}
-                    {errors.content && (
-                        <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[370px]">
-                            {errors.content.message}
-                        </p>
+                {/* 관심직군 section */}
+                <Controller
+                    name="content"
+                    control={control}
+                    rules={{
+                        required: '내용을 입력해 주세요',
+                        minLength: { value: 10, message: '최소 10자 이상 입력해 주세요' },
+                    }}
+                    render={({ field, fieldState }) => (
+                        <MarkdownEditor
+                            id="content"
+                            name={field.name}
+                            value={field.value}
+                            onChange={field.onChange}
+                            onBlur={field.onBlur}
+                            error={fieldState.error?.message}
+                            labelText="text-[14px]"
+                            labelFont="font-semibold"
+                            dropDownLabel="프로젝트 설명 (필수)"
+                            editorHeight={500}
+                        />
                     )}
-                </div>
+                />
+                <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="px-4 py-2 rounded-md bg-[var(--color-purple-500)] text-white cursor-pointer"
+                >
+                    업로드
+                </button>
             </form>
         </>
     );
