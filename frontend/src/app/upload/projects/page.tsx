@@ -138,7 +138,7 @@ const UploadProjects = () => {
                     {/* 진행 인원 section */}
                     <UploadDropDown
                         arr={peopleArr}
-                        dropDowLabel={'진행 인원 *'}
+                        dropDownLabel={'진행 인원 *'}
                         dropDownPlaceholoder={''}
                         width="w-[245px]"
                         height="h-[64px]"
@@ -231,7 +231,7 @@ const UploadProjects = () => {
                     {/* 배포 현황 section */}
                     <UploadDropDown
                         arr={isDeployArr}
-                        dropDowLabel={'배포 현황'}
+                        dropDownLabel={'배포 현황'}
                         dropDownPlaceholoder={'배포 현황 선택'}
                         width="w-[376px]"
                         height="h-[64px]"
