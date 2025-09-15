@@ -87,7 +87,7 @@ const UploadLogs = () => {
                             error={fieldState.error?.message}
                             labelText="text-[14px]"
                             labelFont="font-semibold"
-                            dropDownLabel="프로젝트 설명 (필수)"
+                            dropDownLabel="내용 *"
                             editorHeight={500}
                         />
                     )}

@@ -17,7 +17,9 @@ const UploadBtn = () => {
                         ? '/upload/projects'
                         : pathNameWord === 'portfolios'
                         ? '/upload/portfolios'
-                        : '/upload/logs',
+                        : pathNameWord === 'logs'
+                            ? '/upload/logs'
+                            : '/upload/teams',
                 );
             }}
         >
@@ -27,8 +29,10 @@ const UploadBtn = () => {
                     <p className="text-[16px] text-purple-500">프로젝트 업로드</p>
                 ) : pathName === '/works/portfolios' ? (
                     <p className="text-[16px] text-purple-500">포트폴리오 업로드</p>
-                ) : (
+                ) : pathName === '/works/logs' ? (
                     <p className="text-[16px] text-purple-500">기록 업로드</p>
+                ) : (
+                    <p className="text-[16px] text-purple-500">팀원 구하기</p>
                 )}
             </div>
         </button>

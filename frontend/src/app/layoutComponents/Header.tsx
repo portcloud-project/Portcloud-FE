@@ -18,7 +18,7 @@ const Header = () => {
     const navArr = [
         { title: '프로젝트', link: '/works/projects' },
         { title: '포트폴리오', link: '/works/portfolios' },
-        { title: '팀 구하기', link: '/' },
+        { title: '팀 구하기', link: '/works/teams' },
         { title: '기록', link: '/works/logs' },
     ];
 
