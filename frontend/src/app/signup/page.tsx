@@ -13,17 +13,27 @@ interface SignUpFormValuesType {
     password: string;
     passwordConfirm: string;
     name: string;
-    birth: Date;
+    birthDate: string;
     nickname: string;
-    interest: string;
-    personalInformationCheck: boolean;
-    emailVerify: number;
+    job: string;
+    agreeTerms: boolean;
+    emailVerify: string;
+}
+
+interface sendVerificationValuesType {
+    email: string;
+}
+
+interface VerifyEmailValuesType {
+    email: string;
+    verificationCode: string;
 }
 
 const Signup = () => {
     const [verify, setVerify] = useState<boolean>(false);
     const isInterestArr = ['', 'PM', 'DESIGNER', 'FE', 'BE', 'QA'];
     const [pwVisible, setPwVisible] = useState<boolean>(false);
+    const [isVerified, setIsverified] = useState<number>(0);
     const {
         getValues,
         register,
@@ -46,7 +56,7 @@ const Signup = () => {
     ];
 
     const onSignUpSubmit = async (data: SignUpFormValuesType) => {
-        const { email, password, name, nickname, birth } = data;
+        const { email, password, name, birthDate, nickname, job, agreeTerms } = data;
 
         try {
             const res = await axios.post('api/signup', {
@@ -54,7 +64,9 @@ const Signup = () => {
                 password,
                 name,
                 nickname,
-                birth,
+                birthDate,
+                job,
+                agreeTerms,
             });
 
             console.log(res.status);
@@ -67,6 +79,40 @@ const Signup = () => {
             } else {
                 console.error('알 수 없는 에러:', err);
             }
+        }
+    };
+
+    const sendVerification = async (data: sendVerificationValuesType) => {
+        const { email } = data;
+
+        try {
+            const res = await axios.post('api/sendverification', {
+                email,
+            });
+            
+            alert(res.data?.message);
+            setVerify(true);
+        } catch (err) {
+            alert('이미 가입된 이메일입니다');
+            console.error(err);
+        }
+    };
+
+    const verifyEmail = async (data: VerifyEmailValuesType) => {
+        const { email, verificationCode } = data;
+        console.log(data);
+
+        try {
+            const res = await axios.post('api/verifyemail', {
+                email,
+                verificationCode,
+            });
+
+            setIsverified(res.status);
+            alert('인증이 확인되었습니다');
+        } catch (err) {
+            alert('인증 번호를 다시 확인해주세요');
+            console.error(err);
         }
     };
 
@@ -90,8 +136,9 @@ const Signup = () => {
                         <input
                             type="email"
                             id="email"
+                            readOnly={isVerified === 200}
                             placeholder="이메일"
-                            className={`w-[398px] h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:outline-none transition duration-300 ease-in-out ${
+                            className={`${isVerified === 200 ? 'w-full' : 'w-[398px]'} h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:outline-none transition duration-300 ease-in-out ${
                                 errors.email
                                     ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
                                     : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
@@ -105,13 +152,13 @@ const Signup = () => {
                             })}
                         />
                         <button
-                            className="px-[24px] py-[12px] rounded-[8px] text-white bg-[var(--color-purple-500)] whitespace-nowrap border border-[var(--color-purple-500)] transition duration-300 ease-in-out hover:bg-white hover:text-[var(--color-purple-500)] cursor-pointer w-[76px] h-[44px] flex justify-center items-center"
+                            className={`px-[24px] py-[12px] rounded-[8px] text-white bg-[var(--color-purple-500)] whitespace-nowrap border border-[var(--color-purple-500)] transition duration-300 ease-in-out hover:bg-white hover:text-[var(--color-purple-500)] cursor-pointer w-[76px] h-[44px] flex justify-center items-center ${isVerified === 200 ? 'hidden' : ''}`}
                             onClick={() => {
                                 console.log(getValues('email'));
-                                setVerify(true);
+                                sendVerification({ email: getValues('email') });
                             }}
                         >
-                            인증
+                            인증번호
                         </button>
                     </div>
 
@@ -133,6 +180,7 @@ const Signup = () => {
                         </label>
                         <div className="w-full flex flex-row justify-between items-center gap-[6px]">
                             <input
+                                readOnly={isVerified === 200}
                                 type="text"
                                 id="email-verify"
                                 className={`w-[398px] h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:outline-none transition duration-300 ease-in-out ${
@@ -142,18 +190,36 @@ const Signup = () => {
                                 }`}
                                 {...register('emailVerify', {
                                     required: '인증번호를 입력해주세요',
-                                    // pattern: {
-                                    //     value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                                    //     message: '인증번호가 일치하지 않습니다',
-                                    // },
+                                    minLength: {
+                                        value: 6,
+                                        message: '인증번호는 6자리 입니다.',
+                                    },
+                                    maxLength: {
+                                        value: 6,
+                                        message: '인증번호는 6자리 입니다.',
+                                    },
                                 })}
                             />
-                            <button
-                                className="px-[24px] py-[12px] rounded-[8px] text-white bg-[var(--color-purple-500)] whitespace-nowrap border border-[var(--color-purple-500)] transition duration-300 ease-in-out hover:bg-white hover:text-[var(--color-purple-500)] cursor-pointer w-[76px] h-[44px] flex justify-center items-center"
-                                onClick={() => {}}
-                            >
-                                인증 완료
-                            </button>
+                            {isVerified !== 200 ? (
+                                <button
+                                    className="px-[24px] py-[12px] rounded-[8px] text-white bg-[var(--color-purple-500)] whitespace-nowrap border border-[var(--color-purple-500)] transition duration-300 ease-in-out hover:bg-white hover:text-[var(--color-purple-500)] cursor-pointer w-[76px] h-[44px] flex justify-center items-center"
+                                    onClick={() => {
+                                        verifyEmail({
+                                            email: getValues('email'),
+                                            verificationCode: getValues('emailVerify'),
+                                        });
+                                    }}
+                                >
+                                    인증
+                                </button>
+                            ) : (
+                                <button
+                                    className="px-[24px] py-[12px] rounded-[8px] text-[var(--color-gray-300)] bg-white whitespace-nowrap border border-[var(--color-gray-300)] w-[76px] h-[44px] flex justify-center items-center"
+                                    disabled
+                                >
+                                    인증 완료
+                                </button>
+                            )}
                         </div>
 
                         {/* 인증번호 error section */}
@@ -318,12 +384,12 @@ const Signup = () => {
                         <div className="relative w-full">
                             <input
                                 type="date"
-                                id="birth"
+                                id="birthDate"
                                 placeholder="생년월일"
                                 className="w-full h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
                                 min="1900-01-01"
                                 max={`${new Date().getFullYear()}-${new Date().getMonth}-${new Date().getDate()}`}
-                                {...register('birth', {
+                                {...register('birthDate', {
                                     required: '생년월일을 입력해 주세요',
                                     // validate: (a) => {
                                     //     const year = Number(a.getFullYear);
@@ -341,9 +407,9 @@ const Signup = () => {
                                 })}
                             />
                         </div>
-                        {errors.birth && (
+                        {errors.birthDate && (
                             <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[73px]">
-                                {errors.birth.message}
+                                {errors.birthDate.message}
                             </p>
                         )}
                     </div>
@@ -385,7 +451,7 @@ const Signup = () => {
                     </div>
                     {/* 관심직군 section */}
                     <Controller
-                        name="interest"
+                        name="job"
                         control={control}
                         rules={{ required: '관심 직군을 선택해 주세요' }}
                         render={({ field, fieldState }) => (
@@ -418,7 +484,7 @@ const Signup = () => {
                         <input
                             type="checkbox"
                             id="personal-information-check"
-                            {...register('personalInformationCheck', {
+                            {...register('agreeTerms', {
                                 required: { value: true, message: '개인정보 동의를 체크해주세요' },
                             })}
                         />
@@ -432,9 +498,9 @@ const Signup = () => {
                         내용보기
                     </Link>
                     {/* 개인정보 체크 error section */}
-                    {errors.personalInformationCheck && (
+                    {errors.agreeTerms && (
                         <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[18px]">
-                            {errors.personalInformationCheck.message}
+                            {errors.agreeTerms.message}
                         </p>
                     )}
                 </div>

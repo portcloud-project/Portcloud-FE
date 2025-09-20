@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
         const { data } = await axios.post(`${BASE_URL}api/user/verify-email`, body);
 
-        return NextResponse.json(data, { status: 200 });
+        return NextResponse.json(data, { status: data.status });
     } catch (err: unknown) {
         console.error(err);
 
