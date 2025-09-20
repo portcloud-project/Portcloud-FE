@@ -19,8 +19,8 @@ type UploadDropDownPropsType = {
     labelText: string;
     labelFont: string;
     gap: string;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onChange?: (_: string) => void;
+    // eslint-disable-next-line no-unused-vars
+    onChange?: (a: string) => void;
 };
 
 const UploadDropDown = ({
