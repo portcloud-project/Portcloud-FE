@@ -17,9 +17,11 @@ interface SignUpFormValuesType {
     nickname: string;
     interest: string;
     personalInformationCheck: boolean;
+    emailVerify: number;
 }
 
 const Signup = () => {
+    const [verify, setVerify] = useState<boolean>(false);
     const isInterestArr = ['', 'PM', 'DESIGNER', 'FE', 'BE', 'QA'];
     const [pwVisible, setPwVisible] = useState<boolean>(false);
     const {
@@ -106,6 +108,7 @@ const Signup = () => {
                             className="px-[24px] py-[12px] rounded-[8px] text-white bg-[var(--color-purple-500)] whitespace-nowrap border border-[var(--color-purple-500)] transition duration-300 ease-in-out hover:bg-white hover:text-[var(--color-purple-500)] cursor-pointer w-[76px] h-[44px] flex justify-center items-center"
                             onClick={() => {
                                 console.log(getValues('email'));
+                                setVerify(true);
                             }}
                         >
                             인증
@@ -119,6 +122,48 @@ const Signup = () => {
                         </p>
                     )}
                 </div>
+                {verify && (
+                    <div className="w-full h-fit flex flex-col justify-center items-start gap-[6px]">
+                        {/* 인증번호 section */}
+                        <label
+                            htmlFor="email"
+                            className="text-[14px] font-semibold text-[var(--color-gray-900)]"
+                        >
+                            인증번호 입력
+                        </label>
+                        <div className="w-full flex flex-row justify-between items-center gap-[6px]">
+                            <input
+                                type="text"
+                                id="email-verify"
+                                className={`w-[398px] h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:outline-none transition duration-300 ease-in-out ${
+                                    errors.emailVerify
+                                        ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
+                                        : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
+                                }`}
+                                {...register('emailVerify', {
+                                    required: '인증번호를 입력해주세요',
+                                    // pattern: {
+                                    //     value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                                    //     message: '인증번호가 일치하지 않습니다',
+                                    // },
+                                })}
+                            />
+                            <button
+                                className="px-[24px] py-[12px] rounded-[8px] text-white bg-[var(--color-purple-500)] whitespace-nowrap border border-[var(--color-purple-500)] transition duration-300 ease-in-out hover:bg-white hover:text-[var(--color-purple-500)] cursor-pointer w-[76px] h-[44px] flex justify-center items-center"
+                                onClick={() => {}}
+                            >
+                                인증 완료
+                            </button>
+                        </div>
+
+                        {/* 인증번호 error section */}
+                        {errors.emailVerify && (
+                            <p className="text-sm text-[var(--color-red-500)]">
+                                {errors.emailVerify.message}
+                            </p>
+                        )}
+                    </div>
+                )}
 
                 {/* password section */}
                 <div className="w-full h-fit flex flex-col justify-center items-start gap-[6px]">
@@ -344,16 +389,16 @@ const Signup = () => {
                         control={control}
                         rules={{ required: '관심 직군을 선택해 주세요' }}
                         render={({ field, fieldState }) => (
-                            <div className='relative'>
+                            <div className="relative">
                                 <UploadDropDown
                                     arr={isInterestArr}
                                     dropDownLabel="관심직군 (필수)"
                                     dropDownPlaceholoder="관심 직군"
-                                    width='w-[236px]'
-                                    height='h-[44px]'
-                                    gap='gap-[6px]'
-                                    labelFont='font-semibold'
-                                    labelText='text-[14px]'
+                                    width="w-[236px]"
+                                    height="h-[44px]"
+                                    gap="gap-[6px]"
+                                    labelFont="font-semibold"
+                                    labelText="text-[14px]"
                                     value={field.value}
                                     onChange={field.onChange}
                                 />

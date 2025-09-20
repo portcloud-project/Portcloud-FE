@@ -124,24 +124,22 @@ const SearchSkill = ({ width }: { width?: string }) => {
 
             <div className="absolute top-[124px] left-0 border border-[var(--color-gray-300)] bg-white p-[24px] flex flex-col gap-[16px] rounded-[8px]">
                 {/* 선택된 스킬 section */}
-                <div className="flex flex-wrap flex-row gap-[8px]">
-                    {selectedSkill.length > 0 ? (
-                        selectedSkill.map((skill) => (
-                            <div
-                                key={skill.id}
-                                className="flex flex-row gap-[4px] items-center px-[16px] py-[6px] rounded-full bg-gray-100 text-gray-700 text-[14px] font-semibold border border-gray-200"
-                            >
-                                {skill.name}
-                                <IoCloseOutline
-                                    onClick={() => handleRemoveSkill(skill)}
-                                    className="w-[16px] h-[16px] cursor-pointer"
-                                />
-                            </div>
-                        ))
-                    ) : (
-                        <p className="text-gray-500 text-sm"></p>
-                    )}
-                </div>
+                {selectedSkill.length > 0 ? (
+                    selectedSkill.map((skill) => (
+                        <div
+                            key={skill.id}
+                            className="flex flex-row gap-[4px] items-center px-[16px] py-[6px] rounded-full bg-gray-100 text-gray-700 text-[14px] font-semibold border border-gray-200"
+                        >
+                            {skill.name}
+                            <IoCloseOutline
+                                onClick={() => handleRemoveSkill(skill)}
+                                className="w-[16px] h-[16px] cursor-pointer"
+                            />
+                        </div>
+                    ))
+                ) : (
+                    <p className="text-gray-500 text-sm"></p>
+                )}
 
                 <hr className="w-full h-1" />
                 {/* 선택될 스킬 section */}
