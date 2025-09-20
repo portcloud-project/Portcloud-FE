@@ -89,7 +89,7 @@ const Signup = () => {
             const res = await axios.post('api/sendverification', {
                 email,
             });
-            
+
             alert(res.data?.message);
             setVerify(true);
         } catch (err) {

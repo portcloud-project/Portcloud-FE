@@ -9,8 +9,10 @@ export async function POST(req: NextRequest) {
 
         const { data } = await axios.post(`${BASE_URL}api/user/send-verification`, body);
 
-        return NextResponse.json({ message: data.message, status: data.status }, { status: data.status });
-
+        return NextResponse.json(
+            { message: data.message, status: data.status },
+            { status: data.status },
+        );
     } catch (err: unknown) {
         console.error(err);
 
@@ -25,9 +27,6 @@ export async function POST(req: NextRequest) {
             message = err.message;
         }
 
-        return NextResponse.json(
-            { success: false, message: message },
-            { status: 500 }
-        );
+        return NextResponse.json({ success: false, message: message }, { status: 500 });
     }
 }

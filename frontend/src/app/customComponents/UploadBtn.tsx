@@ -16,8 +16,8 @@ const UploadBtn = () => {
                     pathNameWord === 'projects'
                         ? '/upload/projects'
                         : pathNameWord === 'portfolios'
-                        ? '/upload/portfolios'
-                        : pathNameWord === 'logs'
+                          ? '/upload/portfolios'
+                          : pathNameWord === 'logs'
                             ? '/upload/logs'
                             : '/upload/teams',
                 );
