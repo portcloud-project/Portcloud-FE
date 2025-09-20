@@ -20,7 +20,7 @@ interface ApiResponse {
 }
 
 const fetchMainItems = async (): Promise<Item[]> => {
-    const response = await axios.get<ApiResponse>('/api/MainList?type=MainList');
+    const response = await axios.get<ApiResponse>('/api/MainList?type=mainlist');
 
     if (response.data && Array.isArray(response.data.data)) {
         return response.data.data;
@@ -36,11 +36,10 @@ const MainList = ({ title }: MainListProps) => {
         isError,
         error,
     } = useQuery<Item[], Error>({
-        queryKey: ['mainList'],
+        queryKey: ['mainlist'],
         queryFn: fetchMainItems,
         staleTime: 1000 * 60 * 5,
     });
-
     if (isLoading) {
         return (
             <div>
@@ -76,7 +75,7 @@ const MainList = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `/opt/portcloud/images/${item.thumbnailURL}`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailURL})`,
                                         }}
                                     ></div>
                                 </div>
@@ -87,7 +86,7 @@ const MainList = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `/opt/portcloud/images/${item.thumbnailURL}`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailURL})`,
                                         }}
                                     ></div>
                                     {/* 오버레이 */}
