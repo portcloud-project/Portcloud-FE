@@ -285,11 +285,11 @@ const UploadProjects = () => {
 
                 {/* 버튼 section */}
                 <div className="w-full h-auto flex justify-end items-center gap-[24px]">
-                    <button
-                        className="w-[131px] h-[48px] rounded-[8px] text-[var(--color-gray-700)] text-[16px] font-semibold leading-[24px] border border-[var(--color-gray-300)] bg-white px-[24px] py-[12px] hover:text-white hover:bg-[var(--color-purple-500)] transition duration-300 ease-in-out cursor-pointer flex justify-center items-center gap-[6px] group"
-                    >
+                    <button className="w-[131px] h-[48px] rounded-[8px] text-[var(--color-gray-700)] text-[16px] font-semibold leading-[24px] border border-[var(--color-gray-300)] bg-white px-[24px] py-[12px] hover:text-white hover:bg-[var(--color-purple-500)] transition duration-300 ease-in-out cursor-pointer flex justify-center items-center gap-[6px] group">
                         임시저장 <span className="text-[var(--color-gray-300)] font-light">|</span>{' '}
-                        <span className="text-[var(--color-purple-500)] group-hover:text-white transition duration-300 ease-in-out">2</span>
+                        <span className="text-[var(--color-purple-500)] group-hover:text-white transition duration-300 ease-in-out">
+                            2
+                        </span>
                     </button>
                     <button
                         className="w-[248px] h-[48px] rounded-[8px] text-white text-[16px] font-semibold leading-[24px] border border-[var(--color-purple-500)] bg-[var(--color-purple-500)] px-[24px] py-[12px] hover:text-[var(--color-purple-500)] hover:bg-white transition duration-300 ease-in-out cursor-pointer"

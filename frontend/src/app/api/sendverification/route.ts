@@ -7,9 +7,12 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
 
-        const { data } = await axios.post(`${BASE_URL}api/user/verify-email`, body);
+        const { data } = await axios.post(`${BASE_URL}api/user/send-verification`, body);
 
-        return NextResponse.json(data, { status: data.status });
+        return NextResponse.json(
+            { message: data.message, status: data.status },
+            { status: data.status },
+        );
     } catch (err: unknown) {
         console.error(err);
 
