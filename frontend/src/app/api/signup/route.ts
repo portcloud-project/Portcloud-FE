@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
 
         console.log('api에 요청 성공', data, body);
 
-        return NextResponse.json(data, { status: 200 });
+        return NextResponse.json(data, { status: data.status });
     } catch (err: unknown) {
         console.error(err);
 
@@ -26,9 +26,6 @@ export async function POST(req: NextRequest) {
             message = err.message;
         }
 
-        return NextResponse.json(
-            { success: false, message: message },
-            { status: 500 }
-        );
+        return NextResponse.json({ success: false, message: message }, { status: 500 });
     }
 }

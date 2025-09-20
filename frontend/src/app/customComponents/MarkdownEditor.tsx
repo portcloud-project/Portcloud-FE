@@ -10,7 +10,7 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 interface MarkdownProps {
     value?: string; // ✅ RHF가 내려줄 값
     // eslint-disable-next-line no-unused-vars
-    onChange?: (v: string) => void; // ✅ RHF field.onChange
+    onChange?: (a: string) => void;
     onBlur?: () => void; // ✅ RHF field.onBlur (touched 관리)
     id?: string;
     name?: string;
