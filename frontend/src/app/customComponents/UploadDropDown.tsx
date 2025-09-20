@@ -19,7 +19,8 @@ type UploadDropDownPropsType = {
     labelText: string;
     labelFont: string;
     gap: string;
-    onChange?: (a :string) => void;
+    // eslint-disable-next-line no-unused-vars
+    onChange?: (a: string) => void;
 };
 
 const UploadDropDown = ({
@@ -32,7 +33,7 @@ const UploadDropDown = ({
     onChange,
     gap,
     labelText,
-    labelFont
+    labelFont,
 }: UploadDropDownPropsType) => {
     const [open, setOpen] = useState<boolean>(false);
 

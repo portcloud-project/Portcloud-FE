@@ -19,8 +19,7 @@ const SearchSkill = ({ width }: { width?: string }) => {
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
     const ref = useRef<HTMLDivElement>(null);
 
-    const { register, setValue, watch } = useFormContext();
-    const watchSkill = watch('skill');
+    const { register, setValue } = useFormContext();
 
     const fetchSearchResult = async (result: string) => {
         const response = await axios.get(`/api/SkillSearch?q=${result}`);
@@ -79,7 +78,6 @@ const SearchSkill = ({ width }: { width?: string }) => {
 
     useEffect(() => {
         setValue('skill', selectedSkill);
-        console.log(watchSkill);
     }, [selectedSkill, setValue]);
 
     return (
