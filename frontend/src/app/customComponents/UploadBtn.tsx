@@ -13,7 +13,13 @@ const UploadBtn = () => {
             className="w-fit h-[48px] min-w-[193px] rounded-[100px] border border-purple-500 cursor-pointer font-semibold"
             onClick={() => {
                 router.push(
-                    pathNameWord === 'projects' ? '/upload/projects' : '/upload/portfolios',
+                    pathNameWord === 'projects'
+                        ? '/upload/projects'
+                        : pathNameWord === 'portfolios'
+                        ? '/upload/portfolios'
+                        : pathNameWord === 'logs'
+                            ? '/upload/logs'
+                            : '/upload/teams',
                 );
             }}
         >
@@ -21,8 +27,12 @@ const UploadBtn = () => {
                 <MdOutlineNoteAdd size={24} color="#732BF1" />
                 {pathName === '/works/projects' ? (
                     <p className="text-[16px] text-purple-500">프로젝트 업로드</p>
-                ) : (
+                ) : pathName === '/works/portfolios' ? (
                     <p className="text-[16px] text-purple-500">포트폴리오 업로드</p>
+                ) : pathName === '/works/logs' ? (
+                    <p className="text-[16px] text-purple-500">기록 업로드</p>
+                ) : (
+                    <p className="text-[16px] text-purple-500">팀원 구하기</p>
                 )}
             </div>
         </button>

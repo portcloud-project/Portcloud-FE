@@ -12,16 +12,24 @@ import {
     SheetTrigger,
 } from '@/components/ui/sheet';
 import { RxHamburgerMenu } from 'react-icons/rx';
+import { usePathname } from 'next/navigation';
 
 const Header = () => {
     const navArr = [
         { title: '프로젝트', link: '/works/projects' },
         { title: '포트폴리오', link: '/works/portfolios' },
-        { title: '팀 구하기', link: '/' },
-        { title: '기록', link: '/' },
+        { title: '팀 구하기', link: '/works/teams' },
+        { title: '기록', link: '/works/logs' },
     ];
 
     const [loginModal, setLoginModal] = useState<boolean>(false);
+
+    const pathname = usePathname() || '/';
+
+    const isActive = (href: string) => {
+        if (href === '/') return pathname === '/';
+        return pathname === href || pathname.startsWith(href + '/');
+    };
 
     return (
         <header className="top-0 left-0 w-full h-auto flex justify-center items-center z-45 bg-white border-b border-[var(--color-gray-300)]">
@@ -41,15 +49,22 @@ const Header = () => {
                                     logoImage
                                 </SheetTitle>
                                 <SheetDescription className="flex flex-col justify-center items-start gap-[24px] px-[24px] py-[12px]">
-                                    {navArr.map((a, i) => (
-                                        <Link
-                                            key={i}
-                                            href={a.link}
-                                            className="text-[16px] font-semibold text-[var(--color-gray-900)]"
-                                        >
-                                            {a.title}
-                                        </Link>
-                                    ))}
+                                    {navArr.map((a, i) => {
+                                        const active = isActive(a.link);
+                                        return (
+                                            <Link
+                                                key={i}
+                                                href={a.link}
+                                                className={`text-[16px] font-semibold  ${
+                                                    active
+                                                        ? 'text-purple-500'
+                                                        : 'text-[var(--color-gray-900)]'
+                                                }`}
+                                            >
+                                                {a.title}
+                                            </Link>
+                                        );
+                                    })}
                                 </SheetDescription>
                             </SheetHeader>
                             {/* TODO: 실제 내비 아이템 */}

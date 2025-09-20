@@ -8,13 +8,13 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
     try {
         const type = request.nextUrl.searchParams.get('type');
-        if (type === 'MainList') {
+        if (type === 'mainlist') {
             const res = await axios.get(`${BASE_URL}api/projects/recommend`);
             const data = res.data;
 
             return NextResponse.json(data, { status: 200 });
         }
-        if (type === 'TeamList') {
+        if (type === 'teamlist') {
             const res = await axios.get(`${BASE_URL}`);
             const data = res.data;
             return NextResponse.json(data, { status: 200 });
