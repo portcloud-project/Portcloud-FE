@@ -6,7 +6,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function GET(request: NextRequest) {
     try {
-        const query = request.nextUrl.searchParams.get('q');
+        const { searchParams } = new URL(request.url);
+        const query = searchParams.get('q');
 
         if (USE_MOCK_DATA) {
             const mockData = {
