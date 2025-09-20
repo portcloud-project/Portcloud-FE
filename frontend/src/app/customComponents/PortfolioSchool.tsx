@@ -1,55 +1,52 @@
 /* eslint-disable no-unused-vars */
+
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
 
-interface PortfolioSchoolPARAMS {
-    title: string;
-    id: number;
-    school: string;
-    department: string;
-
+interface PortfolioSchoolProps {
+    index: number;
     onDelete: (id: number) => void;
-    onValueChange: (id: number, field: 'school' | 'department', newValue: string) => void;
+    id: number;
+    isOnlyOneSection: boolean;
 }
 
-const PortfolioSchool = ({
-    title,
-    id,
-    school,
-    department,
-    onDelete,
-    onValueChange,
-}: PortfolioSchoolPARAMS) => {
-    const handleSchoolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onValueChange(id, 'school', e.target.value);
-    };
-
-    const handleDepartmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onValueChange(id, 'department', e.target.value);
-    };
+const PortfolioSchool = ({ id, index, isOnlyOneSection, onDelete }: PortfolioSchoolProps) => {
+    const { register } = useFormContext();
+    const fieldNamePrefix = `schoolSections[${index}]`;
 
     return (
-        <div className="relative flex flex-col gap-[12px]">
-            <label className="text-[24px] font-semibold">{title}</label>
+        <div className="relative flex flex-col gap-[12px] mb-[30px]">
             <div className="flex flex-col gap-[12px]">
                 <div className="flex gap-[12px] h-[56px] flex-grow-1 ">
                     <input
                         type="text"
                         className="border w-[70%] rounded-[8px] p-[16px]"
                         placeholder="학교/학과"
-                        value={school}
-                        onChange={handleSchoolChange}
+                        {...register(`${fieldNamePrefix}.schoolName`, {
+                            required: '학교/학과명은 필수입니다.',
+                        })}
                     />
-                    <input
-                        type="text"
+                    <select
+                        id=""
                         className="border w-[30%] rounded-[8px] p-[16px]"
-                        value={department}
-                        onChange={handleDepartmentChange}
-                    />
+                        {...register(`${fieldNamePrefix}.status`, {
+                            required: '상태를 선택해 주세요',
+                        })}
+                    >
+                        <option value="재학">재학</option>
+                        <option value="졸업">졸업</option>
+                        <option value="졸업예정">졸업예정</option>
+                    </select>
                 </div>
             </div>
-            <button onClick={() => onDelete(id)} className="absolute right-0 top-0 cursor-pointer">
-                삭제
-            </button>
+            {!isOnlyOneSection && (
+                <button
+                    onClick={() => onDelete(id)}
+                    className="absolute right-[-15px] top-[-30px] cursor-pointer"
+                >
+                    삭제
+                </button>
+            )}
         </div>
     );
 };

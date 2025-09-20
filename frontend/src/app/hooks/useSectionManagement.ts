@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
 interface SectionItem {
-    id: number;
+    id?: number;
 }
 
 function useSectionManagement<T extends SectionItem>(initialData: T[]) {
     const [sections, setSections] = useState<T[]>(initialData);
     const [nextId, setNextId] = useState(() => {
         if (initialData.length > 0) {
-            return Math.max(...initialData.map((item) => item.id)) + 1;
+            return Math.max(...initialData.map((item) => item.id ?? 1)) + 1;
         }
         return 1;
     });
