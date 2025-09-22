@@ -249,7 +249,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 /* Pretendard 폰트 설정 */
-/* @font-face {
+@font-face {
     font-family: 'Pretendard';
     src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff')
         format('woff');
@@ -323,4 +323,4 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 @theme {
     --font-sans: 'Pretendard', system-ui, sans-serif;
-} */
+}
