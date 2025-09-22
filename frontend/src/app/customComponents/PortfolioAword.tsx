@@ -1,3 +1,5 @@
+'use client';
+
 import { useFormContext } from 'react-hook-form';
 
 /* eslint-disable no-unused-vars */
@@ -17,7 +19,16 @@ const PortfolioAword = ({ id, onDelete, isOnlyOneSection, index }: PortfolioAwor
                 id=""
                 className="resize-none min-h-[156px] overflow-y-auto w-full rounded-[8px] py-[12px] px-[20px] border"
                 {...register(`${fieldNamePrefix}.awordName`)}
+                {...register(`${fieldNamePrefix}.awordName`)}
             />
+            {!isOnlyOneSection && (
+                <button
+                    onClick={() => onDelete(id)}
+                    className="absolute right-[-15px] top-[-30px] cursor-pointer"
+                >
+                    삭제
+                </button>
+            )}
             {!isOnlyOneSection && (
                 <button
                     onClick={() => onDelete(id)}

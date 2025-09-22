@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 // import axios from 'axios';
-import SearchSkill from '@/app/customComponents/SearchSkill';
+// import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 
 interface UploadTeamsFormValuesType {
@@ -131,7 +131,7 @@ const UploadTeams = () => {
                         labelText="text-[24px]"
                     />
                     {/* 스킬 section */}
-                    <SearchSkill width="w-[384px]" />
+                    {/* <SearchSkill width="w-[384px]" /> */}
                 </div>
             </form>
         </>

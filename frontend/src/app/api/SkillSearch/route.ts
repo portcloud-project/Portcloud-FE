@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
     try {

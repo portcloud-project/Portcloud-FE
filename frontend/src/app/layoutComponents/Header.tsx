@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/sheet';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { usePathname } from 'next/navigation';
+import useAuthStore from '../stores/useAuthStore';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
     const navArr = [
@@ -24,13 +26,17 @@ const Header = () => {
 
     const [loginModal, setLoginModal] = useState<boolean>(false);
 
+    const router = useRouter();
+
     const pathname = usePathname() || '/';
+
+    const token = useAuthStore((state) => state.token);
+    const logout = useAuthStore((state) => state.logout);
 
     const isActive = (href: string) => {
         if (href === '/') return pathname === '/';
         return pathname === href || pathname.startsWith(href + '/');
     };
-
     return (
         <header className="top-0 left-0 w-full h-auto flex justify-center items-center z-45 bg-white border-b border-[var(--color-gray-300)]">
             <div className="w-full h-[60px] mx-auto laptop:max-w-[1440px] tablet:w-full flex flex-row justify-between items-center text-[var(--color-gray-900)] font-semibold text-[16px] px-[24px] py-[12px]">
@@ -91,11 +97,30 @@ const Header = () => {
                 </nav>
 
                 {/* login section */}
-                <div className="w-[130px] h-[24px] flex justify-end items-center">
-                    <h3 className="cursor-pointer" onClick={() => setLoginModal(true)}>
-                        로그인
-                    </h3>
-                    {loginModal && <Login setLoginModal={setLoginModal} />}
+                <div className="w-fit h-[24px] flex justify-end items-center gap-[12px]">
+                    {token ? (
+                        <>
+                            <h3 className="cursor-pointer" onClick={() => router.push('/mypage')}>
+                                마이페이지
+                            </h3>
+                            <h3
+                                className="cursor-pointer"
+                                onClick={() => {
+                                    logout();
+                                    setLoginModal(false);
+                                }}
+                            >
+                                로그아웃
+                            </h3>
+                        </>
+                    ) : (
+                        <>
+                            <h3 className="cursor-pointer" onClick={() => setLoginModal(true)}>
+                                로그인
+                            </h3>
+                            {loginModal && <Login setLoginModal={setLoginModal} />}
+                        </>
+                    )}
                 </div>
             </div>
         </header>
