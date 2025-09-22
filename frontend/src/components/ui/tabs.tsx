@@ -19,7 +19,10 @@ function TabsList({ className, ...props }: React.ComponentProps<typeof TabsPrimi
     return (
         <TabsPrimitive.List
             data-slot="tabs-list"
-            className={cn('flex flex-col w-[327px] border-r-[1px] border-[var(--color-gray-300)] rounded-[20px]', className)}
+            className={cn(
+                'flex flex-col w-[327px] border-r-[1px] border-[var(--color-gray-300)] rounded-[20px]',
+                className,
+            )}
             {...props}
         />
     );
