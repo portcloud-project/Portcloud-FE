@@ -2,7 +2,7 @@
 
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
-import SearchSkill from '@/app/customComponents/SearchSkill';
+// import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 
 interface UploadProjectsFormValuesType {
@@ -37,19 +37,7 @@ const UploadProjects = () => {
     });
 
     const onUploadProjectsSubmit = async (data: UploadProjectsFormValuesType) => {
-        const {
-            title,
-            startDate,
-            endDate,
-            distribution,
-            role,
-            people,
-            description,
-            projectURL,
-            // thumnailImg,
-            // demonstrationVideo,
-        } = data;
-        console.log(data);
+        const { title, period, people, content, act, skill } = data;
         try {
             const res = await axios.post('/api/project', {
                 title,
@@ -246,7 +234,7 @@ const UploadProjects = () => {
                         )}
                     </div>
                     {/* 스킬 section */}
-                    <SearchSkill width="w-[376px]" />
+                    {/* <SearchSkill width="w-[376px]" /> */}
                 </div>
 
                 {/* URL, 배포 현황 section */}
