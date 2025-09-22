@@ -20,7 +20,7 @@ const Mypage = () => {
                     <TabsTrigger value="profile" className="w-full h-[344px]">
                         프로필 수정
                     </TabsTrigger>
-                    <div className='p-[12px]'>
+                    <div className="p-[12px]">
                         {tabsArr.map((a, i) => {
                             return (
                                 <TabsTrigger key={i} value={a.value}>
@@ -30,13 +30,12 @@ const Mypage = () => {
                         })}
                     </div>
                 </TabsList>
-                
+
                 {tabsArr.map((a, i) => (
                     <TabsContent key={i} value={a.value}>
                         {a.value}
                     </TabsContent>
                 ))}
-                
             </Tabs>
         </main>
     );
