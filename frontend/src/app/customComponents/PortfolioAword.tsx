@@ -1,28 +1,19 @@
-import { useFormContext } from 'react-hook-form';
-
 'use client';
 
 import { useFormContext } from 'react-hook-form';
 
 /* eslint-disable no-unused-vars */
 interface PortfolioAwordProps {
-interface PortfolioAwordProps {
     id: number;
     index: number;
-    index: number;
     onDelete: (id: number) => void;
-    isOnlyOneSection: boolean;
     isOnlyOneSection: boolean;
 }
 
 const PortfolioAword = ({ id, onDelete, isOnlyOneSection, index }: PortfolioAwordProps) => {
     const { register } = useFormContext();
     const fieldNamePrefix = `awordSections[${index}]`;
-const PortfolioAword = ({ id, onDelete, isOnlyOneSection, index }: PortfolioAwordProps) => {
-    const { register } = useFormContext();
-    const fieldNamePrefix = `awordSections[${index}]`;
     return (
-        <div className="relative flex flex-col gap-[12px] mb-[30px]">
         <div className="relative flex flex-col gap-[12px] mb-[30px]">
             <textarea
                 id=""

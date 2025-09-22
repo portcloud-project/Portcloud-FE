@@ -37,17 +37,10 @@ const UploadProjects = () => {
     });
 
     const onUploadProjectsSubmit = async (data: UploadProjectsFormValuesType) => {
-        const { title, period, people, content, act, skill } = data;
+        const { title } = data;
         try {
             const res = await axios.post('/api/project', {
                 title,
-                startDate,
-                endDate,
-                distribution,
-                description,
-                role,
-                people,
-                projectURL,
                 thumnailImg: null,
                 demonstrationVideo: null,
             });
