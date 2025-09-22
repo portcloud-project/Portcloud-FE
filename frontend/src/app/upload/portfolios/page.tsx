@@ -44,7 +44,7 @@ interface FormData {
     email: string;
     industry: string;
     jobPosition: string;
-    skill: SKILLITEM;
+    skill: SKILLITEM[];
     introductions: string;
     saveStatus: boolean;
     projectDescriptions: ProjectSectionData[];
@@ -61,7 +61,7 @@ const UploadPortfolios = () => {
             email: '',
             industry: '',
             jobPosition: '',
-            // skill: { name: '' },
+            skill: [{ name: '' }],
             introductions: '',
             saveStatus: true,
             projectDescriptions: [{ description: '' }],
