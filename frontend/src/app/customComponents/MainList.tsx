@@ -12,10 +12,10 @@ export interface Item {
     thumbnailURL: string | null;
 }
 
-export interface ApiResponse {
+export interface ApiResponse<T> {
     status: number;
     message: string | null;
-    data: Item[];
+    data: T;
 }
 
 const MainList = ({ title }: MainListProps) => {

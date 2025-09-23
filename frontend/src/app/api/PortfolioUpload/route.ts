@@ -5,13 +5,22 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function POST(request: NextRequest) {
     try {
+        const token = request.cookies.get('accessToken')?.value;
+        console.log(token);
+        if (!token) {
+            return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
+        }
         const body = await request.json();
         if (!body) {
             return NextResponse.json({ error: 'Empty body' }, { status: 400 });
         }
 
-        const response = await axios.post(`${BASE_URL}api/portfolio`, body);
-
+        const response = await axios.post(`${BASE_URL}api/portfolio`, body, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log(response);
         return NextResponse.json(response.data, { status: 200 });
     } catch (err) {
         console.error('API 요청 중 오류:', err);

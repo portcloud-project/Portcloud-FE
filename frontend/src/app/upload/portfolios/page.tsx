@@ -8,6 +8,7 @@ import SearchSkill, { SKILLITEM } from '@/app/customComponents/SearchSkill';
 import useSectionManagement from '@/app/hooks/useSectionManagement';
 import axios from 'axios';
 import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
+import { userStore } from '@/app/stores/userStore';
 
 export interface ProjectSectionData {
     id: number;
@@ -55,13 +56,14 @@ interface FormData {
 }
 
 const UploadPortfolios = () => {
+    const user = userStore((state) => state.user);
     const methods = useForm<FormData>({
         defaultValues: {
             title: '',
             email: '',
             industry: '',
             jobPosition: '',
-            skill: [{ name: '' }],
+            // skill: [{ name: '' }],
             introductions: '',
             saveStatus: true,
             projectDescriptions: [{ description: '' }],
@@ -191,7 +193,7 @@ const UploadPortfolios = () => {
                         <label htmlFor="" className="font-bold text-[24px]">
                             이름
                         </label>
-                        <p>이예희</p>
+                        <p className=" flex justify-center items-center">{user.name}</p>
                     </div>
                     <div className="flex gap-[12px] flex-col">
                         <label htmlFor="" className="font-bold text-[24px]">
@@ -274,7 +276,7 @@ const UploadPortfolios = () => {
 
                     {/* 학력 섹션 */}
                     <div className="flex flex-col gap-[12px]">
-                        <h1>학력</h1>
+                        <h1>학력 *</h1>
                         {schoolSections.map((section, index) => (
                             <PortfolioSchool
                                 key={section.id}
