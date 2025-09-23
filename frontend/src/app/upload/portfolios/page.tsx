@@ -100,7 +100,7 @@ const UploadPortfolios = () => {
     const onSubmit = async (data: FormData) => {
         console.log('전송할 데이터:', data);
         try {
-            await axios.post<FormData>('/api/PortfolioUpload', data);
+            await axios.post<FormData>('/api/portfolioupload', data);
         } catch (err) {
             console.log('Next 서버 전송중 오류', err);
         }

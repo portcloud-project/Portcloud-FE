@@ -4,7 +4,7 @@ import { useMainProjectStore } from '../stores/useMainProjectStore';
 import { ApiResponse, Item } from '../customComponents/MainList';
 
 const fetchMainItems = async (): Promise<Item[]> => {
-    const response = await axios.get<ApiResponse>('/api/MainList?type=mainlist');
+    const response = await axios.get<ApiResponse>('/api/mainlist?type=mainlist');
 
     if (response.data && Array.isArray(response.data.data)) {
         return response.data.data;
