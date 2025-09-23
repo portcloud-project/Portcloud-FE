@@ -26,9 +26,9 @@ const Header = () => {
         { title: '기록', link: '/works/logs' },
     ];
 
-// 가족여행 제주도 알아보기, 
-// 숙소 예약
-// 하루에 8만원 쓰는 모임 -> 무슨 모임인지 물어보기
+    // 가족여행 제주도 알아보기,
+    // 숙소 예약
+    // 하루에 8만원 쓰는 모임 -> 무슨 모임인지 물어보기
 
     const [loginModal, setLoginModal] = useState<boolean>(false);
 
@@ -36,14 +36,14 @@ const Header = () => {
 
     const token = useAuthStore((state) => state.token);
     const logout = useAuthStore((state) => state.logout);
-    
+
     const pathname = usePathname() || '/';
     console.log(pathname);
     const isActive = (href: string) => {
         if (href === '/') {
             console.log(href);
-            return pathname === '/'
-        };
+            return pathname === '/';
+        }
         return pathname === href || pathname.startsWith(href + '/');
     };
 
@@ -61,9 +61,7 @@ const Header = () => {
                         </SheetTrigger>
                         <SheetContent side="left" aria-label="사이드 메뉴">
                             <SheetHeader className="p-0 m-0">
-                                <SheetTitle className="px-[24px] py-[12px] h-[60px] flex flex-row justify-between items-center">
-                                    
-                                </SheetTitle>
+                                <SheetTitle className="px-[24px] py-[12px] h-[60px] flex flex-row justify-between items-center"></SheetTitle>
                                 <SheetDescription className="flex flex-col justify-center items-start gap-[24px] px-[24px] py-[12px]">
                                     {navArr.map((a, i) => {
                                         const active = isActive(a.link);
