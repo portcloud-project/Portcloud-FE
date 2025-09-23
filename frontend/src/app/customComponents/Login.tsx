@@ -13,6 +13,7 @@ import axios from 'axios';
 import { parseJwt } from '../hooks/useDecodeToken';
 import { useRouter } from 'next/navigation';
 import useAuthStore from '../stores/useAuthStore';
+import { userStore } from '../stores/userStore';
 
 interface LoginForm {
     email: string;
@@ -25,7 +26,7 @@ const Login = ({
     setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
     const [pwVisible, setPwVisible] = useState<boolean>(false);
-
+    const setUser = userStore((state) => state.setUser);
     // 모달 true 일때 DOM 조작 (스크롤 막기 + 스크롤 바 없애기)
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -55,7 +56,7 @@ const Login = ({
             }
             setToken(token);
             const payload = parseJwt(token);
-
+            setUser(payload);
             console.log(payload);
             router.push('/');
         } catch (err) {
