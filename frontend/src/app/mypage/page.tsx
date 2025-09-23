@@ -1,13 +1,23 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import MypageAdd from '../customComponents/MypageAdd';
 
 const Mypage = () => {
     const tabsArr = [
         { value: 'bookMarks', title: '북마크 관리' },
-        { value: 'portfolios', title: '포트폴리오 관리' },
+        { value: 'portfolios', title: '포트폴리오 관리', content: '' },
         { value: 'projects', title: '프로젝트 관리' },
         { value: 'teams', title: '팀 관리' },
         { value: 'myActivity', title: '내 활동' },
         { value: 'settings', title: '설정' },
+        // {
+        //     value: 'addComp',
+        //     title: '추가',
+        //     content: (
+        //         <div>
+        //             <MypageAdd />
+        //         </div>
+        //     ),
+        // },
     ];
     return (
         <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full gap-[48px]">
@@ -47,9 +57,16 @@ const Mypage = () => {
 
                 <TabsContent value="profile">여긴 프로필 수정</TabsContent>
                 <TabsContent value="bookMarks">여긴 북마크 관리</TabsContent>
-                <TabsContent value="portfolios">여긴 포트폴리오</TabsContent>
-                <TabsContent value="projects">여긴 프로젝트</TabsContent>
-                <TabsContent value="teams">여긴 팀관리</TabsContent>
+                <TabsContent value="portfolios">
+                    여긴 포트폴리오
+                    <MypageAdd title="포트폴리오 업로드" route="/upload/portfolios" />
+                </TabsContent>
+                <TabsContent value="projects">
+                    여긴 프로젝트 <MypageAdd title="프로젝트 업로드" route="/upload/projects" />
+                </TabsContent>
+                <TabsContent value="teams">
+                    여긴 팀관리 <MypageAdd title="팀 구하기 업로드" route="/upload/teams" />
+                </TabsContent>
                 <TabsContent value="myActivity">여긴 내 활동</TabsContent>
                 <TabsContent value="settings">여긴 설정</TabsContent>
             </Tabs>
