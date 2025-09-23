@@ -20,7 +20,7 @@ const SearchSkill = ({ width }: { width?: string }) => {
     const { control } = useFormContext();
 
     const fetchSearchResult = async (result: string) => {
-        const response = await axios.get(`/api/SkillSearch?q=${result}`);
+        const response = await axios.get(`/api/skillsearch?q=${result}`);
         if (response.data && Array.isArray(response.data.data)) {
             return response.data.data;
         } else {

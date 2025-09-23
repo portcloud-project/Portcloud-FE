@@ -40,7 +40,8 @@ export interface LicenseSectionData {
     number: string;
 }
 
-interface FormData {
+export interface FormData {
+    id: number;
     title: string;
     email: string;
     industry: string;
@@ -100,9 +101,11 @@ const UploadPortfolios = () => {
     });
 
     const onSubmit = async (data: FormData) => {
-        console.log('전송할 데이터:', data);
+        console.log(data);
         try {
-            await axios.post<FormData>('/api/portfolioupload', data);
+            const response = await axios.post<FormData>('/api/portfolioupload', data);
+            const id = response.data;
+            console.log(id);
         } catch (err) {
             console.log('Next 서버 전송중 오류', err);
         }

@@ -12,14 +12,13 @@ interface PortfolioAwordProps {
 
 const PortfolioAword = ({ id, onDelete, isOnlyOneSection, index }: PortfolioAwordProps) => {
     const { register } = useFormContext();
-    const fieldNamePrefix = `awordSections[${index}]`;
+    const fieldNamePrefix = `awards[${index}]`;
     return (
         <div className="relative flex flex-col gap-[12px] mb-[30px]">
             <textarea
                 id=""
                 className="resize-none min-h-[156px] overflow-y-auto w-full rounded-[8px] py-[12px] px-[20px] border"
-                {...register(`${fieldNamePrefix}.awordName`)}
-                {...register(`${fieldNamePrefix}.awordName`)}
+                {...register(`${fieldNamePrefix}.awardDescription`)}
             />
             {!isOnlyOneSection && (
                 <button

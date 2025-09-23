@@ -11,10 +11,9 @@ interface PortfolioSchoolProps {
     isOnlyOneSection: boolean;
 }
 
-const PortfolioSchool = ({ id, index, isOnlyOneSection, onDelete }: PortfolioSchoolProps) => {
+const PortfolioSchool = ({ id, isOnlyOneSection, onDelete, index }: PortfolioSchoolProps) => {
     const { register } = useFormContext();
-    const fieldNamePrefix = `schoolSections[${index}]`;
-
+    const fieldNamePrefix = `educations[${index}]`;
     return (
         <div className="relative flex flex-col gap-[12px] mb-[30px]">
             <div className="flex flex-col gap-[12px]">
@@ -23,14 +22,14 @@ const PortfolioSchool = ({ id, index, isOnlyOneSection, onDelete }: PortfolioSch
                         type="text"
                         className="border w-[70%] rounded-[8px] p-[16px]"
                         placeholder="학교/학과"
-                        {...register(`${fieldNamePrefix}.schoolName`, {
+                        {...register(`${fieldNamePrefix}.school`, {
                             required: '학교/학과명은 필수입니다.',
                         })}
                     />
                     <select
                         id=""
                         className="border w-[30%] rounded-[8px] p-[16px]"
-                        {...register(`${fieldNamePrefix}.status`, {
+                        {...register(`${fieldNamePrefix}.schoolStatus`, {
                             required: '상태를 선택해 주세요',
                         })}
                     >

@@ -11,14 +11,13 @@ interface PortfolioProjectProps {
 
 const PortfolioProject = ({ id, onDelete, isOnlyOneSection, index }: PortfolioProjectProps) => {
     const { register } = useFormContext();
-    const fieldNamePrefix = `projectSections[${index}]`;
-
+    const fieldNamePrefix = `projectDescriptions[${index}]`;
     return (
         <div className="relative flex flex-col gap-[12px] mb-[30px]">
             <textarea
                 id=""
                 className="resize-none min-h-[156px] overflow-y-auto w-full rounded-[8px] py-[12px] px-[20px] border"
-                {...register(`${fieldNamePrefix}.projectName`)}
+                {...register(`${fieldNamePrefix}.description`)}
             />
 
             {!isOnlyOneSection && (

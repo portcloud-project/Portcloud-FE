@@ -14,7 +14,7 @@ interface PortfolioCreerProps {
 const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCreerProps) => {
     const { register } = useFormContext();
 
-    const fieldNamePrefix = `creerSections[${index}]`;
+    const fieldNamePrefix = `careers[${index}]`;
 
     return (
         <div className="relative flex flex-col gap-[12px] border p-4 rounded-lg mb-[30px]">
@@ -34,7 +34,7 @@ const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCree
                             type="text"
                             className="border w-full rounded-[8px] p-[16px]"
                             placeholder="직책"
-                            {...register(`${fieldNamePrefix}.position`)}
+                            {...register(`${fieldNamePrefix}.companyPosition`)}
                         />
                     </div>
 
@@ -43,7 +43,7 @@ const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCree
                             type="text"
                             className="border w-full rounded-[8px] p-[16px]"
                             placeholder="직무"
-                            {...register(`${fieldNamePrefix}.jobTitle`)}
+                            {...register(`${fieldNamePrefix}.duty`)}
                         />
                     </div>
 
@@ -60,7 +60,7 @@ const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCree
                 <textarea
                     className="resize-none min-h-[156px] overflow-y-auto w-full rounded-[8px] py-[12px] px-[20px] border"
                     placeholder="담당 업무"
-                    {...register(`${fieldNamePrefix}.description`)}
+                    {...register(`${fieldNamePrefix}.dutyDescription`)}
                 />
             </div>
 

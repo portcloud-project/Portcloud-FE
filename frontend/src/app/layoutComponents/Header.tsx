@@ -13,11 +13,13 @@ import {
 } from '@/components/ui/sheet';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { usePathname } from 'next/navigation';
-import useAuthStore from '../stores/useAuthStore';
 import { useRouter } from 'next/navigation';
 import logo from '../imgs/logoImage.svg';
 import Image from 'next/image';
-
+import Cookies from 'js-cookie';
+import { useQueryClient } from '@tanstack/react-query';
+import { useUser } from '../hooks/useUser';
+import { userStore } from '../stores/userStore';
 const Header = () => {
     const navArr = [
         { title: '프로젝트', link: '/works/projects' },
@@ -31,22 +33,25 @@ const Header = () => {
     // 하루에 8만원 쓰는 모임 -> 무슨 모임인지 물어보기
 
     const [loginModal, setLoginModal] = useState<boolean>(false);
-
+    const queryClient = useQueryClient();
     const router = useRouter();
+    const { data: user, isLoading } = useUser();
 
-    const token = useAuthStore((state) => state.token);
-    const logout = useAuthStore((state) => state.logout);
-
+    const logout = () => {
+        Cookies.remove('accessToken');
+        queryClient.setQueryData(['user'], null);
+        userStore.getState().clearUser();
+        setLoginModal(false);
+    };
     const pathname = usePathname() || '/';
     console.log(pathname);
     const isActive = (href: string) => {
         if (href === '/') {
-            console.log(href);
             return pathname === '/';
         }
         return pathname === href || pathname.startsWith(href + '/');
     };
-
+    if (isLoading) return null;
     return (
         <header className="top-0 left-0 w-full h-auto flex justify-center items-center z-45 bg-white border-b border-[var(--color-gray-300)]">
             <div className="w-full h-[60px] mx-auto laptop:max-w-[1440px] tablet:w-full flex flex-row justify-between items-center text-[var(--color-gray-900)] font-semibold text-[16px] px-[24px] py-[12px]">
@@ -111,7 +116,7 @@ const Header = () => {
 
                 {/* login section */}
                 <div className="w-fit h-[24px] flex justify-end items-center gap-[12px]">
-                    {token ? (
+                    {user ? (
                         <>
                             <h3 className="cursor-pointer" onClick={() => router.push('/mypage')}>
                                 마이페이지
