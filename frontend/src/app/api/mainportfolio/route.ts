@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
 export async function GET() {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     try {
         const res = await axios.get(`${BASE_URL}api/portfolio/recommend`);
         const data = res.data;
