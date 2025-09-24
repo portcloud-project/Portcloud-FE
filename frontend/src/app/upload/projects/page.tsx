@@ -1,18 +1,22 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 // import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 
 interface UploadProjectsFormValuesType {
     title: string;
-    period: Date;
-    people: number;
-    content: string;
-    act: string;
-    url: string;
+    startDate: string;
+    endDate: string;
+    people: string;
+    distribution: string;
+    role: string;
+    projectURL: string;
+    description: string;
     skill: string[];
+    thumnailImg: string | null;
+    demonstrationVideo: string | null;
 }
 
 const UploadProjects = () => {
@@ -25,6 +29,7 @@ const UploadProjects = () => {
         handleSubmit,
         // watch,
         // setValue,
+        control,
         formState: { errors, isSubmitting },
     } = useForm<UploadProjectsFormValuesType>({
         mode: 'onChange',
@@ -32,27 +37,24 @@ const UploadProjects = () => {
     });
 
     const onUploadProjectsSubmit = async (data: UploadProjectsFormValuesType) => {
-        const { title, period, people, content, act, skill } = data;
+        const { title } = data;
         try {
-            const res = await axios.post('api/upload/projects', {
+            const res = await axios.post('/api/project', {
                 title,
-                period,
-                people,
-                content,
-                act,
-                skill,
+                thumnailImg: null,
+                demonstrationVideo: null,
             });
 
             console.log(res.status);
 
             alert('프로젝트가 업로드 되었습니다!');
         } catch (err) {
-            alert('프로젝트 업로드 실패');
             if (err instanceof Error) {
-                console.log('업로드 에러내용: ', err.message);
+                console.log('업로드 에러내용:', err.message);
             } else {
                 console.error('알 수 없는 에러:', err);
             }
+            alert('프로젝트 업로드 실패');
         }
     };
 
@@ -86,7 +88,7 @@ const UploadProjects = () => {
                             {...register('title', {
                                 required: '제목을 입력해주세요',
                                 minLength: {
-                                    value: 3,
+                                    value: 1,
                                     message: '제목은 1자 이상 입력해주세요',
                                 },
                             })}
@@ -105,7 +107,7 @@ const UploadProjects = () => {
                     {/* 프로젝트 기간 section */}
                     <div className="w-[236px] flex flex-col justify-center items-start gap-[12px]">
                         <label
-                            htmlFor="period"
+                            htmlFor="startDate-endDate"
                             className="text-[24px] font-bold text-[var(--color-gray-900)]"
                         >
                             프로젝트 기간 *
@@ -115,42 +117,62 @@ const UploadProjects = () => {
                             <div className="relative w-auto">
                                 <input
                                     type="date"
-                                    id="start-date"
+                                    id="startDate"
                                     placeholder="시작일"
                                     className="w-[245px] h-[64px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
-                                    required
+                                    {...register('startDate', {
+                                        required: '시작일을 선택해 주세요',
+                                    })}
                                 />
                             </div>
 
                             <div className="relative w-auto">
                                 <input
                                     type="date"
-                                    id="end-date"
+                                    id="endDate"
                                     placeholder="종료일"
                                     className="w-[245px] h-[64px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out cursor-pointer"
-                                    required
+                                    {...register('endDate', {
+                                        required: '종료일을 선택해 주세요',
+                                    })}
                                 />
                             </div>
                         </div>
                     </div>
 
-                    {/* 진행 인원 section */}
-                    <UploadDropDown
-                        arr={peopleArr}
-                        dropDownLabel={'진행 인원 *'}
-                        dropDownPlaceholoder={''}
-                        width="w-[245px]"
-                        height="h-[64px]"
-                        gap="gap-[12px]"
-                        labelFont="font-bold"
-                        labelText="text-[24px]"
+                    {/* 진행인원 section */}
+                    <Controller
+                        name="people"
+                        control={control}
+                        rules={{ required: '진행 인원을 선택해 주세요' }}
+                        render={({ field, fieldState }) => (
+                            <div className="relative">
+                                <UploadDropDown
+                                    arr={peopleArr}
+                                    dropDownLabel={'진행 인원 *'}
+                                    dropDownPlaceholoder={''}
+                                    width="w-[245px]"
+                                    height="h-[64px]"
+                                    gap="gap-[12px]"
+                                    labelFont="font-bold"
+                                    labelText="text-[24px]"
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                />
+                                {fieldState.error && (
+                                    <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[73px]">
+                                        {fieldState.error.message}
+                                    </p>
+                                )}
+                            </div>
+                        )}
                     />
                 </div>
 
                 {/* 내용 section */}
                 <div className="w-full h-fit flex flex-col justify-center items-start gap-[12px] relative">
                     <label
-                        htmlFor="content"
+                        htmlFor="description"
                         className="text-[24px] font-bold text-[var(--color-gray-900)]"
                     >
                         프로젝트 내용 *
@@ -158,18 +180,18 @@ const UploadProjects = () => {
                     <textarea
                         placeholder="내용을 입력해 주세요"
                         className={`w-full min-h-[312px] rounded-[8px] py-[12px] px-[20px] border border-[var(--color-gray-400)] resize-none overflow-y-auto h-[312px] focus:outline-none transition duration-300 ease-in-out flex flex-col justify-start items-start ${
-                            errors.content
+                            errors.description
                                 ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
                                 : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
                         }`}
-                        {...register('content', {
+                        {...register('description', {
                             required: '내용을 입력해주세요',
                         })}
                     />
                     {/* 내용 error section */}
-                    {errors.content && (
+                    {errors.description && (
                         <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[370px]">
-                            {errors.content.message}
+                            {errors.description.message}
                         </p>
                     )}
                 </div>
@@ -179,28 +201,28 @@ const UploadProjects = () => {
                     {/* 담당 역할 section */}
                     <div className="w-fit flex flex-col justify-center items-start gap-[12px] relative">
                         <label
-                            htmlFor="act"
+                            htmlFor="role"
                             className="text-[24px] font-bold text-[var(--color-gray-900)]"
                         >
                             담당 역할 *
                         </label>
                         <input
                             type="text"
-                            id="act"
+                            id="role"
                             placeholder="담당 역할을 입력해주세요"
                             className={`w-[376px] h-[64px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px]  focus:outline-none transition duration-300 ease-in-out ${
-                                errors.act
+                                errors.role
                                     ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
                                     : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
                             }`}
-                            {...register('act', {
+                            {...register('role', {
                                 required: '담당 역할을 입력해 주세요',
                             })}
                         />
                         {/* 담당 역할 error section */}
-                        {errors.act && (
+                        {errors.role && (
                             <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[120px]">
-                                {errors.act.message}
+                                {errors.role.message}
                             </p>
                         )}
                     </div>
@@ -213,30 +235,46 @@ const UploadProjects = () => {
                     {/* URL section */}
                     <div className="w-fit flex flex-col justify-center items-start gap-[12px]">
                         <label
-                            htmlFor="url"
+                            htmlFor="projectURL"
                             className="text-[24px] font-bold text-[var(--color-gray-900)]"
                         >
                             URL
                         </label>
                         <input
                             type="url"
-                            id="url"
+                            id="projectURL"
                             placeholder="개인 URL을 입력해 주세요"
                             className="w-[376px] h-[64px] border border-[var(--color-gray-400)] focus:border-[var(--color-purple-500)] rounded-[8px] py-[10px] px-[12px]  focus:outline-none transition duration-300 ease-in-out"
-                            {...register('url')}
+                            {...register('projectURL')}
                         />
                     </div>
 
                     {/* 배포 현황 section */}
-                    <UploadDropDown
-                        arr={isDeployArr}
-                        dropDownLabel={'배포 현황'}
-                        dropDownPlaceholoder={'배포 현황 선택'}
-                        width="w-[376px]"
-                        height="h-[64px]"
-                        gap="gap-[12px]"
-                        labelFont="font-bold"
-                        labelText="text-[24px]"
+                    <Controller
+                        name="distribution"
+                        control={control}
+                        rules={{ required: '진행 인원을 선택해 주세요' }}
+                        render={({ field, fieldState }) => (
+                            <div className="relative">
+                                <UploadDropDown
+                                    arr={isDeployArr}
+                                    dropDownLabel={'배포 현황'}
+                                    dropDownPlaceholoder={'배포 현황 선택'}
+                                    width="w-[376px]"
+                                    height="h-[64px]"
+                                    gap="gap-[12px]"
+                                    labelFont="font-bold"
+                                    labelText="text-[24px]"
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                />
+                                {fieldState.error && (
+                                    <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[120px]">
+                                        {fieldState.error.message}
+                                    </p>
+                                )}
+                            </div>
+                        )}
                     />
                 </div>
 
@@ -256,7 +294,6 @@ const UploadProjects = () => {
                             type="file"
                             id="file"
                             className="w-[768px] h-[312px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
-                            required
                         />
                     </div>
                 </div>
@@ -277,7 +314,6 @@ const UploadProjects = () => {
                             type="file"
                             id="video"
                             className="w-[768px] h-[312px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
-                            required
                         />
                     </div>
                 </div>
