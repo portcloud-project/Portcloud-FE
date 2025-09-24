@@ -5,10 +5,6 @@ export async function GET(request: NextRequest) {
     const BASE_URL = process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL;
     try {
         const token = request.cookies.get('accessToken')?.value;
-        console.log(token);
-        if (!token) {
-            return NextResponse.json({ error: '토큰이 없습니다.' }, { status: 401 });
-        }
 
         const id = request.nextUrl.searchParams.get('id');
         if (!id) {
@@ -21,6 +17,7 @@ export async function GET(request: NextRequest) {
                 Authorization: `Bearer ${token}`,
             },
         });
+        console.log(response);
 
         const data = response.data.data;
         return NextResponse.json(data, { status: 200 });

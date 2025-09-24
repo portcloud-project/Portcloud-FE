@@ -26,6 +26,13 @@ const Mypage = () => {
         // },
     ];
     const user = userStore((state) => state.user);
+    if (!user.name && !user.nickname && !user.sub) {
+        return (
+            <div className="flex justify-center items-center w-full h-screen">
+                로그인 후에 이용가능한 기능입니다.
+            </div>
+        );
+    }
 
     return (
         <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full gap-[48px]">
@@ -69,7 +76,6 @@ const Mypage = () => {
                 <TabsContent value="bookMarks">여긴 북마크 관리</TabsContent>
                 <TabsContent value="portfolios" className="overflow-y-auto p-[20px]">
                     <MyPagePortfolio />
-                    <MypageAdd title="포트폴리오 업로드" route="/upload/portfolios" />
                 </TabsContent>
                 <TabsContent value="projects">
                     여긴 프로젝트 <MypageAdd title="프로젝트 업로드" route="/upload/projects" />

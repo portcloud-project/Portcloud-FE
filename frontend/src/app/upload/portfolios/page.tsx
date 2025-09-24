@@ -41,6 +41,8 @@ export interface LicenseSectionData {
 }
 
 export interface FormData {
+    createAt: string;
+    writeName: string;
     id: number;
     title: string;
     email: string;
@@ -58,6 +60,7 @@ export interface FormData {
 
 const UploadPortfolios = () => {
     const user = userStore((state) => state.user);
+
     const methods = useForm<FormData>({
         defaultValues: {
             title: '',
@@ -163,6 +166,14 @@ const UploadPortfolios = () => {
     } = useSectionManagement<LicenseSectionData>([
         { id: 1, certificateName: '', certificateDate: '', number: '' },
     ]);
+
+    if (!user.name && !user.nickname && !user.sub) {
+        return (
+            <div className="flex justify-center items-center w-full h-screen">
+                로그인 후에 이용가능한 기능입니다.
+            </div>
+        );
+    }
 
     return (
         <section className="w-[768px] flex gap-[48px] flex-col">

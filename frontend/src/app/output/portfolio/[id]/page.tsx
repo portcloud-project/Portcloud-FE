@@ -24,24 +24,26 @@ const PortfolioOutput = () => {
                     <h1 className="text-[40px] font-bold">{portfolio.title}</h1>
                     <div className="flex w-full justify-between text-[16px] text-gray-500 ">
                         <div className="flex w-fit items-center gap-[12px]">
-                            <p className="flex">{user.name}</p>
+                            <p className="flex">{portfolio.writeName}</p>
                             <p className="font-semibold"></p>
                             <div className="border-r h-[14px] border-gray-300" />
-                            <p className="">작성시간</p>
+                            <p className="">{dayjs(portfolio.createAt).format('YYYY-MM-DD')}</p>
                             <p className="font-semibold"></p>
                         </div>
-                        <div className="flex w-fit items-center gap-[12px]">
-                            <button>수정</button>
-                            <div className="border-r h-[14px] border-gray-300" />
-                            <button>삭제</button>
-                        </div>
+                        {user?.sub === portfolio.email && (
+                            <div className="flex w-fit items-center gap-[12px]">
+                                <button>수정</button>
+                                <div className="border-r h-[14px] border-gray-300" />
+                                <button>삭제</button>
+                            </div>
+                        )}
                     </div>
                     <hr />
                 </section>
                 <section className="flex w-full items-center gap-[12px]">
-                    <p className="text-[24px] font-bold">{user.name}</p>
+                    <p className="text-[24px] font-bold">{portfolio.writeName}</p>
                     <div className="border-r h-[14px] border-gray-300" />
-                    <p className="text-[20px] font-medium">{user.sub}</p>
+                    <p className="text-[20px] font-medium">{portfolio.email}</p>
                 </section>
                 <section className="flex w-full gap-[24px] items-center">
                     <p className="text-[24px] font-bold">{portfolio.industry}</p>
@@ -60,55 +62,73 @@ const PortfolioOutput = () => {
                         {portfolio.educations.map((item) => item.schoolStatus)}
                     </p>
                 </section>
-                <section className="w-full flex flex-col gap-[12px]">
-                    <h2 className="text-[24px] font-bold">경력</h2>
-                    <div className="border p-[24px] flex-col gap-[12px] flex rounded-[8px]">
-                        <div className="flex gap-[12px] items-center text-[16px] font-semibold ">
-                            <p>{portfolio.careers.map((item) => item.companyName)}</p>
-                            <div className="border-r h-[14px] border-gray-300" />
-                            <p>{portfolio.careers.map((item) => item.duty)}</p>
-                            <div className="border-r h-[14px] border-gray-300" />
-                            <p>{portfolio.careers.map((item) => item.companyPosition)}</p>
-                            <div className="border-r h-[14px] border-gray-300" />
-                            <p>
-                                {portfolio.careers.map((item) =>
-                                    dayjs(item.startDate).format('YYYY-MM-DD'),
-                                )}
-                            </p>
-                            <div className="border-r h-[14px] border-gray-300" />
-                            <p>
-                                {portfolio.careers.map((item) =>
-                                    dayjs(item.endDate).format('YYYY-MM-DD'),
-                                )}
-                            </p>
+                {portfolio.careers.some(
+                    (c) => c.companyName || c.companyPosition || c.duty || c.startDate || c.endDate,
+                ) && (
+                    <section className="w-full flex flex-col gap-[12px]">
+                        <h2 className="text-[24px] font-bold">경력</h2>
+                        <div className="border p-[24px] flex-col gap-[12px] flex rounded-[8px]">
+                            <div className="flex gap-[12px] items-center text-[16px] font-semibold ">
+                                <p>{portfolio.careers.map((item) => item.companyName)}</p>
+                                <div className="border-r h-[14px] border-gray-300" />
+                                <p>{portfolio.careers.map((item) => item.duty)}</p>
+                                <div className="border-r h-[14px] border-gray-300" />
+                                <p>{portfolio.careers.map((item) => item.companyPosition)}</p>
+                                <div className="border-r h-[14px] border-gray-300" />
+                                <p>
+                                    {portfolio.careers.map((item) =>
+                                        dayjs(item.startDate).format('YYYY-MM-DD'),
+                                    )}
+                                </p>
+                                <div className="border-r h-[14px] border-gray-300" />
+                                <p>
+                                    {portfolio.careers.map((item) =>
+                                        dayjs(item.endDate).format('YYYY-MM-DD'),
+                                    )}
+                                </p>
+                            </div>
+                            <div className="w-full border p-[24px] flex rounded-[8px]">
+                                {portfolio.careers.map((item) => item.dutyDescription)}
+                            </div>
                         </div>
-                        <div className="w-full border p-[24px] flex rounded-[8px]">
-                            {portfolio.careers.map((item) => item.dutyDescription)}
+                    </section>
+                )}
+                {portfolio.projectDescriptions.some((c) => c.description) && (
+                    <section className="w-full flex flex-col gap-[12px]">
+                        <h2 className="text-[24px] font-bold ">프로젝트</h2>
+                        <div className="border p-[24px] rounded-[8px]">
+                            {portfolio.projectDescriptions.map((item) => item.description)}
                         </div>
-                    </div>
-                </section>
-                <section className="w-full flex flex-col gap-[12px]">
-                    <h2 className="text-[24px] font-bold ">프로젝트</h2>
-                    <div className="border p-[24px] rounded-[8px]">
-                        {portfolio.projectDescriptions.map((item) => item.description)}
-                    </div>
-                </section>
-                <section className="w-full flex  flex-col gap-[12px]">
-                    <h2 className="text-[24px] font-bold">수상</h2>
-                    <div className="border p-[24px] rounded-[8px]">
-                        {portfolio.awards.map((item) => item.awardDescription)}
-                    </div>
-                </section>
-                <section className="w-full flex flex-col gap-[12px]">
-                    <h2 className="text-[24px] font-bold">자격/어학</h2>
-                    <div className="flex items-center gap-[12px]">
-                        {portfolio.certificates.map((item) => item.certificateName)}
-                        <div className="border-r h-[14px] border-gray-300" />
-                        {portfolio.certificates.map((item) => item.certificateDate)}
-                        <div className="border-r h-[14px] border-gray-300" />
-                        {portfolio.certificates.map((item) => item.number)}
-                    </div>
-                </section>
+                    </section>
+                )}
+                {portfolio.awards.some(
+                    (c) =>
+                        c.awardDescription && (
+                            <section className="w-full flex  flex-col gap-[12px]">
+                                <h2 className="text-[24px] font-bold">수상</h2>
+                                <div className="border p-[24px] rounded-[8px]">
+                                    {portfolio.awards.map((item) => item.awardDescription)}
+                                </div>
+                            </section>
+                        ),
+                )}
+                {portfolio.certificates.some(
+                    (c) =>
+                        c.certificateName ||
+                        c.certificateDate ||
+                        (c.number && (
+                            <section className="w-full flex flex-col gap-[12px]">
+                                <h2 className="text-[24px] font-bold">자격/어학</h2>
+                                <div className="flex items-center gap-[12px]">
+                                    {portfolio.certificates.map((item) => item.certificateName)}
+                                    <div className="border-r h-[14px] border-gray-300" />
+                                    {portfolio.certificates.map((item) => item.certificateDate)}
+                                    <div className="border-r h-[14px] border-gray-300" />
+                                    {portfolio.certificates.map((item) => item.number)}
+                                </div>
+                            </section>
+                        )),
+                )}
                 <section className="w-full flex ">댓글</section>
                 <section className="w-full flex ">댓글출력</section>
             </div>
