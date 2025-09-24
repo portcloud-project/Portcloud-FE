@@ -95,7 +95,6 @@ const SearchSkill = ({ width }: { width?: string }) => {
                         >
                             스킬
                         </label>
-
                         <div className="relative w-full">
                             <input
                                 type="text"
@@ -117,26 +116,24 @@ const SearchSkill = ({ width }: { width?: string }) => {
                                 <FaMagnifyingGlass className="w-[16.8px] h-[16.8px] text-[var(--color-gray-500)]" />
                             </span>
                         </div>
-
-                        <div className="absolute top-[124px] left-0 border border-[var(--color-gray-300)] bg-white p-[24px] flex flex-col gap-[16px] rounded-[8px] z-10 w-full">
-                            {value.length > 0 && (
-                                <div className="flex flex-wrap gap-[8px]">
-                                    {value.map((skill: SKILLITEM) => (
-                                        <div
-                                            key={skill.id}
-                                            className="flex flex-row gap-[4px] items-center px-[16px] py-[6px] rounded-full bg-gray-100 text-gray-700 text-[14px] font-semibold border border-gray-200"
-                                        >
-                                            {skill.name}
-                                            <IoCloseOutline
-                                                onClick={() => handleRemoveSkill(skill)}
-                                                className="w-[16px] h-[16px] cursor-pointer"
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            {toggleDropdown && (
+                        {toggleDropdown && debouncedSearchTerm.trim() !== '' && (
+                            <div className="absolute top-[124px] left-0 border border-[var(--color-gray-300)] bg-white p-[24px] flex flex-col gap-[16px] rounded-[8px] z-10 w-full">
+                                {value.length > 0 && (
+                                    <div className="flex flex-wrap gap-[8px]">
+                                        {value.map((skill: SKILLITEM) => (
+                                            <div
+                                                key={skill.id}
+                                                className="flex flex-row gap-[4px] items-center px-[16px] py-[6px] rounded-full bg-gray-100 text-gray-700 text-[14px] font-semibold border border-gray-200"
+                                            >
+                                                {skill.name}
+                                                <IoCloseOutline
+                                                    onClick={() => handleRemoveSkill(skill)}
+                                                    className="w-[16px] h-[16px] cursor-pointer"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                                 <ul
                                     id="skill-search-results"
                                     role="listbox"
@@ -182,8 +179,8 @@ const SearchSkill = ({ width }: { width?: string }) => {
                                         <li>검색 결과가 없습니다</li>
                                     )}
                                 </ul>
-                            )}
-                        </div>
+                            </div>
+                        )}{' '}
                     </div>
                 );
             }}

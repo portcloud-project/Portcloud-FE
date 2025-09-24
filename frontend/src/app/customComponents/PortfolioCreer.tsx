@@ -5,6 +5,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { ko } from 'date-fns/locale';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { AiOutlineClose } from 'react-icons/ai';
 /* eslint-disable no-unused-vars */
 interface PortfolioCreerProps {
     index: number;
@@ -99,9 +100,9 @@ const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCree
                 <button
                     type="button"
                     onClick={() => onDelete(id)}
-                    className="absolute right-[-15px] top-[-30px] cursor-pointer "
+                    className="absolute right-0 top-[-30px] cursor-pointer "
                 >
-                    삭제
+                    <AiOutlineClose />
                 </button>
             )}
         </div>

@@ -1,5 +1,6 @@
 'use client';
 import { useFormContext } from 'react-hook-form';
+import { AiOutlineClose } from 'react-icons/ai';
 
 /* eslint-disable no-unused-vars */
 interface PortfolioProjectProps {
@@ -23,9 +24,9 @@ const PortfolioProject = ({ id, onDelete, isOnlyOneSection, index }: PortfolioPr
             {!isOnlyOneSection && (
                 <button
                     onClick={() => onDelete(id)}
-                    className="absolute right-[-15px] top-[-30px] cursor-pointer"
+                    className="absolute right-0 top-[-30px] cursor-pointer"
                 >
-                    삭제
+                    <AiOutlineClose />
                 </button>
             )}
         </div>

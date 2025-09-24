@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
+import { AiOutlineClose } from 'react-icons/ai';
 
 interface PortfolioLicenseProps {
     id: number;
@@ -41,9 +42,9 @@ const PortfolioLicense = ({ id, isOnlyOneSection, onDelete, index }: PortfolioLi
             {!isOnlyOneSection && (
                 <button
                     onClick={() => onDelete(id)}
-                    className="absolute right-[-15px] top-[-30px] cursor-pointer"
+                    className="absolute right-0 top-[-30px] cursor-pointer"
                 >
-                    삭제
+                    <AiOutlineClose />
                 </button>
             )}
         </div>
