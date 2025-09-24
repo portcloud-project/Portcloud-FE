@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     try {
         const body = await req.json();
         const { data } = await axios.post(`${BASE_URL}api/user/login`, body);
