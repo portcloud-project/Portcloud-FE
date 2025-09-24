@@ -1,7 +1,10 @@
 'use client';
 
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
+import { ko } from 'date-fns/locale';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 /* eslint-disable no-unused-vars */
 interface PortfolioCreerProps {
     index: number;
@@ -12,7 +15,7 @@ interface PortfolioCreerProps {
 }
 
 const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCreerProps) => {
-    const { register } = useFormContext();
+    const { register, control } = useFormContext();
 
     const fieldNamePrefix = `careers[${index}]`;
 
@@ -47,14 +50,42 @@ const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCree
                         />
                     </div>
 
-                    <div className="flex-grow">
-                        <input
-                            type="text"
-                            className="border w-full rounded-[8px] p-[16px]"
-                            placeholder="기간"
-                            {...register(`${fieldNamePrefix}.period`)}
-                        />
-                    </div>
+                    <Controller
+                        control={control}
+                        name={`${fieldNamePrefix}.startDate`}
+                        render={({ field }) => (
+                            <DatePicker
+                                locale={ko}
+                                placeholderText="시작일"
+                                selected={field.value}
+                                onChange={(date) => field.onChange(date)}
+                                className="w-full rounded-[8px] p-[16px] border"
+                                dateFormat="yyyy-MM-dd"
+                                withPortal
+                                showMonthDropdown
+                                showYearDropdown
+                                dropdownMode="select"
+                            />
+                        )}
+                    />
+                    <Controller
+                        control={control}
+                        name={`${fieldNamePrefix}.endDate`}
+                        render={({ field }) => (
+                            <DatePicker
+                                locale={ko}
+                                placeholderText="퇴사일"
+                                selected={field.value}
+                                onChange={(date) => field.onChange(date)}
+                                className="w-full rounded-[8px] p-[16px] border"
+                                dateFormat="yyyy-MM-dd"
+                                withPortal
+                                showMonthDropdown
+                                showYearDropdown
+                                dropdownMode="select"
+                            />
+                        )}
+                    />
                 </div>
 
                 <textarea
