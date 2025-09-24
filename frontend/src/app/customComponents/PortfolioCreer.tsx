@@ -57,7 +57,7 @@ const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCree
                         render={({ field }) => (
                             <DatePicker
                                 locale={ko}
-                                placeholderText="시작일"
+                                placeholderText="입사일"
                                 selected={field.value}
                                 onChange={(date) => field.onChange(date)}
                                 className="w-full rounded-[8px] p-[16px] border"

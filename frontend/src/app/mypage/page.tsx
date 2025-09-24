@@ -1,10 +1,16 @@
+'use client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MypageAdd from '../customComponents/MypageAdd';
+import { userStore } from '../stores/userStore';
+import MyPagePortfolio from '../customComponents/MypagePortfolio';
 
 const Mypage = () => {
     const tabsArr = [
         { value: 'bookMarks', title: '북마크 관리' },
-        { value: 'portfolios', title: '포트폴리오 관리', content: '' },
+        {
+            value: 'portfolios',
+            title: '포트폴리오 관리',
+        },
         { value: 'projects', title: '프로젝트 관리' },
         { value: 'teams', title: '팀 관리' },
         { value: 'myActivity', title: '내 활동' },
@@ -19,6 +25,8 @@ const Mypage = () => {
         //     ),
         // },
     ];
+    const user = userStore((state) => state.user);
+
     return (
         <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full gap-[48px]">
             <h3 className="font-bold text-[28px] text-black">마이 페이지</h3>
@@ -32,9 +40,11 @@ const Mypage = () => {
                         <div className="w-[92px] h-[92px] rounded-full border border-black"></div>
                         {/* 닉네임, 이메일 */}
                         <div className="flex flex-col justify-center items-center gap-[4px]">
-                            <h3 className="text-balck text-[28px] font-bold">닉네임</h3>
+                            <h3 className="text-balck text-[28px] font-bold">
+                                {user.nickname ? user.nickname : 'PortCloud'}
+                            </h3>
                             <h3 className="text-[var(--color-gray-500)] font-semibold text-[16px]">
-                                이메일
+                                {user.sub ? user.sub : '로그인이 필요합니다'}
                             </h3>
                         </div>
                         <TabsTrigger
@@ -57,8 +67,8 @@ const Mypage = () => {
 
                 <TabsContent value="profile">여긴 프로필 수정</TabsContent>
                 <TabsContent value="bookMarks">여긴 북마크 관리</TabsContent>
-                <TabsContent value="portfolios">
-                    여긴 포트폴리오
+                <TabsContent value="portfolios" className="overflow-y-auto p-[20px]">
+                    <MyPagePortfolio />
                     <MypageAdd title="포트폴리오 업로드" route="/upload/portfolios" />
                 </TabsContent>
                 <TabsContent value="projects">
