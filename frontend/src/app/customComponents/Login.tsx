@@ -8,6 +8,17 @@ import { IoMdClose } from 'react-icons/io';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { parseJwt } from '../hooks/useDecodeToken';
+import { userStore } from '../stores/userStore';
+import { useQueryClient } from '@tanstack/react-query';
+import Cookies from 'js-cookie';
+
+interface LoginForm {
+    email: string;
+    password: string;
+}
 
 const Login = ({
     setLoginModal,
@@ -15,7 +26,7 @@ const Login = ({
     setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
     const [pwVisible, setPwVisible] = useState<boolean>(false);
-
+    const setUser = userStore((state) => state.setUser);
     // 모달 true 일때 DOM 조작 (스크롤 막기 + 스크롤 바 없애기)
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -26,6 +37,30 @@ const Login = ({
             document.body.style.paddingRight = '';
         };
     }, []);
+    const queryClient = useQueryClient();
+
+    const { register, handleSubmit } = useForm<LoginForm>();
+
+    const loginSubmit = async (data: LoginForm) => {
+        console.log(data);
+        try {
+            const res = await axios.post('/api/login', data);
+            console.log('응답 데이터:', res.data);
+
+            const token = res.data.data.token;
+            if (!token) {
+                console.log('토큰이 존재하지 않음');
+                return;
+            }
+            Cookies.set('accessToken', token);
+            const payload = parseJwt(token);
+            queryClient.invalidateQueries({ queryKey: ['user'] });
+            setUser(payload);
+            console.log(payload);
+        } catch (err) {
+            console.log(err, 'next프록시 오류');
+        }
+    };
 
     return (
         <CardLayout setLoginModal={setLoginModal}>
@@ -42,7 +77,10 @@ const Login = ({
                 </CardHeader>
 
                 <CardContent className="w-full h-auto p-0">
-                    <form className="w-full flex flex-col gap-[24px] justify-center items-start font-normal text-[16px] text-[var(--color-gray-500)]">
+                    <form
+                        className="w-full flex flex-col gap-[24px] justify-center items-start font-normal text-[16px] text-[var(--color-gray-500)]"
+                        onSubmit={handleSubmit(loginSubmit)}
+                    >
                         {/* input section */}
                         <div className="flex  flex-col w-full gap-[16px]">
                             {/* email input section */}
@@ -51,6 +89,9 @@ const Login = ({
                                 type="email"
                                 placeholder="Email"
                                 required
+                                {...register('email', {
+                                    required: 'eamil을 입력해 주세요',
+                                })}
                                 className="w-full border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
                             />
 
@@ -63,6 +104,9 @@ const Login = ({
                                         placeholder="Password"
                                         className="w-full border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
                                         required
+                                        {...register('password', {
+                                            required: '비밀번호를 입력해 주세요',
+                                        })}
                                     />
                                     {pwVisible ? (
                                         <AiOutlineEye

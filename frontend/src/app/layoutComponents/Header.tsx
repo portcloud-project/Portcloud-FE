@@ -12,17 +12,46 @@ import {
     SheetTrigger,
 } from '@/components/ui/sheet';
 import { RxHamburgerMenu } from 'react-icons/rx';
-
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import logo from '../imgs/logoImage.svg';
+import Image from 'next/image';
+import Cookies from 'js-cookie';
+import { useQueryClient } from '@tanstack/react-query';
+import { useUser } from '../hooks/useUser';
+import { userStore } from '../stores/userStore';
 const Header = () => {
     const navArr = [
         { title: '프로젝트', link: '/works/projects' },
         { title: '포트폴리오', link: '/works/portfolios' },
-        { title: '팀 구하기', link: '/' },
-        { title: '기록', link: '/' },
+        { title: '팀 구하기', link: '/works/teams' },
+        { title: '기록', link: '/works/logs' },
     ];
 
-    const [loginModal, setLoginModal] = useState<boolean>(false);
+    // 가족여행 제주도 알아보기,
+    // 숙소 예약
+    // 하루에 8만원 쓰는 모임 -> 무슨 모임인지 물어보기
 
+    const [loginModal, setLoginModal] = useState<boolean>(false);
+    const queryClient = useQueryClient();
+    const router = useRouter();
+    const { data: user, isLoading } = useUser();
+
+    const logout = () => {
+        Cookies.remove('accessToken');
+        queryClient.setQueryData(['user'], null);
+        userStore.getState().clearUser();
+        setLoginModal(false);
+    };
+    const pathname = usePathname() || '/';
+    console.log(pathname);
+    const isActive = (href: string) => {
+        if (href === '/') {
+            return pathname === '/';
+        }
+        return pathname === href || pathname.startsWith(href + '/');
+    };
+    if (isLoading) return null;
     return (
         <header className="top-0 left-0 w-full h-auto flex justify-center items-center z-45 bg-white border-b border-[var(--color-gray-300)]">
             <div className="w-full h-[60px] mx-auto laptop:max-w-[1440px] tablet:w-full flex flex-row justify-between items-center text-[var(--color-gray-900)] font-semibold text-[16px] px-[24px] py-[12px]">
@@ -37,19 +66,24 @@ const Header = () => {
                         </SheetTrigger>
                         <SheetContent side="left" aria-label="사이드 메뉴">
                             <SheetHeader className="p-0 m-0">
-                                <SheetTitle className="px-[24px] py-[12px] h-[60px] flex flex-row justify-between items-center">
-                                    logoImage
-                                </SheetTitle>
+                                <SheetTitle className="px-[24px] py-[12px] h-[60px] flex flex-row justify-between items-center"></SheetTitle>
                                 <SheetDescription className="flex flex-col justify-center items-start gap-[24px] px-[24px] py-[12px]">
-                                    {navArr.map((a, i) => (
-                                        <Link
-                                            key={i}
-                                            href={a.link}
-                                            className="text-[16px] font-semibold text-[var(--color-gray-900)]"
-                                        >
-                                            {a.title}
-                                        </Link>
-                                    ))}
+                                    {navArr.map((a, i) => {
+                                        const active = isActive(a.link);
+                                        return (
+                                            <Link
+                                                key={i}
+                                                href={a.link}
+                                                className={`text-[16px] font-semibold  ${
+                                                    active
+                                                        ? 'text-purple-500'
+                                                        : 'text-[var(--color-gray-900)]'
+                                                }`}
+                                            >
+                                                {a.title}
+                                            </Link>
+                                        );
+                                    })}
                                 </SheetDescription>
                             </SheetHeader>
                             {/* TODO: 실제 내비 아이템 */}
@@ -57,30 +91,54 @@ const Header = () => {
                     </Sheet>
 
                     {/* logo section */}
-                    <Link href="/" className="block h-[28px]" aria-label="홈으로 이동">
-                        logoImage
+                    <Link href="/" className="block h-[28px] w-auto" aria-label="홈으로 이동">
+                        <Image src={logo} alt="logo" width={130} />
                     </Link>
                 </div>
 
                 {/* nav section */}
                 <nav className="w-[286px] h-[36px] flex flex-row justify-between items-center xs-mobile:hidden tablet:flex">
-                    {navArr.map((a, i) => (
-                        <Link
-                            key={i}
-                            href={a.link}
-                            className="text-[16px] font-semibold text-[var(--color-gray-900)]"
-                        >
-                            {a.title}
-                        </Link>
-                    ))}
+                    {navArr.map((a, i) => {
+                        const active = isActive(a.link);
+                        return (
+                            <Link
+                                key={i}
+                                href={a.link}
+                                className={`text-[16px] font-semibold  ${
+                                    active ? 'text-purple-500' : 'text-[var(--color-gray-900)]'
+                                }`}
+                            >
+                                {a.title}
+                            </Link>
+                        );
+                    })}
                 </nav>
 
                 {/* login section */}
-                <div className="w-[130px] h-[24px] flex justify-end items-center">
-                    <h3 className="cursor-pointer" onClick={() => setLoginModal(true)}>
-                        로그인
-                    </h3>
-                    {loginModal && <Login setLoginModal={setLoginModal} />}
+                <div className="w-fit h-[24px] flex justify-end items-center gap-[12px]">
+                    {user ? (
+                        <>
+                            <h3 className="cursor-pointer" onClick={() => router.push('/mypage')}>
+                                마이페이지
+                            </h3>
+                            <h3
+                                className="cursor-pointer"
+                                onClick={() => {
+                                    logout();
+                                    setLoginModal(false);
+                                }}
+                            >
+                                로그아웃
+                            </h3>
+                        </>
+                    ) : (
+                        <>
+                            <h3 className="cursor-pointer" onClick={() => setLoginModal(true)}>
+                                로그인
+                            </h3>
+                            {loginModal && <Login setLoginModal={setLoginModal} />}
+                        </>
+                    )}
                 </div>
             </div>
         </header>

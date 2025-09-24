@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useMainProject } from '../hooks/useMainProject';
 
-interface MainListProps {
+export interface MainListProps {
     title: string;
 }
 
-interface Item {
+export interface Item {
     id: number;
     title: string;
     description: string;
@@ -13,34 +13,15 @@ interface Item {
     thumbnailURL: string | null;
 }
 
-interface ApiResponse {
+export interface ApiResponse<T> {
     status: number;
     message: string | null;
-    data: Item[];
+    data: T;
 }
 
-const fetchMainItems = async (): Promise<Item[]> => {
-    const response = await axios.get<ApiResponse>('/api/MainList?type=MainList');
-
-    if (response.data && Array.isArray(response.data.data)) {
-        return response.data.data;
-    } else {
-        throw new Error('API 응답 형식이 올바르지 않습니다.');
-    }
-};
-
 const MainList = ({ title }: MainListProps) => {
-    const {
-        data: items,
-        isLoading,
-        isError,
-        error,
-    } = useQuery<Item[], Error>({
-        queryKey: ['mainList'],
-        queryFn: fetchMainItems,
-        staleTime: 1000 * 60 * 5,
-    });
-
+    const { isLoading, isError, error, data } = useMainProject();
+    const router = useRouter();
     if (isLoading) {
         return (
             <div>
@@ -64,19 +45,20 @@ const MainList = ({ title }: MainListProps) => {
         <div className="w-full flex flex-col gap-[16px]">
             <p className="font-bold text-[20px]">{title}</p>
             <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-center overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
-                {items && items.length > 0 ? (
-                    items?.map((item) => {
+                {data && data.length > 0 ? (
+                    data?.map((item) => {
                         return (
                             <li
+                                onClick={() => router.push('')}
                                 key={`${item.id}`}
-                                className="group min-w-[220px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:w-full"
+                                className="group min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:w-full"
                             >
                                 {/* 앞면 */}
                                 <div className="absolute inset-0 rounded-[20px] overflow-hidden duration-700 ease-in-out group-hover:opacity-0">
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `/opt/portcloud/images/${item.thumbnailURL}`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailURL})`,
                                         }}
                                     ></div>
                                 </div>
@@ -87,7 +69,7 @@ const MainList = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `/opt/portcloud/images/${item.thumbnailURL}`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailURL})`,
                                         }}
                                     ></div>
                                     {/* 오버레이 */}
