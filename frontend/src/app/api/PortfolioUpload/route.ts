@@ -6,7 +6,6 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 export async function POST(request: NextRequest) {
     try {
         const token = request.cookies.get('accessToken')?.value;
-        console.log(token);
         if (!token) {
             return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
         }
@@ -20,8 +19,8 @@ export async function POST(request: NextRequest) {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response);
-        return NextResponse.json(response.data, { status: 200 });
+        // console.log(response.data.data);
+        return NextResponse.json(response.data.data, { status: 200 });
     } catch (err) {
         console.error('API 요청 중 오류:', err);
 

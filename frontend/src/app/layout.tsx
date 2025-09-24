@@ -4,7 +4,6 @@ import './globals.css';
 import Header from './layoutComponents/Header';
 import Footer from './layoutComponents/Footer';
 import QueryProvider from './layoutComponents/QueryProvider';
-
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
     variable: '--font-geist-sans',
@@ -31,11 +30,13 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
             >
-                <Header />
                 <QueryProvider>
+                    <Header />
+
                     <main className="flex-1 py-[48px]">{children}</main>
+
+                    <Footer />
                 </QueryProvider>
-                <Footer />
             </body>
         </html>
     );

@@ -1,14 +1,31 @@
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-export async function GET(request: NextRequest) {
-    try {
-        const response = await axios.get(`${BASE_URL}api/portfolio/${request}`);
-        const data = response.data.data;
 
+export async function GET(request: NextRequest) {
+    const BASE_URL = process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL;
+    try {
+        const token = request.cookies.get('accessToken')?.value;
+        console.log(token);
+        if (!token) {
+            return NextResponse.json({ error: '토큰이 없습니다.' }, { status: 401 });
+        }
+
+        const id = request.nextUrl.searchParams.get('id');
+        if (!id) {
+            return NextResponse.json({ error: 'id 파라미터가 필요합니다.' }, { status: 400 });
+        }
+
+        const response = await axios.get(`${BASE_URL}api/portfolio`, {
+            params: { id },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const data = response.data.data;
         return NextResponse.json(data, { status: 200 });
     } catch (err) {
         console.error('api 호출중 오류', err);
-        throw err;
+        return NextResponse.json({ error: '프록시 서버 오류' });
     }
 }

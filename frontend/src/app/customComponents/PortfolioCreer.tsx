@@ -1,7 +1,11 @@
 'use client';
 
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
+import { ko } from 'date-fns/locale';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { AiOutlineClose } from 'react-icons/ai';
 /* eslint-disable no-unused-vars */
 interface PortfolioCreerProps {
     index: number;
@@ -12,9 +16,9 @@ interface PortfolioCreerProps {
 }
 
 const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCreerProps) => {
-    const { register } = useFormContext();
+    const { register, control } = useFormContext();
 
-    const fieldNamePrefix = `creerSections[${index}]`;
+    const fieldNamePrefix = `careers[${index}]`;
 
     return (
         <div className="relative flex flex-col gap-[12px] border p-4 rounded-lg mb-[30px]">
@@ -34,7 +38,7 @@ const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCree
                             type="text"
                             className="border w-full rounded-[8px] p-[16px]"
                             placeholder="직책"
-                            {...register(`${fieldNamePrefix}.position`)}
+                            {...register(`${fieldNamePrefix}.companyPosition`)}
                         />
                     </div>
 
@@ -43,24 +47,52 @@ const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCree
                             type="text"
                             className="border w-full rounded-[8px] p-[16px]"
                             placeholder="직무"
-                            {...register(`${fieldNamePrefix}.jobTitle`)}
+                            {...register(`${fieldNamePrefix}.duty`)}
                         />
                     </div>
 
-                    <div className="flex-grow">
-                        <input
-                            type="text"
-                            className="border w-full rounded-[8px] p-[16px]"
-                            placeholder="기간"
-                            {...register(`${fieldNamePrefix}.period`)}
-                        />
-                    </div>
+                    <Controller
+                        control={control}
+                        name={`${fieldNamePrefix}.startDate`}
+                        render={({ field }) => (
+                            <DatePicker
+                                locale={ko}
+                                placeholderText="시작일"
+                                selected={field.value}
+                                onChange={(date) => field.onChange(date)}
+                                className="w-full rounded-[8px] p-[16px] border"
+                                dateFormat="yyyy-MM-dd"
+                                withPortal
+                                showMonthDropdown
+                                showYearDropdown
+                                dropdownMode="select"
+                            />
+                        )}
+                    />
+                    <Controller
+                        control={control}
+                        name={`${fieldNamePrefix}.endDate`}
+                        render={({ field }) => (
+                            <DatePicker
+                                locale={ko}
+                                placeholderText="퇴사일"
+                                selected={field.value}
+                                onChange={(date) => field.onChange(date)}
+                                className="w-full rounded-[8px] p-[16px] border"
+                                dateFormat="yyyy-MM-dd"
+                                withPortal
+                                showMonthDropdown
+                                showYearDropdown
+                                dropdownMode="select"
+                            />
+                        )}
+                    />
                 </div>
 
                 <textarea
                     className="resize-none min-h-[156px] overflow-y-auto w-full rounded-[8px] py-[12px] px-[20px] border"
                     placeholder="담당 업무"
-                    {...register(`${fieldNamePrefix}.description`)}
+                    {...register(`${fieldNamePrefix}.dutyDescription`)}
                 />
             </div>
 
@@ -68,9 +100,9 @@ const PortfolioCreer = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCree
                 <button
                     type="button"
                     onClick={() => onDelete(id)}
-                    className="absolute right-[-15px] top-[-30px] cursor-pointer "
+                    className="absolute right-0 top-[-30px] cursor-pointer "
                 >
-                    삭제
+                    <AiOutlineClose />
                 </button>
             )}
         </div>

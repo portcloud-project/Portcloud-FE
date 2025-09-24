@@ -11,9 +11,9 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { parseJwt } from '../hooks/useDecodeToken';
-import { useRouter } from 'next/navigation';
-import useAuthStore from '../stores/useAuthStore';
 import { userStore } from '../stores/userStore';
+import { useQueryClient } from '@tanstack/react-query';
+import Cookies from 'js-cookie';
 
 interface LoginForm {
     email: string;
@@ -37,9 +37,7 @@ const Login = ({
             document.body.style.paddingRight = '';
         };
     }, []);
-
-    const router = useRouter();
-    const setToken = useAuthStore((state) => state.setToken);
+    const queryClient = useQueryClient();
 
     const { register, handleSubmit } = useForm<LoginForm>();
 
@@ -54,11 +52,11 @@ const Login = ({
                 console.log('토큰이 존재하지 않음');
                 return;
             }
-            setToken(token);
+            Cookies.set('accessToken', token);
             const payload = parseJwt(token);
+            queryClient.invalidateQueries({ queryKey: ['user'] });
             setUser(payload);
             console.log(payload);
-            router.push('/');
         } catch (err) {
             console.log(err, 'next프록시 오류');
         }
