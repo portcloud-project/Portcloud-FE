@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
-
+export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
     const BASE_URL = process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL;
     try {
