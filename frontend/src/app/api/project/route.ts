@@ -9,14 +9,18 @@ export async function POST(req: NextRequest) {
         const form = await req.formData();
         const token = req.cookies.get('accessToken')?.value;
 
-    const url = `${BASE_URL?.endsWith('/') ? BASE_URL : BASE_URL + '/'}api/project`;
+        const url = `${BASE_URL?.endsWith('/') ? BASE_URL : BASE_URL + '/'}api/project`;
 
         // axios로 넘길 새 formData를 생성 (Node 환경에서는 form-data 패키지가 필요할 수 있음)
-        const upstream = await fetch(url, { method: 'POST', body: form,  headers: { Authorization: `Bearer ${token}` } }, );
-        
-    const data = await upstream.json();
+        const upstream = await fetch(url, {
+            method: 'POST',
+            body: form,
+            headers: { Authorization: `Bearer ${token}` },
+        });
 
-    return NextResponse.json(data, { status: upstream.status });
+        const data = await upstream.json();
+
+        return NextResponse.json(data, { status: upstream.status });
     } catch (err: unknown) {
         console.error(err);
 

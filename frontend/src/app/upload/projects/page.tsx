@@ -39,7 +39,7 @@ const UploadProjects = () => {
 
     const onUploadProjectsSubmit = async (data: UploadProjectsFormValuesType) => {
         try {
-            const token = Cookies.get("accessToken");
+            const token = Cookies.get('accessToken');
             const formData = new FormData();
 
             formData.append('title', data.title);

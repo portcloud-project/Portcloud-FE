@@ -1,10 +1,9 @@
-'use client'
+'use client';
 
-import axios from "axios";
-import { useEffect } from "react";
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const OutputProjects = () => {
-
     const fetchOutputProject = async () => {
         try {
             const res = await axios.get('/api/output-project');
@@ -13,11 +12,11 @@ const OutputProjects = () => {
         } catch (err) {
             console.error(err);
         }
-    }
+    };
 
     useEffect(() => {
         fetchOutputProject();
-    }, [])
+    }, []);
 
     return (
         <main className="flex flex-col justify-start itmes-start w-[768px] h-auto">
