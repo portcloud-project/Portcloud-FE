@@ -5,13 +5,18 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function POST(req: NextRequest) {
     try {
-        const body = await req.json();
+        // Next.js 에서 들어온 여청을 formData로 파싱
+        const form = await req.formData();
+        const token = req.cookies.get('accessToken')?.value;
 
-        const { data } = await axios.post(`${BASE_URL}api/project`, body);
+    const url = `${BASE_URL?.endsWith('/') ? BASE_URL : BASE_URL + '/'}api/project`;
 
-        console.log('api에 요청 성공', data, body);
+        // axios로 넘길 새 formData를 생성 (Node 환경에서는 form-data 패키지가 필요할 수 있음)
+        const upstream = await fetch(url, { method: 'POST', body: form,  headers: { Authorization: `Bearer ${token}` } }, );
+        
+    const data = await upstream.json();
 
-        return NextResponse.json(data, { status: data.status });
+    return NextResponse.json(data, { status: upstream.status });
     } catch (err: unknown) {
         console.error(err);
 
