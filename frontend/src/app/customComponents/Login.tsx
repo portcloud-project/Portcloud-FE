@@ -44,7 +44,7 @@ const Login = ({
     const loginSubmit = async (data: LoginForm) => {
         console.log(data);
         try {
-            const res = await axios.post('/api/login', data);
+            const res = await axios.post('/api/Login', data);
             console.log('응답 데이터:', res.data);
 
             const token = res.data.data.token;
