@@ -40,7 +40,10 @@ export interface LicenseSectionData {
     number: string;
 }
 
-interface FormData {
+export interface FormData {
+    createAt: string;
+    writeName: string;
+    id: number;
     title: string;
     email: string;
     industry: string;
@@ -57,6 +60,7 @@ interface FormData {
 
 const UploadPortfolios = () => {
     const user = userStore((state) => state.user);
+
     const methods = useForm<FormData>({
         defaultValues: {
             title: '',
@@ -100,9 +104,11 @@ const UploadPortfolios = () => {
     });
 
     const onSubmit = async (data: FormData) => {
-        console.log('전송할 데이터:', data);
+        console.log(data);
         try {
-            await axios.post<FormData>('/api/portfolioupload', data);
+            const response = await axios.post<FormData>('/api/portfolioupload', data);
+            const id = response.data;
+            console.log(id);
         } catch (err) {
             console.log('Next 서버 전송중 오류', err);
         }
@@ -160,6 +166,14 @@ const UploadPortfolios = () => {
     } = useSectionManagement<LicenseSectionData>([
         { id: 1, certificateName: '', certificateDate: '', number: '' },
     ]);
+
+    if (!user.name && !user.nickname && !user.sub) {
+        return (
+            <div className="flex justify-center items-center w-full h-screen">
+                로그인 후에 이용가능한 기능입니다.
+            </div>
+        );
+    }
 
     return (
         <section className="w-[768px] flex gap-[48px] flex-col">
@@ -286,18 +300,20 @@ const UploadPortfolios = () => {
                                 isOnlyOneSection={schoolSections.length === 1}
                             />
                         ))}
-                        <button
-                            type="button"
-                            onClick={() =>
-                                handleAddSchoolComponent({
-                                    school: '',
-                                    schoolStatus: '',
-                                })
-                            }
-                            className=" bg-gray-100 w-[44px] rounded-[100%] h-[44px] flex justify-center items-center border-gray-200 border m-auto mt-[12px]"
-                        >
-                            <div className="text-gray-600 text-[20px]">+</div>
-                        </button>
+                        {schoolSections.length < 3 && (
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    handleAddSchoolComponent({
+                                        school: '',
+                                        schoolStatus: '',
+                                    })
+                                }
+                                className=" bg-gray-100 w-[44px] rounded-[100%] h-[44px] flex justify-center items-center border-gray-200 border m-auto mt-[12px]"
+                            >
+                                <div className="text-gray-600 text-[20px]">+</div>
+                            </button>
+                        )}
                     </div>
 
                     {/* 경력 섹션 */}
@@ -312,23 +328,25 @@ const UploadPortfolios = () => {
                                 isOnlyOneSection={creerSections.length === 1}
                             />
                         ))}
-                        <button
-                            type="button"
-                            onClick={() =>
-                                handleAddCreerComponent({
-                                    companyName: '',
-                                    companyPosition: '',
-                                    duty: '',
-                                    date: '',
-                                    dutyDescription: '',
-                                    startDate: '',
-                                    endDate: '',
-                                })
-                            }
-                            className=" bg-gray-100 w-[44px] rounded-[100%] h-[44px] flex justify-center items-center border-gray-200 border m-auto mt-[12px]"
-                        >
-                            <div className="text-gray-600 text-[20px]">+</div>
-                        </button>
+                        {creerSections.length < 3 && (
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    handleAddCreerComponent({
+                                        companyName: '',
+                                        companyPosition: '',
+                                        duty: '',
+                                        date: '',
+                                        dutyDescription: '',
+                                        startDate: '',
+                                        endDate: '',
+                                    })
+                                }
+                                className=" bg-gray-100 w-[44px] rounded-[100%] h-[44px] flex justify-center items-center border-gray-200 border m-auto mt-[12px]"
+                            >
+                                <div className="text-gray-600 text-[20px]">+</div>
+                            </button>
+                        )}
                     </div>
 
                     {/* 수상 섹션 */}
@@ -343,13 +361,15 @@ const UploadPortfolios = () => {
                                 isOnlyOneSection={awordSections.length === 1}
                             />
                         ))}
-                        <button
-                            type="button"
-                            onClick={() => handleAddAwordComponent({ awardDescription: '' })}
-                            className=" bg-gray-100 w-[44px] rounded-[100%] h-[44px] flex justify-center items-center border-gray-200 border m-auto mt-[12px]"
-                        >
-                            <div className="text-gray-600 text-[20px]">+</div>
-                        </button>
+                        {awordSections.length < 3 && (
+                            <button
+                                type="button"
+                                onClick={() => handleAddAwordComponent({ awardDescription: '' })}
+                                className=" bg-gray-100 w-[44px] rounded-[100%] h-[44px] flex justify-center items-center border-gray-200 border m-auto mt-[12px]"
+                            >
+                                <div className="text-gray-600 text-[20px]">+</div>
+                            </button>
+                        )}
                     </div>
 
                     {/* 프로젝트 섹션 */}
@@ -364,13 +384,15 @@ const UploadPortfolios = () => {
                                 isOnlyOneSection={projectSections.length === 1}
                             />
                         ))}
-                        <button
-                            type="button"
-                            onClick={() => handleAddProjectComponent({ description: '' })}
-                            className=" bg-gray-100 w-[44px] rounded-[100%] h-[44px] flex justify-center items-center border-gray-200 border m-auto mt-[12px]"
-                        >
-                            <div className="text-gray-600 text-[20px]">+</div>
-                        </button>
+                        {projectSections.length < 3 && (
+                            <button
+                                type="button"
+                                onClick={() => handleAddProjectComponent({ description: '' })}
+                                className=" bg-gray-100 w-[44px] rounded-[100%] h-[44px] flex justify-center items-center border-gray-200 border m-auto mt-[12px]"
+                            >
+                                <div className="text-gray-600 text-[20px]">+</div>
+                            </button>
+                        )}
                     </div>
                     {/* 자격 어학 섹션 */}
                     <div className="flex flex-col gap-[12px]">
@@ -384,19 +406,21 @@ const UploadPortfolios = () => {
                                 isOnlyOneSection={licenseSections.length === 1}
                             />
                         ))}
-                        <button
-                            type="button"
-                            onClick={() =>
-                                handleAddLicenseComponent({
-                                    certificateName: '',
-                                    certificateDate: '',
-                                    number: '',
-                                })
-                            } //
-                            className=" bg-gray-100 w-[44px] rounded-[100%] h-[44px] flex justify-center items-center border-gray-200 border m-auto mt-[12px]"
-                        >
-                            <div className="text-gray-600 text-[20px]">+</div>
-                        </button>
+                        {licenseSections.length < 3 && (
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    handleAddLicenseComponent({
+                                        certificateName: '',
+                                        certificateDate: '',
+                                        number: '',
+                                    })
+                                } //
+                                className=" bg-gray-100 w-[44px] rounded-[100%] h-[44px] flex justify-center items-center border-gray-200 border m-auto mt-[12px]"
+                            >
+                                <div className="text-gray-600 text-[20px]">+</div>
+                            </button>
+                        )}
                     </div>
                     <div className="flex justify-end">
                         <button
