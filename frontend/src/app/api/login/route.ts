@@ -7,7 +7,6 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         const { data } = await axios.post(`${BASE_URL}api/user/login`, body);
-        console.log(data);
         const response = NextResponse.json(data, { status: 200 });
         const token = data.token;
         response.cookies.set('accessToken', token, {

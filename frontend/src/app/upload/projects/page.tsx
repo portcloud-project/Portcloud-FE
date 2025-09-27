@@ -54,6 +54,7 @@ const UploadProjects = () => {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
+            console.log(Array.from(formData.entries()));
             console.log(res.status);
 
             alert('프로젝트가 업로드 되었습니다!');

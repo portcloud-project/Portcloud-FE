@@ -9,6 +9,7 @@ interface AllPortfolio {
     jopPosition: string;
     introductions: string;
     createAt: string;
+    file: string;
 }
 
 const fetchAllportfolio = async (): Promise<AllPortfolio[]> => {
