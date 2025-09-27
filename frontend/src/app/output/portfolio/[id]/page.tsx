@@ -57,7 +57,11 @@ const PortfolioOutput = () => {
                 </section>
                 <section className="flex w-full gap-[24px] items-center">
                     <p className="text-[24px] font-bold">{portfolio.industry}</p>
-                    <p>스킬</p>
+                    <p>
+                        {/* {portfolio.skill.map((s, idx) => (
+                            <p key={`${idx}_${s.id}`}>{s.name}</p>
+                        ))} */}
+                    </p>
                 </section>
                 <section className="flex w-full  gap-[12px] flex-col">
                     <h2 className="text-[24px] font-bold">본인소개</h2>

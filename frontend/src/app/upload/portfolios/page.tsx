@@ -4,13 +4,14 @@ import PortfolioAword from '@/app/customComponents/PortfolioAword';
 import PortfolioCreer from '@/app/customComponents/PortfolioCreer';
 import PortfolioProject from '@/app/customComponents/PortfolioProject';
 import PortfolioSchool from '@/app/customComponents/PortfolioSchool';
-import SearchSkill, { SKILLITEM } from '@/app/customComponents/SearchSkill';
+import { Skills } from '@/app/stores/skillStore';
 import useSectionManagement from '@/app/hooks/useSectionManagement';
 import axios from 'axios';
 import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
 import { userStore } from '@/app/stores/userStore';
 import Cookies from 'js-cookie';
 import dayjs from 'dayjs';
+import SearchSkill from '@/app/customComponents/SearchSkill';
 
 export interface ProjectSectionData {
     id: number;
@@ -50,7 +51,7 @@ export interface FormData {
     email: string;
     industry: string;
     jobPosition: string;
-    skill: SKILLITEM[];
+    skill: Skills[];
     introductions: string;
     saveStatus: boolean;
     projectDescriptions: ProjectSectionData[];
@@ -70,7 +71,7 @@ const UploadPortfolios = () => {
             email: '',
             industry: '',
             jobPosition: '',
-            // skill: [{ name: '' }],
+            skill: [{ name: '' }],
             introductions: '',
             saveStatus: true,
             projectDescriptions: [{ description: '' }],
@@ -118,6 +119,7 @@ const UploadPortfolios = () => {
             formData.append('jobPosition', data.jobPosition);
             formData.append('introductions', data.introductions);
             formData.append('saveStatus', String(data.saveStatus));
+            formData.append('skill', JSON.stringify(data.skill));
 
             data.projectDescriptions.forEach((item, i) => {
                 formData.append(`projectDescriptions[${i}].description`, item.description);
