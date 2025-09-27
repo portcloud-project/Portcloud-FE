@@ -10,7 +10,6 @@ interface ProjectsCommentsType {
 }
 
 const OutputProjects = (props: { params: { id: string } }) => {
-
     // const fetchOutputProject = async () => {
     //     try {
     //         const res = await axios.get('/api/output-project');

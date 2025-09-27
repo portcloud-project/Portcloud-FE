@@ -508,7 +508,7 @@ const Signup = () => {
                 <button
                     className="w-full h-[48px] rounded-[8px] text-white text-[16px] font-semibold leading-[24px] border border-[var(--color-purple-500)] bg-[var(--color-purple-500)] px-[24px] py-[12px] hover:text-[var(--color-purple-500)] hover:bg-white transition duration-300 ease-in-out cursor-pointer"
                     type="submit"
-                    disabled = {isSubmitting}
+                    disabled={isSubmitting}
                 >
                     동의하고 가입하기
                 </button>
