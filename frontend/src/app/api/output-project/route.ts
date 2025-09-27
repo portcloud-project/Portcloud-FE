@@ -10,7 +10,7 @@ export async function GET() {
         const res = await axios.get(`${BASE_URL}api/projects/{id}`);
         const data = res.data;
 
-        return NextResponse.json(data, { status: 200 });
+        return NextResponse.json(data, { status: data.status });
     } catch (error) {
         console.error('api 호출중 오류', error);
         throw error;
