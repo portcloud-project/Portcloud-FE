@@ -40,7 +40,6 @@ const Header = () => {
         setLoginModal(false);
     };
     const pathname = usePathname() || '/';
-    console.log(pathname);
     const isActive = (href: string) => {
         if (href === '/') {
             return pathname === '/';

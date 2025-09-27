@@ -9,6 +9,8 @@ import useSectionManagement from '@/app/hooks/useSectionManagement';
 import axios from 'axios';
 import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
 import { userStore } from '@/app/stores/userStore';
+import Cookies from 'js-cookie';
+import dayjs from 'dayjs';
 
 export interface ProjectSectionData {
     id: number;
@@ -107,7 +109,8 @@ const UploadPortfolios = () => {
 
     const onSubmit = async (data: FormData) => {
         try {
-            const formData = new window.FormData();
+            const token = Cookies.get('accessToken');
+            const formData = new FormData();
 
             formData.append('title', data.title);
             formData.append('email', data.email);
@@ -116,20 +119,56 @@ const UploadPortfolios = () => {
             formData.append('introductions', data.introductions);
             formData.append('saveStatus', String(data.saveStatus));
 
-            formData.append('projectDescriptions', JSON.stringify(data.projectDescriptions));
-            formData.append('careers', JSON.stringify(data.careers));
-            formData.append('awards', JSON.stringify(data.awards));
-            formData.append('certificates', JSON.stringify(data.certificates));
-            formData.append('educations', JSON.stringify(data.educations));
-            formData.append('skill', JSON.stringify(data.skill));
+            data.projectDescriptions.forEach((item, i) => {
+                formData.append(`projectDescriptions[${i}].description`, item.description);
+            });
 
-            // ✅ 파일 추가 (단일 파일만)
+            data.careers.forEach((item, i) => {
+                formData.append(`careers[${i}].companyName`, item.companyName);
+                formData.append(`careers[${i}].companyPosition`, item.companyPosition);
+                formData.append(`careers[${i}].duty`, item.duty);
+                formData.append(`careers[${i}].date`, item.date);
+                formData.append(`careers[${i}].dutyDescription`, item.dutyDescription);
+                formData.append(
+                    `careers[${i}].startDate`,
+                    String(dayjs(item.startDate).format('YYYY-MM-DD')),
+                );
+                formData.append(
+                    `careers[${i}].endDate`,
+                    String(dayjs(item.endDate).format('YYYY-MM-DD')),
+                );
+            });
+
+            data.awards.forEach((item, i) => {
+                formData.append(`awards[${i}].awardDescription`, item.awardDescription);
+            });
+
+            data.certificates.forEach((item, i) => {
+                formData.append(`certificates[${i}].certificateName`, item.certificateName);
+                formData.append(
+                    `certificates[${i}].certificateDate`,
+                    String(dayjs(item.certificateDate).format('YYYY-MM-DD')),
+                );
+                formData.append(`certificates[${i}].number`, item.number);
+            });
+
+            data.educations.forEach((item, i) => {
+                formData.append(`educations[${i}].school`, item.school);
+                formData.append(`educations[${i}].schoolStatus`, item.schoolStatus);
+            });
+
             if (data.file && data.file.length > 0) {
                 formData.append('file', data.file[0]);
             }
+
             console.log(Array.from(formData.entries()));
 
-            const response = await axios.post('/api/portfolioupload', formData);
+            const response = await axios.post('/api/portfolioupload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
             console.log('업로드 완료', response.data);
         } catch (err) {
