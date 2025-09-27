@@ -3,5 +3,5 @@ export default function outputLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    return <main className="flex flex-col justify-start items-center">{children}</main>;
+    return <main className="flex flex-col justify-start items-center w-full">{children}</main>;
 }
