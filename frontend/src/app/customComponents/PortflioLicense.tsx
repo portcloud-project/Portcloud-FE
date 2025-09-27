@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
+import { AiOutlineClose } from 'react-icons/ai';
 
 interface PortfolioLicenseProps {
     id: number;
@@ -11,10 +12,9 @@ interface PortfolioLicenseProps {
     onDelete: (id: number) => void;
 }
 
-const PortfolioLicense = ({ id, index, isOnlyOneSection, onDelete }: PortfolioLicenseProps) => {
+const PortfolioLicense = ({ id, isOnlyOneSection, onDelete, index }: PortfolioLicenseProps) => {
     const { register } = useFormContext();
-    const fieldNamePrefix = `licenseSections[${index}]`;
-
+    const fieldNamePrefix = `certificates[${index}]`;
     return (
         <div className="relative flex flex-col gap-[12px] mb-[30px]">
             <div className="flex flex-col gap-[12px]">
@@ -23,28 +23,28 @@ const PortfolioLicense = ({ id, index, isOnlyOneSection, onDelete }: PortfolioLi
                         type="text"
                         className="border w-[33%] rounded-[8px] p-[16px]"
                         placeholder="자격 이름"
-                        {...register(`${fieldNamePrefix}.licenseName`)}
+                        {...register(`${fieldNamePrefix}.certificateName`)}
                     />
                     <input
                         type="text"
                         className="border w-[33%] rounded-[8px] p-[16px]"
                         placeholder="등록번호"
-                        {...register(`${fieldNamePrefix}.registrationNumber`)}
+                        {...register(`${fieldNamePrefix}.number`)}
                     />
                     <input
                         type="date"
                         className="border w-[33%] rounded-[8px] p-[16px]"
                         placeholder="취득일"
-                        {...register(`${fieldNamePrefix}.acquisitionDate`)}
+                        {...register(`${fieldNamePrefix}.certificateDate`)}
                     />
                 </div>
             </div>
             {!isOnlyOneSection && (
                 <button
                     onClick={() => onDelete(id)}
-                    className="absolute right-[-15px] top-[-30px] cursor-pointer"
+                    className="absolute right-0 top-[-30px] cursor-pointer"
                 >
-                    삭제
+                    <AiOutlineClose />
                 </button>
             )}
         </div>

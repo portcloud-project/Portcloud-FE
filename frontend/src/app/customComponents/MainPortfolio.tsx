@@ -1,26 +1,9 @@
 import { useRouter } from 'next/navigation';
-import { useMainProject } from '../hooks/useMainProject';
+import { useMainPortfolio } from '../hooks/useMainPortfolio';
+import { MainListProps } from './MainList';
 
-export interface MainListProps {
-    title: string;
-}
-
-export interface Item {
-    id: number;
-    title: string;
-    description: string;
-    writeName: string;
-    thumbnailURL: string | null;
-}
-
-export interface ApiResponse<T> {
-    status: number;
-    message: string | null;
-    data: T;
-}
-
-const MainList = ({ title }: MainListProps) => {
-    const { isLoading, isError, error, data } = useMainProject();
+const MainPortfolio = ({ title }: MainListProps) => {
+    const { isLoading, isError, error, data } = useMainPortfolio();
     const router = useRouter();
     if (isLoading) {
         return (
@@ -49,7 +32,7 @@ const MainList = ({ title }: MainListProps) => {
                     data?.map((item) => {
                         return (
                             <li
-                                onClick={() => router.push('')}
+                                onClick={() => router.push(`/output/portfolio/${item.id}`)}
                                 key={`${item.id}`}
                                 className="group min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:w-full"
                             >
@@ -101,4 +84,4 @@ const MainList = ({ title }: MainListProps) => {
     );
 };
 
-export default MainList;
+export default MainPortfolio;
