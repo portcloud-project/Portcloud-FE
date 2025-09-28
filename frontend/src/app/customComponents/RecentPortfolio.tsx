@@ -4,7 +4,7 @@ import { useRecentPortfolio } from '@/app/hooks/useRecentPortfolio';
 import { MainListProps } from './MainList';
 
 const MainPortfolio = ({ title, items }: MainListProps) => {
-    const { isLoading, isError, error, data } = useRecentPortfolio();
+    const { isLoading, isError, error } = useRecentPortfolio();
     const router = useRouter();
     if (isLoading) {
         return (
@@ -15,8 +15,6 @@ const MainPortfolio = ({ title, items }: MainListProps) => {
             </div>
         );
     }
-
-    console.log(data);
 
     if (isError) {
         return (

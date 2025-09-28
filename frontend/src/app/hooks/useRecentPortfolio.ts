@@ -23,7 +23,6 @@ export const useRecentPortfolio = () => {
             const { data } = await axios.get('/api/recentportfolio', {
                 params: { page: pageParam, size: limit },
             });
-            console.log(pageParam);
             return data;
         },
         getNextPageParam: (lastPage) => (lastPage.last ? undefined : lastPage.page + 1),

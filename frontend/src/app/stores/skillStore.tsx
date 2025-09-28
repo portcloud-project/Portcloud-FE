@@ -28,7 +28,6 @@ export const skillsStore = create<SkillsStore>((set, get) => ({
         });
 
         set({ categorizedSkills: categorized });
-        console.log('스토어에 스킬 & 카테고리화 저장됨', categorized);
     },
     categorizeSkill: (skill) => {
         if (

@@ -58,9 +58,6 @@ const Signup = () => {
     const onSignUpSubmit = async (data: SignUpFormValuesType) => {
         const { email, password, name, birthDate, nickname, job, agreeTerms, verificationCode } =
             data;
-
-        console.log(data);
-
         try {
             const res = await axios.post('api/signup', {
                 email,
@@ -72,7 +69,6 @@ const Signup = () => {
                 agreeTerms,
                 verificationCode,
             });
-            console.log(res.data);
             console.log(res.status);
 
             alert('회원가입 성공!');
@@ -104,7 +100,6 @@ const Signup = () => {
 
     const verifyEmail = async (data: VerifyEmailValuesType) => {
         const { email, verificationCode } = data;
-        console.log(data);
 
         try {
             const res = await axios.post('api/verifyemail', {
@@ -158,7 +153,6 @@ const Signup = () => {
                         <button
                             className={`px-[24px] py-[12px] rounded-[8px] text-white bg-[var(--color-purple-500)] whitespace-nowrap border border-[var(--color-purple-500)] transition duration-300 ease-in-out hover:bg-white hover:text-[var(--color-purple-500)] cursor-pointer w-[76px] h-[44px] flex justify-center items-center ${isVerified === 200 ? 'hidden' : ''}`}
                             onClick={() => {
-                                console.log(getValues('email'));
                                 sendVerification({ email: getValues('email') });
                             }}
                         >

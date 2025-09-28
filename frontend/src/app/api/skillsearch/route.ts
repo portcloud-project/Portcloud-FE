@@ -7,7 +7,6 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
     try {
         const response = await axios.get(`${BASE_URL}api/skills`);
-        console.log(response.data);
         return NextResponse.json(response.data, { status: response.status });
     } catch (error) {
         console.error('API 프록시 중 오류 발생:', error);
