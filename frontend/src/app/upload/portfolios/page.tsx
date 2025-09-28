@@ -170,7 +170,6 @@ const UploadPortfolios = () => {
                 },
             });
 
-
             console.log('업로드 완료', response.status);
         } catch (err) {
             console.error('Next 서버 전송중 오류', err);

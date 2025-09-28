@@ -28,8 +28,6 @@ export const skillsStore = create<SkillsStore>((set, get) => ({
         });
 
         set({ categorizedSkills: categorized });
-
-
     },
     categorizeSkill: (skill) => {
         if (
