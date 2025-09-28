@@ -163,8 +163,6 @@ const UploadPortfolios = () => {
                 formData.append('file', data.file[0]);
             }
 
-            console.log(Array.from(formData.entries()));
-
             const response = await axios.post('/api/portfolioupload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -172,7 +170,7 @@ const UploadPortfolios = () => {
                 },
             });
 
-            console.log('업로드 완료', response.data);
+            console.log('업로드 완료', response.status);
         } catch (err) {
             console.error('Next 서버 전송중 오류', err);
         }
