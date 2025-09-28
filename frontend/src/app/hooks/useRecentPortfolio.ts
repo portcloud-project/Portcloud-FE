@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormData } from '../upload/portfolios/page';
 interface RecentPortfolioType<T> {
@@ -13,24 +13,20 @@ interface RecentPortfolioType<T> {
     hasPrevious: boolean;
     count: number;
 }
-
-const fetchRecentPortfolio = async () => {
-    try {
-        const response = await axios.get('/api/recentportfolio');
-        return response.data;
-    } catch (err) {
-        console.error(err);
-    }
-};
+const limit = 10;
 
 export const useRecentPortfolio = () => {
-    return useQuery<RecentPortfolioType<FormData>>({
+    return useInfiniteQuery<RecentPortfolioType<FormData>, Error>({
         queryKey: ['recent_portfolio'],
-        queryFn: async () => {
-            const data = await fetchRecentPortfolio();
-            console.log(data);
+        initialPageParam: 0,
+        queryFn: async ({ pageParam = 0 }) => {
+            const { data } = await axios.get('/api/recentportfolio', {
+                params: { page: pageParam, size: limit },
+            });
+            console.log(pageParam);
             return data;
         },
+        getNextPageParam: (lastPage) => (lastPage.last ? undefined : lastPage.page + 1),
         staleTime: 1000 * 60 * 5,
     });
 };

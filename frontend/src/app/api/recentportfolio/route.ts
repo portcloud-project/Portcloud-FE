@@ -1,12 +1,18 @@
 import axios from 'axios';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
-export async function GET() {
+export async function GET(request: NextRequest) {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+    const page = request.nextUrl.searchParams.get('page') || '0';
+    const size = request.nextUrl.searchParams.get('size') || '10';
     try {
-        const response = await axios.get(`${BASE_URL}api/portfolios/all`);
+        const response = await axios.get(`${BASE_URL}api/portfolios/all`, {
+            params: { page, size },
+        });
         console.log(response.data);
+        console.log('요청 페이지:', response.data.page);
         return NextResponse.json(response.data);
     } catch (error) {
         console.error('api 호출중 오류', error);

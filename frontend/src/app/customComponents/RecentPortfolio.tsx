@@ -16,6 +16,8 @@ const MainPortfolio = ({ title }: MainListProps) => {
         );
     }
 
+    console.log(data);
+
     if (isError) {
         return (
             <div className="flex justify-center items-center">
@@ -24,17 +26,19 @@ const MainPortfolio = ({ title }: MainListProps) => {
         );
     }
 
+    const allItems = data?.pages.flatMap((page) => page.content) ?? [];
+
     return (
         <div className="w-full flex flex-col gap-[16px]">
             <p className="font-bold text-[20px]">{title}</p>
-            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-center overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
-                {data && data.content.length > 0 ? (
-                    data?.content.map((item) => {
+            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-center overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet: tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
+                {allItems.length > 0 ? (
+                    allItems.map((item) => {
                         return (
                             <li
                                 onClick={() => router.push(`/output/portfolio/${item.id}`)}
                                 key={`${item.id}`}
-                                className="group min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:w-full"
+                                className="group flex-wrap min-w-[330px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:w-full"
                             >
                                 {/* 앞면 */}
                                 <div className="absolute inset-0 rounded-[20px] overflow-hidden duration-700 ease-in-out group-hover:opacity-0">
