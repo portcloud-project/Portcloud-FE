@@ -1,8 +1,10 @@
 import { useRouter } from 'next/navigation';
 import { useMainProject } from '../hooks/useMainProject';
+import { FormData } from '../upload/portfolios/page';
 
 export interface MainListProps {
     title: string;
+    items?: FormData[];
 }
 
 export interface Item {
