@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
     const page = request.nextUrl.searchParams.get('page') || '0';
-    const size = request.nextUrl.searchParams.get('size') || '10';
+    const size = request.nextUrl.searchParams.get('size') || '12';
     try {
         const response = await axios.get(`${BASE_URL}api/portfolios/all`, {
             params: { page, size },

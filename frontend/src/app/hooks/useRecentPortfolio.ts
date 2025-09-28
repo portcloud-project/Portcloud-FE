@@ -13,7 +13,7 @@ interface RecentPortfolioType<T> {
     hasPrevious: boolean;
     count: number;
 }
-const limit = 10;
+const limit = 12;
 
 export const useRecentPortfolio = () => {
     return useInfiniteQuery<RecentPortfolioType<FormData>, Error>({
