@@ -6,10 +6,17 @@ import LoadingSpinner from './LoadingSpinner';
 import MypageAdd from './MypageAdd';
 import { FaTrashCan } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
+import { useDeletePortfolio } from '../hooks/useDeleteAllPortfolio';
+import { useQueryClient } from '@tanstack/react-query';
 
 const MyPagePortfolio = () => {
     const { data, isLoading, isError, error } = useAllPortfolio();
+    const deleteMutation = useDeletePortfolio();
     const router = useRouter();
+    const queryClient = useQueryClient();
+    if (data?.length === 0) {
+        return <div>포트폴리오가 존재하지 않습니다</div>;
+    }
     if (isLoading) {
         return (
             <div className="flex items-center justify-center w-full h-[50vh]">
@@ -24,6 +31,15 @@ const MyPagePortfolio = () => {
             </p>
         );
     }
+    const handleDelete = async (id: string) => {
+        if (!confirm('정말 삭제하시겠습니까?')) return;
+        try {
+            await deleteMutation.mutateAsync(id);
+            await queryClient.invalidateQueries({ queryKey: ['allportfolio'] });
+        } catch (err) {
+            console.error(err);
+        }
+    };
     return (
         <div className="flex flex-wrap gap-[12px]">
             {data?.map((portfolio) => (
@@ -34,13 +50,23 @@ const MyPagePortfolio = () => {
                 >
                     {/* 앞면 */}
                     <div className="absolute inset-0 rounded-[20px] overflow-hidden duration-700 ease-in-out group-hover:opacity-0">
-                        <div className="absolute inset-0 bg-cover bg-center"></div>
+                        <div
+                            className="absolute inset-0 bg-cover bg-center"
+                            style={{
+                                backgroundImage: `url(https://port-cloud.com/img/${portfolio.file})`,
+                            }}
+                        ></div>
                     </div>
 
                     {/* 뒷면 */}
                     <div className="absolute inset-0 rounded-[20px] opacity-0 overflow-hidden duration-700 ease-in-out group-hover:opacity-100">
                         {/* 뒷면 배경 */}
-                        <div className="absolute inset-0 bg-cover bg-center"></div>
+                        <div
+                            className="absolute inset-0 bg-cover bg-center"
+                            style={{
+                                backgroundImage: `url(https://port-cloud.com/img/${portfolio.file})`,
+                            }}
+                        ></div>
                         {/* 오버레이 */}
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
 
@@ -50,7 +76,13 @@ const MyPagePortfolio = () => {
                             <p className="text-[14px] text-gray-100">{portfolio.jopPosition}</p>
                         </div>
                         <div className="absolute inset-0 flex items-center justify-center z-10 text-white font-bold text-[18px] p-[24px] flex-col  ">
-                            <p className="bg-purple-500  rounded-[100px] min-w-[72px] min-h-[72px] flex justify-center items-center">
+                            <p
+                                className="bg-purple-500  rounded-[100px] min-w-[72px] min-h-[72px] flex justify-center items-center"
+                                onClick={(e) => {
+                                    handleDelete(portfolio.id);
+                                    e.stopPropagation();
+                                }}
+                            >
                                 <FaTrashCan />
                             </p>
                         </div>

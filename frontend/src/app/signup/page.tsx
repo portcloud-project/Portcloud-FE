@@ -17,7 +17,7 @@ interface SignUpFormValuesType {
     nickname: string;
     job: string;
     agreeTerms: boolean;
-    emailVerify: string;
+    verificationCode: string;
 }
 
 interface sendVerificationValuesType {
@@ -56,7 +56,10 @@ const Signup = () => {
     ];
 
     const onSignUpSubmit = async (data: SignUpFormValuesType) => {
-        const { email, password, name, birthDate, nickname, job, agreeTerms } = data;
+        const { email, password, name, birthDate, nickname, job, agreeTerms, verificationCode } =
+            data;
+
+        console.log(data);
 
         try {
             const res = await axios.post('api/signup', {
@@ -67,8 +70,9 @@ const Signup = () => {
                 birthDate,
                 job,
                 agreeTerms,
+                verificationCode,
             });
-
+            console.log(res.data);
             console.log(res.status);
 
             alert('회원가입 성공!');
@@ -184,11 +188,11 @@ const Signup = () => {
                                 type="text"
                                 id="email-verify"
                                 className={`w-[398px] h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:outline-none transition duration-300 ease-in-out ${
-                                    errors.emailVerify
+                                    errors.verificationCode
                                         ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
                                         : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
                                 }`}
-                                {...register('emailVerify', {
+                                {...register('verificationCode', {
                                     required: '인증번호를 입력해주세요',
                                     minLength: {
                                         value: 6,
@@ -206,7 +210,7 @@ const Signup = () => {
                                     onClick={() => {
                                         verifyEmail({
                                             email: getValues('email'),
-                                            verificationCode: getValues('emailVerify'),
+                                            verificationCode: getValues('verificationCode'),
                                         });
                                     }}
                                 >
@@ -223,9 +227,9 @@ const Signup = () => {
                         </div>
 
                         {/* 인증번호 error section */}
-                        {errors.emailVerify && (
+                        {errors.verificationCode && (
                             <p className="text-sm text-[var(--color-red-500)]">
-                                {errors.emailVerify.message}
+                                {errors.verificationCode.message}
                             </p>
                         )}
                     </div>

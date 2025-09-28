@@ -4,11 +4,14 @@ import PortfolioAword from '@/app/customComponents/PortfolioAword';
 import PortfolioCreer from '@/app/customComponents/PortfolioCreer';
 import PortfolioProject from '@/app/customComponents/PortfolioProject';
 import PortfolioSchool from '@/app/customComponents/PortfolioSchool';
-import SearchSkill, { SKILLITEM } from '@/app/customComponents/SearchSkill';
+import { Skills } from '@/app/stores/skillStore';
 import useSectionManagement from '@/app/hooks/useSectionManagement';
 import axios from 'axios';
 import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
 import { userStore } from '@/app/stores/userStore';
+import Cookies from 'js-cookie';
+import dayjs from 'dayjs';
+import SearchSkill from '@/app/customComponents/SearchSkill';
 
 export interface ProjectSectionData {
     id: number;
@@ -48,7 +51,7 @@ export interface FormData {
     email: string;
     industry: string;
     jobPosition: string;
-    skill: SKILLITEM[];
+    skill: Skills[];
     introductions: string;
     saveStatus: boolean;
     projectDescriptions: ProjectSectionData[];
@@ -56,6 +59,7 @@ export interface FormData {
     awards: AwardSectionData[];
     certificates: LicenseSectionData[];
     educations: SchoolSectionData[];
+    file: FileList;
 }
 
 const UploadPortfolios = () => {
@@ -67,7 +71,7 @@ const UploadPortfolios = () => {
             email: '',
             industry: '',
             jobPosition: '',
-            // skill: [{ name: '' }],
+            skill: [{ name: '' }],
             introductions: '',
             saveStatus: true,
             projectDescriptions: [{ description: '' }],
@@ -100,17 +104,77 @@ const UploadPortfolios = () => {
                     schoolStatus: '',
                 },
             ],
+            file: undefined,
         },
     });
 
     const onSubmit = async (data: FormData) => {
-        console.log(data);
         try {
-            const response = await axios.post<FormData>('/api/portfolioupload', data);
-            const id = response.data;
-            console.log(id);
+            const token = Cookies.get('accessToken');
+            const formData = new FormData();
+
+            formData.append('title', data.title);
+            formData.append('email', data.email);
+            formData.append('industry', data.industry);
+            formData.append('jobPosition', data.jobPosition);
+            formData.append('introductions', data.introductions);
+            formData.append('saveStatus', String(data.saveStatus));
+            formData.append('skill', JSON.stringify(data.skill));
+
+            data.projectDescriptions.forEach((item, i) => {
+                formData.append(`projectDescriptions[${i}].description`, item.description);
+            });
+
+            data.careers.forEach((item, i) => {
+                formData.append(`careers[${i}].companyName`, item.companyName);
+                formData.append(`careers[${i}].companyPosition`, item.companyPosition);
+                formData.append(`careers[${i}].duty`, item.duty);
+                formData.append(`careers[${i}].date`, item.date);
+                formData.append(`careers[${i}].dutyDescription`, item.dutyDescription);
+                formData.append(
+                    `careers[${i}].startDate`,
+                    String(dayjs(item.startDate).format('YYYY-MM-DD')),
+                );
+                formData.append(
+                    `careers[${i}].endDate`,
+                    String(dayjs(item.endDate).format('YYYY-MM-DD')),
+                );
+            });
+
+            data.awards.forEach((item, i) => {
+                formData.append(`awards[${i}].awardDescription`, item.awardDescription);
+            });
+
+            data.certificates.forEach((item, i) => {
+                formData.append(`certificates[${i}].certificateName`, item.certificateName);
+                formData.append(
+                    `certificates[${i}].certificateDate`,
+                    String(dayjs(item.certificateDate).format('YYYY-MM-DD')),
+                );
+                formData.append(`certificates[${i}].number`, item.number);
+            });
+
+            data.educations.forEach((item, i) => {
+                formData.append(`educations[${i}].school`, item.school);
+                formData.append(`educations[${i}].schoolStatus`, item.schoolStatus);
+            });
+
+            if (data.file && data.file.length > 0) {
+                formData.append('file', data.file[0]);
+            }
+
+            console.log(Array.from(formData.entries()));
+
+            const response = await axios.post('/api/portfolioupload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            console.log('업로드 완료', response.data);
         } catch (err) {
-            console.log('Next 서버 전송중 오류', err);
+            console.error('Next 서버 전송중 오류', err);
         }
     };
 
@@ -421,6 +485,26 @@ const UploadPortfolios = () => {
                                 <div className="text-gray-600 text-[20px]">+</div>
                             </button>
                         )}
+                        {/* 대표 이미지 section */}
+                        <div className="w-full h-fit flex flex-col justify-center items-start gap-[12px]">
+                            <label
+                                htmlFor=""
+                                className="w-fit flex flex-row justify-center items-center gap-[12px] text-[24px] font-bold text-[var(--color-gray-900)]"
+                            >
+                                대표 이미지 *
+                                <span className="font-medium text-[20px] text-[var(--color-gray-500)]">
+                                    사진을 첨부해주세요
+                                </span>
+                            </label>
+                            <div className="w-full flex flex-row justify-between items-center gap-[6px]">
+                                <input
+                                    type="file"
+                                    id="file"
+                                    className="w-[768px] h-[312px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
+                                    {...register('file')}
+                                />
+                            </div>
+                        </div>
                     </div>
                     <div className="flex justify-end">
                         <button
