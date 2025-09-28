@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
 
         const { data } = await axios.post(`${BASE_URL}api/user/send-verification`, body);
+        console.log(data);
 
         return NextResponse.json(
             { message: data.message, status: data.status },

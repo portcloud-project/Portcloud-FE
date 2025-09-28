@@ -4,6 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 // import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
+import Cookies from 'js-cookie';
 
 interface UploadProjectsFormValuesType {
     title: string;
@@ -15,7 +16,7 @@ interface UploadProjectsFormValuesType {
     projectURL: string;
     description: string;
     skill: string[];
-    thumnailImg: string | null;
+    thumbnailImg: string | null;
     demonstrationVideo: string | null;
 }
 
@@ -37,14 +38,23 @@ const UploadProjects = () => {
     });
 
     const onUploadProjectsSubmit = async (data: UploadProjectsFormValuesType) => {
-        const { title } = data;
         try {
-            const res = await axios.post('/api/project', {
-                title,
-                thumnailImg: null,
-                demonstrationVideo: null,
+            const token = Cookies.get('accessToken');
+            const formData = new FormData();
+
+            formData.append('title', data.title);
+
+            if (data.thumbnailImg?.[0]) {
+                formData.append('thumbnailImg', data.thumbnailImg[0]);
+            }
+            if (data.demonstrationVideo?.[0]) {
+                formData.append('demonstrationVideo', data.demonstrationVideo[0]);
+            }
+            const res = await axios.post('/api/project', formData, {
+                headers: { Authorization: `Bearer ${token}` },
             });
 
+            console.log(Array.from(formData.entries()));
             console.log(res.status);
 
             alert('프로젝트가 업로드 되었습니다!');

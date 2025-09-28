@@ -4,14 +4,15 @@ import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
 // import axios from 'axios';
 // import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
-import SearchSkill, { SKILLITEM } from '@/app/customComponents/SearchSkill';
+import SearchSkill from '@/app/customComponents/SearchSkill';
+import { Skills } from '@/app/stores/skillStore';
 
 interface UploadTeamsFormValuesType {
     title: string;
     content: string;
     position: string;
     people: string;
-    skill: SKILLITEM[];
+    skill: Skills[];
     endDate: string;
     contact: string;
 }
