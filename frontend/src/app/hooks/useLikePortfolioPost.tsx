@@ -1,0 +1,24 @@
+'use client';
+
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
+export const useLikePortfolioPost = () => {
+    const token = Cookies.get('accessToken');
+
+    return useMutation({
+        mutationFn: async (id: string | string[]) => {
+            const response = await axios.post(
+                `/api/likeportfoliopost?id=${id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            return response.status;
+        },
+    });
+};

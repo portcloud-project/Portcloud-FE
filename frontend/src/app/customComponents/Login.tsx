@@ -52,7 +52,7 @@ const Login = ({
             }
             Cookies.set('accessToken', token);
             const payload = parseJwt(token);
-            queryClient.invalidateQueries({ queryKey: ['user'] });
+            queryClient.invalidateQueries();
             setUser(payload);
         } catch (err) {
             console.error(err, 'next프록시 오류');

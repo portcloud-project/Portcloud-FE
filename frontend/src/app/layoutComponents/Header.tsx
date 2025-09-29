@@ -36,6 +36,7 @@ const Header = () => {
     const logout = () => {
         Cookies.remove('accessToken');
         queryClient.setQueryData(['user'], null);
+        queryClient.invalidateQueries();
         userStore.getState().clearUser();
         setLoginModal(false);
     };

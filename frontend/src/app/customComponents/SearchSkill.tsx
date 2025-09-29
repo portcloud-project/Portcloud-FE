@@ -122,7 +122,7 @@ const SearchSkill = ({ width }: { width?: string }) => {
                                     <div className="flex flex-wrap gap-[8px] mb-[16px]">
                                         {value.map((skill: Skills) => (
                                             <div
-                                                key={skill.id}
+                                                key={`${skill.id}_${skill.name}`}
                                                 className="flex flex-row gap-[4px] items-center px-[16px] py-[6px] rounded-full bg-gray-100 text-gray-700 text-[14px] font-semibold border border-gray-200"
                                             >
                                                 {skill.name}

@@ -21,7 +21,6 @@ export async function POST(req: NextRequest) {
         } else if (err instanceof Error) {
             // 기본 JavaScript Error인 경우
             message = err.message;
-            console.log(message);
         }
 
         return NextResponse.json({ success: false, message: message }, { status: 500 });

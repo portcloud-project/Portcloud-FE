@@ -4,12 +4,18 @@ import { usePortfolioDetail } from '@/app/hooks/usePortfolioDetail';
 import { userStore } from '@/app/stores/userStore';
 import dayjs from 'dayjs';
 import { useDeletePortfolio } from '@/app/hooks/useDeleteAllPortfolio';
+import Like from '@/app/customComponents/Like';
+import { useLikePortfolio } from '@/app/hooks/useLikePortfolio';
+import LikePost from '@/app/customComponents/LikePost';
+import Comment from '@/app/customComponents/Comment';
+import CommentView from '@/app/customComponents/CommentView';
 
 const PortfolioOutput = () => {
     const params = useParams();
     const user = userStore((state) => state.user);
     const id = params.id;
     const { data: portfolio, isLoading, isError, error } = usePortfolioDetail(id);
+    const { data: like } = useLikePortfolio(id);
     const deleteMutation = useDeletePortfolio();
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
@@ -57,10 +63,15 @@ const PortfolioOutput = () => {
                 </section>
                 <section className="flex w-full gap-[24px] items-center">
                     <p className="text-[24px] font-bold">{portfolio.industry}</p>
-                    <p>
-                        {/* {portfolio.skill.map((s, idx) => (
-                            <p key={`${idx}_${s.id}`}>{s.name}</p>
-                        ))} */}
+                    <p className="flex gap-[8px] flex-wrap">
+                        {portfolio.skill.map((s, idx) => (
+                            <div
+                                className="flex text-purple-500 bg-purple-50 px-[16px] py-[6px] rounded-[20px] box-border text-[14px] font-semibold"
+                                key={`${idx}_${s.id}`}
+                            >
+                                {s.name}
+                            </div>
+                        ))}
                     </p>
                 </section>
                 <section className="flex w-full  gap-[12px] flex-col">
@@ -166,9 +177,16 @@ const PortfolioOutput = () => {
                         </div>
                     </section>
                 )}
-                <section className="w-full flex ">댓글</section>
-                <section className="w-full flex ">댓글출력</section>
+                <Like likeData={like} />
+                <section className="w-full flex ">
+                    <Comment id={id} />
+                </section>
+                <section className="w-full flex ">
+                    <CommentView id={id} />
+                </section>
             </div>
+
+            <LikePost id={id} />
         </main>
     );
 };

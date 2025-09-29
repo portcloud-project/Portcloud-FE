@@ -6,6 +6,7 @@ import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 import SearchSkill from '@/app/customComponents/SearchSkill';
 import { Skills } from '@/app/stores/skillStore';
+import axios from 'axios';
 
 interface UploadTeamsFormValuesType {
     title: string;
@@ -15,11 +16,30 @@ interface UploadTeamsFormValuesType {
     skill: Skills[];
     endDate: string;
     contact: string;
+    saveStatus: true;
 }
 
 const UploadTeams = () => {
     const positionArr = ['Back-end', 'Front-end', 'Full-stack', 'PM', 'Designer'];
     const peopleArr = [...Array.from({ length: 5 }, (_, i) => `${i + 1}명`)];
+
+    const onSubmit = async (data: UploadTeamsFormValuesType) => {
+        console.log(data);
+        try {
+            const response = await axios.post('/api/teamupload', {
+                title: data.title,
+                content: data.content,
+                projectType: data.position,
+                recruitDeadline: data.endDate,
+                contactMethod: data.contact,
+                saveStatus: data.saveStatus,
+                skills: data.skill,
+            });
+            return response.status;
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     const methods = useForm<UploadTeamsFormValuesType>({
         defaultValues: {
@@ -36,6 +56,7 @@ const UploadTeams = () => {
     const {
         register,
         formState: { errors: formErrors },
+        handleSubmit,
     } = methods;
     const errors = formErrors as FieldErrors<UploadTeamsFormValuesType>;
 
@@ -52,6 +73,7 @@ const UploadTeams = () => {
                     autoComplete="off"
                     // onSubmit={handleSubmit(onUploadProjectsSubmit)}
                     className="w-full flex flex-col justify-start items-start gap-[48px]"
+                    onSubmit={handleSubmit(onSubmit)}
                 >
                     {/* 제목 section */}
                     <div className="w-full h-fit flex flex-col justify-center items-start gap-[12px] relative">
@@ -127,6 +149,7 @@ const UploadTeams = () => {
                             gap="gap-[12px]"
                             labelFont="font-bold"
                             labelText="text-[24px]"
+                            name="position"
                         />
                         {/* 모집 인원 section */}
                         <UploadDropDown
@@ -138,10 +161,73 @@ const UploadTeams = () => {
                             gap="gap-[12px]"
                             labelFont="font-bold"
                             labelText="text-[24px]"
+                            name="people"
                         />
                         {/* 스킬 section */}
                         <SearchSkill width="w-[384px]" />
                     </div>
+                    {/* 마감일 */}
+                    <div className="w-full flex flex-col">
+                        <div className="w-full h-fit flex flex-col justify-center items-start gap-[12px] relative">
+                            <label
+                                htmlFor="endDate"
+                                className="text-[24px] font-bold text-[var(--color-gray-900)]"
+                            >
+                                모집 마감일 *
+                            </label>
+                            <div className="w-full flex  justify-between items-center gap-[6px] ">
+                                <input
+                                    type="date"
+                                    id="endDate"
+                                    placeholder="제목을 입력해주세요"
+                                    className={`w-[50%] h-[64px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px]  focus:outline-none transition duration-300 ease-in-out relative ${
+                                        errors.endDate
+                                            ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
+                                            : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
+                                    }`}
+                                    {...register('endDate', {
+                                        required: '마감일을 입력해주세요',
+                                    })}
+                                />
+                                <div className="w-full h-fit flex justify-center items-start gap-[12px] relative">
+                                    {errors.endDate && (
+                                        <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[120px]">
+                                            {errors.endDate.message}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                            <label
+                                htmlFor="contect"
+                                className="text-[24px] font-bold text-[var(--color-gray-900)]"
+                            >
+                                연락 방법 *
+                            </label>
+                            <div className="w-full flex  justify-between items-center gap-[6px] ">
+                                <input
+                                    type="text"
+                                    id="contect"
+                                    placeholder="제목을 입력해주세요"
+                                    className={`w-[50%] h-[64px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px]  focus:outline-none transition duration-300 ease-in-out relative ${
+                                        errors.contact
+                                            ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
+                                            : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
+                                    }`}
+                                    {...register('contact', {
+                                        required: '연락방법을 입력해주세요',
+                                    })}
+                                />
+                                <div className="w-full h-fit flex justify-center items-start gap-[12px] relative">
+                                    {errors.contact && (
+                                        <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[120px]">
+                                            {errors.contact.message}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit">등록</button>
                 </form>
             </FormProvider>
         </>
