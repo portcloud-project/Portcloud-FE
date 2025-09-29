@@ -8,9 +8,6 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
 
         const { data } = await axios.post(`${BASE_URL}api/user/register`, body);
-
-        console.log('api에 요청 성공', data, body);
-
         return NextResponse.json(data, { status: data.status });
     } catch (err: unknown) {
         console.error(err);
@@ -24,6 +21,7 @@ export async function POST(req: NextRequest) {
         } else if (err instanceof Error) {
             // 기본 JavaScript Error인 경우
             message = err.message;
+            console.log(message);
         }
 
         return NextResponse.json({ success: false, message: message }, { status: 500 });

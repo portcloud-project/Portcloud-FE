@@ -42,23 +42,20 @@ const Login = ({
     const { register, handleSubmit } = useForm<LoginForm>();
 
     const loginSubmit = async (data: LoginForm) => {
-        console.log(data);
         try {
-            const res = await axios.post('/api/Login', data);
-            console.log('응답 데이터:', res.data);
+            const res = await axios.post('/api/login', data);
 
             const token = res.data.data.token;
             if (!token) {
-                console.log('토큰이 존재하지 않음');
+                console.error('토큰이 존재하지 않음');
                 return;
             }
             Cookies.set('accessToken', token);
             const payload = parseJwt(token);
             queryClient.invalidateQueries({ queryKey: ['user'] });
             setUser(payload);
-            console.log(payload);
         } catch (err) {
-            console.log(err, 'next프록시 오류');
+            console.error(err, 'next프록시 오류');
         }
     };
 

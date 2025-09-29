@@ -18,6 +18,7 @@ interface SignUpFormValuesType {
     nickname: string;
     job: string;
     agreeTerms: boolean;
+    verificationCode: string;
     emailVerify: string;
 }
 
@@ -63,7 +64,7 @@ const Signup = () => {
             alert('이메일 인증을 완료해 주세요');
             return;
         }
-        const { email, password, name, birthDate, nickname, job, agreeTerms } = data;
+        const { email, password, name, birthDate, nickname, job, agreeTerms, verificationCode } = data;
 
         try {
             const res = await axios.post('/api/signup', {
@@ -74,6 +75,7 @@ const Signup = () => {
                 birthDate,
                 job,
                 agreeTerms,
+                verificationCode,
             });
             console.log(res.status);
             alert('회원가입 성공!');
