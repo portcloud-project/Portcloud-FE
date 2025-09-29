@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { FaCheck } from 'react-icons/fa6';
-import Link from 'next/link';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import axios from 'axios';
 import UploadDropDown from '../customComponents/UploadDropDown';
 import EmailVerification from '../customComponents/Emailverification';
+import PrivateAccept from '../customComponents/PrivateAccept';
+import UseRule from '../customComponents/useRule';
 
 interface SignUpFormValuesType {
     email: string;
@@ -20,11 +21,14 @@ interface SignUpFormValuesType {
     agreeTerms: boolean;
     verificationCode: string;
     emailVerify: string;
+    useRule: boolean;
 }
 
 const Signup = () => {
     const [pwVisible, setPwVisible] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
+    const [privateModal, setPrivateModal] = useState<boolean>(false);
+    const [useRuleModal, setUseRuleModal] = useState<boolean>(false);
 
     const methods = useForm<SignUpFormValuesType>({
         mode: 'onChange',
@@ -90,7 +94,7 @@ const Signup = () => {
     const isInterestArr = ['', 'PM', 'DESIGNER', 'FE', 'BE', 'QA'];
 
     return (
-        <main className="w-full px-[24px] flex flex-col justify-start items-start mx-auto laptop:max-w-[1440px] tablet:w-full gap-[48px]">
+        <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full gap-[48px]">
             <h3 className="font-bold text-[28px] text-black">회원가입</h3>
             <FormProvider {...methods}>
                 <form
@@ -341,6 +345,7 @@ const Signup = () => {
                                         labelText="text-[14px]"
                                         value={field.value}
                                         onChange={field.onChange}
+                                        name="job"
                                     />
                                     {fieldState.error && (
                                         <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[73px]">
@@ -371,13 +376,42 @@ const Signup = () => {
                         </div>
 
                         {/* 여기 내용 모달로 */}
-                        <Link className="underline" href="/">
+                        <div className="underline" onClick={() => setPrivateModal(true)}>
                             내용보기
-                        </Link>
+                            {privateModal && <PrivateAccept setPrivateModal={setPrivateModal} />}
+                        </div>
                         {/* 개인정보 체크 error section */}
                         {errors.agreeTerms && (
                             <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[18px]">
                                 {errors.agreeTerms.message}
+                            </p>
+                        )}
+                    </div>
+                    {/* 이용약관 section */}
+                    <div className="w-full flex flex-row justify-between items-center gap-[6px] text-[14px] text-[var(--color-gray-900)] font-normal relative">
+                        <div className="flex flex-row justify-center items-center gap-[4px]">
+                            <input
+                                type="checkbox"
+                                id="useRule-check"
+                                {...register('useRule', {
+                                    required: {
+                                        value: true,
+                                        message: '이용약관을 동의해주세요.',
+                                    },
+                                })}
+                            />
+                            <label htmlFor="useRule-check">이용약관 동의 (필수)</label>
+                        </div>
+
+                        {/* 여기 내용 모달로 */}
+                        <div className="underline" onClick={() => setUseRuleModal(true)}>
+                            내용보기
+                            {useRuleModal && <UseRule setUseRuleModal={setUseRuleModal} />}
+                        </div>
+                        {/* 개인정보 체크 error section */}
+                        {errors.useRule && (
+                            <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[18px]">
+                                {errors.useRule.message}
                             </p>
                         )}
                     </div>
