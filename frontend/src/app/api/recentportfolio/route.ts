@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
         const response = await axios.get(`${BASE_URL}api/portfolios/all`, {
             params: { page, size },
         });
-        console.log(response.data.content);
         return NextResponse.json(response.data);
     } catch (error) {
         console.error('api 호출중 오류', error);

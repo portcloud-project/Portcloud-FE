@@ -8,7 +8,6 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
 
         const { data } = await axios.post(`${BASE_URL}api/user/register`, body);
-
         return NextResponse.json(data, { status: data.status });
     } catch (err: unknown) {
         console.error(err);

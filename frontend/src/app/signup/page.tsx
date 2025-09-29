@@ -58,7 +58,6 @@ const Signup = () => {
     const onSignUpSubmit = async (data: SignUpFormValuesType) => {
         const { email, password, name, birthDate, nickname, job, agreeTerms, verificationCode } =
             data;
-
         try {
             const res = await axios.post('api/signup', {
                 email,
