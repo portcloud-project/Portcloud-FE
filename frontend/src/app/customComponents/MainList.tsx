@@ -62,7 +62,20 @@ const MainList = ({ title }: MainListProps) => {
                                         style={{
                                             backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailURL})`,
                                         }}
-                                    ></div>
+                                    >
+                                        <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
+                                            <p>{item.title}</p>
+                                            <p>{item.description}</p>
+                                            <p className="text-[14px] text-gray-100">
+                                                {item.writeName}
+                                            </p>
+                                        </div>
+                                        <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
+                                            <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
+                                                개발
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {/* 뒷면 */}

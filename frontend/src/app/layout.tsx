@@ -33,7 +33,7 @@ export default function RootLayout({
                 <QueryProvider>
                     <Header />
 
-                    <main className="flex-1 py-[48px]">{children}</main>
+                    <main className="flex-1 py-[48px] px-[24px]">{children}</main>
 
                     <Footer />
                 </QueryProvider>

@@ -119,7 +119,11 @@ const UploadPortfolios = () => {
             formData.append('jobPosition', data.jobPosition);
             formData.append('introductions', data.introductions);
             formData.append('saveStatus', String(data.saveStatus));
-            formData.append('skill', JSON.stringify(data.skill));
+            data.skill.forEach((item, i) => {
+                if (item.name) {
+                    formData.append(`skillIds[${i}]`, item.id);
+                }
+            });
 
             data.projectDescriptions.forEach((item, i) => {
                 formData.append(`projectDescriptions[${i}].description`, item.description);
@@ -169,7 +173,8 @@ const UploadPortfolios = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
+            console.log(response.data);
+            console.log(Array.from(formData.entries()));
             console.log('업로드 완료', response.status);
         } catch (err) {
             console.error('Next 서버 전송중 오류', err);
@@ -494,13 +499,20 @@ const UploadPortfolios = () => {
                                     사진을 첨부해주세요
                                 </span>
                             </label>
-                            <div className="w-full flex flex-row justify-between items-center gap-[6px]">
+                            <div className="w-full flex flex-col justify-between items-start gap-[6px]">
                                 <input
                                     type="file"
                                     id="file"
                                     className="w-[768px] h-[312px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
-                                    {...register('file')}
+                                    {...register('file', {
+                                        required: '* 대표이미지를 첨부해 주세요',
+                                    })}
                                 />
+                                {errors.introductions && (
+                                    <p className="text-red-500 text-sm mt-1">
+                                        {errors.file?.message as string}
+                                    </p>
+                                )}
                             </div>
                         </div>
                     </div>
