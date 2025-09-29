@@ -27,7 +27,7 @@ const MainPortfolio = ({ title }: MainListProps) => {
     return (
         <div className="w-full flex flex-col gap-[16px]">
             <p className="font-bold text-[20px]">{title}</p>
-            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-center overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-center tablet:overflow-x-auto laptop:overflow-hidden">
+            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-start overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
                 {data && data.length > 0 ? (
                     data?.map((item) => {
                         return (
@@ -41,7 +41,7 @@ const MainPortfolio = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailURL})`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
                                         }}
                                     >
                                         <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
@@ -65,7 +65,7 @@ const MainPortfolio = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailURL})`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
                                         }}
                                     ></div>
                                     {/* 오버레이 */}

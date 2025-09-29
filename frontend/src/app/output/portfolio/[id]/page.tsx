@@ -7,6 +7,8 @@ import { useDeletePortfolio } from '@/app/hooks/useDeleteAllPortfolio';
 import Like from '@/app/customComponents/Like';
 import { useLikePortfolio } from '@/app/hooks/useLikePortfolio';
 import LikePost from '@/app/customComponents/LikePost';
+import Comment from '@/app/customComponents/Comment';
+import CommentView from '@/app/customComponents/CommentView';
 
 const PortfolioOutput = () => {
     const params = useParams();
@@ -176,8 +178,12 @@ const PortfolioOutput = () => {
                     </section>
                 )}
                 <Like likeData={like} />
-                <section className="w-full flex ">댓글</section>
-                <section className="w-full flex ">댓글출력</section>
+                <section className="w-full flex ">
+                    <Comment id={id} />
+                </section>
+                <section className="w-full flex ">
+                    <CommentView id={id} />
+                </section>
             </div>
 
             <LikePost id={id} />

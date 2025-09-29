@@ -12,6 +12,7 @@ import { userStore } from '@/app/stores/userStore';
 import Cookies from 'js-cookie';
 import dayjs from 'dayjs';
 import SearchSkill from '@/app/customComponents/SearchSkill';
+import { useRouter } from 'next/navigation';
 
 export interface ProjectSectionData {
     id: number;
@@ -64,6 +65,7 @@ export interface FormData {
 
 const UploadPortfolios = () => {
     const user = userStore((state) => state.user);
+    const router = useRouter();
 
     const methods = useForm<FormData>({
         defaultValues: {
@@ -176,6 +178,7 @@ const UploadPortfolios = () => {
             console.log(response.data);
             console.log(Array.from(formData.entries()));
             console.log('업로드 완료', response.status);
+            router.push('/works/portfolios');
         } catch (err) {
             console.error('Next 서버 전송중 오류', err);
         }
