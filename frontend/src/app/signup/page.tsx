@@ -64,7 +64,8 @@ const Signup = () => {
             alert('이메일 인증을 완료해 주세요');
             return;
         }
-        const { email, password, name, birthDate, nickname, job, agreeTerms, verificationCode } = data;
+        const { email, password, name, birthDate, nickname, job, agreeTerms, verificationCode } =
+            data;
 
         try {
             const res = await axios.post('/api/signup', {
