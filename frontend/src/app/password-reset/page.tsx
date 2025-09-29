@@ -1,7 +1,6 @@
 'use client';
 
 const PasswordReset = () => {
-
     return (
         <main className="w-[480px] h-auto px-[24px] flex flex-col justify-start items-start gap-[24px] font-bold text-black">
             <h3 className="text-[28px]">비밀번호 재설정</h3>

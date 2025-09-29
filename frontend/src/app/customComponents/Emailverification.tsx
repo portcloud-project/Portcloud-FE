@@ -45,7 +45,7 @@ const EmailVerification = ({ onVerified, verified: verifiedProp = false }: Props
             const res = await axios.post('/api/sendverification', { email });
             alert(res.data?.message ?? '인증번호가 전송되었습니다');
             setVerifyStep(true);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
             alert(err?.response?.data?.message ?? '이미 가입된 이메일이거나 전송 실패');
         } finally {
@@ -76,7 +76,7 @@ const EmailVerification = ({ onVerified, verified: verifiedProp = false }: Props
             } else {
                 throw new Error('인증 실패');
             }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
             alert(err?.response?.data?.message ?? '인증 번호를 다시 확인해주세요');
         } finally {
