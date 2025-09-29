@@ -33,7 +33,9 @@ export default function RootLayout({
                 <QueryProvider>
                     <Header />
 
-                    <main className="flex-1 py-[48px]">{children}</main>
+                    <main className="flex-1 py-[48px] w-full h-auto flex flex-col justify-start items-center">
+                        {children}
+                    </main>
 
                     <Footer />
                 </QueryProvider>
