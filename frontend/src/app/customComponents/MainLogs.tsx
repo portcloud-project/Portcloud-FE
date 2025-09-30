@@ -32,7 +32,7 @@ const MainPortfolio = ({ title }: MainListProps) => {
                     data?.map((item) => {
                         return (
                             <li
-                                onClick={() => router.push(`/output/portfolio/${item.id}`)}
+                                onClick={() => router.push(`/output/logs/${item.id}`)}
                                 key={`${item.id}`}
                                 className="group min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer tablet:shrink-0 tablet:w-full"
                             >
