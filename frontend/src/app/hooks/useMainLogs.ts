@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { ApiResponse } from '../customComponents/MainList';
-import { AllLogs } from './useAllLogs';
+import { AllLogs } from './useRecentLogs';
 
 const fetchMainLogs = async (): Promise<AllLogs[]> => {
     const response = await axios.get<ApiResponse<AllLogs>>('/api/mainlogs');

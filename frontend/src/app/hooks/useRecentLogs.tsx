@@ -32,12 +32,12 @@ interface ApiResponseWithContent<T> {
 }
 const limit = 12;
 
-export const useAllLogs = () => {
+export const useRecentLogs = () => {
     return useInfiniteQuery<ApiResponseWithContent<AllLogs>, Error>({
-        queryKey: ['alllogs'],
+        queryKey: ['recentlogs'],
         initialPageParam: 0,
         queryFn: async ({ pageParam = 0 }) => {
-            const { data } = await axios.get('/api/allLogs', {
+            const { data } = await axios.get('/api/recentlogs', {
                 params: { page: pageParam, size: limit },
             });
             return data;

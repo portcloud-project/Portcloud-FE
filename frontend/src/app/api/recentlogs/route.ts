@@ -4,16 +4,14 @@ import { NextRequest, NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+    const page = request.nextUrl.searchParams.get('page') || '0';
+    const size = request.nextUrl.searchParams.get('size') || '12';
     try {
-        const token = request.cookies.get('accessToken')?.value;
-        if (!token) {
-            return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
-        }
-        const response = await axios.get(`${BASE_URL}api/mypage/blogs`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+        const response = await axios.get(`${BASE_URL}api/blogs/all`, {
+            params: { page, size },
         });
+        console.log(response.data);
         return NextResponse.json(response.data);
     } catch (error) {
         console.error('api 호출중 오류', error);

@@ -2,7 +2,7 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { AllLogs } from './useAllLogs';
+import { AllLogs } from './useRecentLogs';
 
 export const useLogsDetail = (id: string | null | string[]) => {
     return useQuery<AllLogs>({

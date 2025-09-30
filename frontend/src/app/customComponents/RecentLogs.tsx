@@ -1,10 +1,10 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useAllLogs } from '../hooks/useAllLogs';
+import { useRecentLogs } from '../hooks/useRecentLogs';
 import { MainListProps } from './MainList';
 
 const RecentLogs = ({ title }: MainListProps) => {
-    const { data, isLoading, isError, error } = useAllLogs();
+    const { data, isLoading, isError, error } = useRecentLogs();
     const router = useRouter();
     if (isLoading) {
         return (
