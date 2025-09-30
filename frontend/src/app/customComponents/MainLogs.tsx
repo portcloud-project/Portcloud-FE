@@ -74,7 +74,9 @@ const MainPortfolio = ({ title }: MainListProps) => {
                                     <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
                                         <p>{item.title}</p>
 
-                                        <p className="text-[14px] text-gray-100">{item.category}</p>
+                                        <p className="text-[14px] text-gray-100">
+                                            {item.writeName}
+                                        </p>
                                     </div>
                                     <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
                                         <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
