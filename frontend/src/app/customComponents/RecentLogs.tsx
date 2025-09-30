@@ -1,10 +1,10 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useRecentPortfolio } from '@/app/hooks/useRecentPortfolio';
+import { useAllLogs } from '../hooks/useAllLogs';
 import { MainListProps } from './MainList';
 
-const RecentPortfolio = ({ title, items }: MainListProps) => {
-    const { isLoading, isError, error } = useRecentPortfolio();
+const RecentLogs = ({ title }: MainListProps) => {
+    const { data, isLoading, isError, error } = useAllLogs();
     const router = useRouter();
     if (isLoading) {
         return (
@@ -15,6 +15,8 @@ const RecentPortfolio = ({ title, items }: MainListProps) => {
             </div>
         );
     }
+
+    const items = data?.pages.flatMap((page) => page.data.content) ?? [];
 
     if (isError) {
         return (
@@ -31,7 +33,7 @@ const RecentPortfolio = ({ title, items }: MainListProps) => {
                 {items?.map((item) => {
                     return (
                         <li
-                            onClick={() => router.push(`/output/portfolio/${item.id}`)}
+                            onClick={() => router.push(`/output/logs/${item.id}`)}
                             key={`${item.id}`}
                             className="group flex-wrap min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer  tablet:shrink-0 tablet:w-full"
                         >
@@ -40,7 +42,7 @@ const RecentPortfolio = ({ title, items }: MainListProps) => {
                                 <div
                                     className="absolute inset-0 bg-cover bg-center"
                                     style={{
-                                        backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
+                                        backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailUrl})`,
                                     }}
                                 >
                                     <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
@@ -49,9 +51,10 @@ const RecentPortfolio = ({ title, items }: MainListProps) => {
                                             {item.writeName}
                                         </p>
                                     </div>
+
                                     <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
                                         <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
-                                            {item.industry}
+                                            {item.category}
                                         </p>
                                     </div>
                                 </div>
@@ -63,7 +66,7 @@ const RecentPortfolio = ({ title, items }: MainListProps) => {
                                 <div
                                     className="absolute inset-0 bg-cover bg-center"
                                     style={{
-                                        backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
+                                        backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailUrl})`,
                                     }}
                                 ></div>
                                 {/* 오버레이 */}
@@ -72,11 +75,7 @@ const RecentPortfolio = ({ title, items }: MainListProps) => {
                                     <p>{item.title}</p>
                                     <p className="text-[14px] text-gray-100">{item.writeName}</p>
                                 </div>
-                                <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
-                                    <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
-                                        {item.industry}
-                                    </p>
-                                </div>
+                                <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col "></div>
                                 {/* 텍스트  */}
                             </div>
                         </li>
@@ -87,4 +86,4 @@ const RecentPortfolio = ({ title, items }: MainListProps) => {
     );
 };
 
-export default RecentPortfolio;
+export default RecentLogs;

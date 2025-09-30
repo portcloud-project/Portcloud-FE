@@ -13,6 +13,7 @@ export interface Item {
     description: string;
     writeName: string;
     file: string | null;
+    industry: string;
 }
 
 export interface ApiResponse<T> {

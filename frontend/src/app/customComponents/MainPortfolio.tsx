@@ -53,7 +53,7 @@ const MainPortfolio = ({ title }: MainListProps) => {
                                         </div>
                                         <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
                                             <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
-                                                개발
+                                                {item.industry}
                                             </p>
                                         </div>
                                     </div>
@@ -80,7 +80,7 @@ const MainPortfolio = ({ title }: MainListProps) => {
                                     </div>
                                     <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
                                         <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
-                                            개발
+                                            {item.industry}
                                         </p>
                                     </div>
                                 </div>
