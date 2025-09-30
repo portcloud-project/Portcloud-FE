@@ -1,4 +1,6 @@
 'use client';
+import CommentLogs from '@/app/customComponents/CommentLogs';
+import CommentViewLogs from '@/app/customComponents/CommentViewLogs';
 import Like from '@/app/customComponents/Like';
 import LikePostLogs from '@/app/customComponents/LikePostLogs';
 import { useDeleteLogs } from '@/app/hooks/useDeleteAllLogs';
@@ -62,6 +64,8 @@ const LogsOutput = () => {
                 </section>
                 <hr />
                 <Like likeData={like} />
+                <CommentLogs id={id} />
+                <CommentViewLogs id={id} />
             </div>
             <LikePostLogs id={id} />
         </main>

@@ -2,7 +2,9 @@
 
 import LogsModal from '@/app/customComponents/LogsModal';
 import MarkdownEditor from '@/app/customComponents/MarkdownEditor';
+import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
 
@@ -26,6 +28,8 @@ const UploadLogs = () => {
     });
 
     const [modal, setModal] = useState<boolean>(false);
+    const router = useRouter();
+    const queryclient = useQueryClient();
 
     const {
         handleSubmit,
@@ -50,6 +54,8 @@ const UploadLogs = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            router.push('/works/logs');
+            queryclient.invalidateQueries();
             return response.status;
         } catch (err) {
             console.error(err);

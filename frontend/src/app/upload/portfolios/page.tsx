@@ -13,6 +13,7 @@ import Cookies from 'js-cookie';
 import dayjs from 'dayjs';
 import SearchSkill from '@/app/customComponents/SearchSkill';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 export interface ProjectSectionData {
     id: number;
@@ -66,6 +67,7 @@ export interface FormData {
 const UploadPortfolios = () => {
     const user = userStore((state) => state.user);
     const router = useRouter();
+    const queyryclient = useQueryClient();
 
     const methods = useForm<FormData>({
         defaultValues: {
@@ -177,6 +179,7 @@ const UploadPortfolios = () => {
             });
             router.push('/works/portfolios');
             console.log('업로드 완료', response.status);
+            queyryclient.invalidateQueries();
         } catch (err) {
             console.error('Next 서버 전송중 오류', err);
         }
