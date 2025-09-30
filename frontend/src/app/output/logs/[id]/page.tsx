@@ -1,5 +1,8 @@
 'use client';
+import Like from '@/app/customComponents/Like';
+import LikePostLogs from '@/app/customComponents/LikePostLogs';
 import { useDeleteLogs } from '@/app/hooks/useDeleteAllLogs';
+import { useLikeLogs } from '@/app/hooks/useLikeLogs';
 import { useLogsDetail } from '@/app/hooks/useLogsDetail';
 import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
@@ -10,6 +13,7 @@ const LogsOutput = () => {
     const params = useParams();
     const id = params.id;
     const { data: logs, isLoading, isError, error } = useLogsDetail(id);
+    const { data: like } = useLikeLogs(id);
     const deleteMutation = useDeleteLogs();
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
@@ -57,7 +61,9 @@ const LogsOutput = () => {
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{logs.content}</ReactMarkdown>
                 </section>
                 <hr />
+                <Like likeData={like} />
             </div>
+            <LikePostLogs id={id} />
         </main>
     );
 };
