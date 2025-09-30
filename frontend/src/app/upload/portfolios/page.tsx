@@ -13,6 +13,8 @@ import Cookies from 'js-cookie';
 import dayjs from 'dayjs';
 import SearchSkill from '@/app/customComponents/SearchSkill';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import UploadDropDown from '@/app/customComponents/UploadDropDown';
 
 export interface ProjectSectionData {
     id: number;
@@ -66,6 +68,19 @@ export interface FormData {
 const UploadPortfolios = () => {
     const user = userStore((state) => state.user);
     const router = useRouter();
+    const queyryclient = useQueryClient();
+
+    const industryArr = ['기획', '개발', '디자인', '마케팅', '기타'];
+    const jobArr = [
+        'Frontend',
+        'Backend',
+        'Designer',
+        'Publisher',
+        'PM',
+        'Marketer',
+        'DevOps',
+        'QA',
+    ];
 
     const methods = useForm<FormData>({
         defaultValues: {
@@ -112,6 +127,7 @@ const UploadPortfolios = () => {
 
     const onSubmit = async (data: FormData) => {
         try {
+            console.log(data);
             const token = Cookies.get('accessToken');
             const formData = new FormData();
 
@@ -177,6 +193,7 @@ const UploadPortfolios = () => {
             });
             router.push('/works/portfolios');
             console.log('업로드 완료', response.status);
+            queyryclient.invalidateQueries();
         } catch (err) {
             console.error('Next 서버 전송중 오류', err);
         }
@@ -297,44 +314,31 @@ const UploadPortfolios = () => {
                         )}
                     </div>
                     <div className="flex gap-[12px]">
-                        <div className="flex flex-col flex-grow gap-[12px]">
-                            <label htmlFor="" className="font-bold text-[24px]">
-                                분야 *
-                            </label>
-                            <input
-                                id="filed"
-                                type="text"
-                                className=" py-[12px] border rounded-[8px] px-[20px]"
-                                placeholder="분야를 입력해 주세요"
-                                {...register('industry', {
-                                    required: '* 분야를 입력해 주세요',
-                                })}
-                            />
-                            {errors.industry && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.industry.message as string}
-                                </p>
-                            )}
-                        </div>
-                        <div className="flex flex-col flex-grow gap-[12px]">
-                            <label htmlFor="" className="font-bold text-[24px]">
-                                직무 *
-                            </label>
-                            <input
-                                id="job"
-                                type="text"
-                                className=" py-[12px] border rounded-[8px] px-[20px]"
-                                placeholder="직무를 입력해 주세요"
-                                {...register('jobPosition', {
-                                    required: '* 직무를 입력해 주세요',
-                                })}
-                            />
-                            {errors.jobPosition && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.jobPosition.message as string}
-                                </p>
-                            )}
-                        </div>
+                        <UploadDropDown
+                            name="industry"
+                            width="w-[376px]"
+                            height="h-[50px]"
+                            labelFont="font-bold"
+                            labelText="text-[24px]"
+                            gap="gap-[12px]"
+                            arr={industryArr}
+                            dropDownLabel="* 분야"
+                            dropDownPlaceholoder="분야를 입력해주세요"
+                            rules={{ required: '* 분야를 입력해 주세요' }}
+                        />
+
+                        <UploadDropDown
+                            name="jobPosition"
+                            width="w-[376px]"
+                            height="h-[50px]"
+                            labelFont="font-bold"
+                            labelText="text-[24px]"
+                            gap="gap-[12px]"
+                            arr={jobArr}
+                            dropDownLabel="* 직무"
+                            dropDownPlaceholoder="직무를 입력해주세요"
+                            rules={{ required: '* 분야를 입력해 주세요' }}
+                        />
                     </div>
                     <SearchSkill />
                     <div className="flex flex-col gap-[12px]">
@@ -358,7 +362,7 @@ const UploadPortfolios = () => {
 
                     {/* 학력 섹션 */}
                     <div className="flex flex-col gap-[12px]">
-                        <h1>학력 *</h1>
+                        <h1>학력</h1>
                         {schoolSections.map((section, index) => (
                             <PortfolioSchool
                                 key={section.id}

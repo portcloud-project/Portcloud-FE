@@ -13,6 +13,8 @@ export interface Item {
     description: string;
     writeName: string;
     file: string | null;
+    industry: string;
+    thumbnailUrl: string | null;
 }
 
 export interface ApiResponse<T> {

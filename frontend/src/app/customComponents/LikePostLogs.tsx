@@ -1,12 +1,12 @@
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { useLikePortfolioPost } from '../hooks/useLikePortfolioPost';
-import { useLikePortfolio } from '../hooks/useLikePortfolio';
-import { usePortfolioDelete } from '../hooks/useLikePortfolioDelete';
+import { useLikeLogs } from '../hooks/useLikeLogs';
+import { useLikeLogsPost } from '../hooks/useLikeLogsPost';
+import { useLikeLogsDelete } from '../hooks/useLikeLogsDelete';
 
 const LikePost = ({ id }: { id: string | string[] }) => {
-    const { mutate: like } = useLikePortfolioPost(); // POST 좋아요
-    const { mutate: unlike } = usePortfolioDelete(); // DELETE 좋아요
-    const { data, refetch } = useLikePortfolio(id); // 현재 상태 조회
+    const { mutate: like } = useLikeLogsPost(); // POST 좋아요
+    const { mutate: unlike } = useLikeLogsDelete(); // DELETE 좋아요
+    const { data, refetch } = useLikeLogs(id); // 현재 상태 조회
 
     const handleLike = () => {
         if (!id) return;

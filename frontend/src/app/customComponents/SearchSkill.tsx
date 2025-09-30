@@ -33,7 +33,6 @@ const SearchSkill = ({ width }: { width?: string }) => {
         data: searchResult,
         isLoading,
         isError,
-        error,
     } = useQuery<Skills[], Error>({
         queryKey: ['searchResult'],
         queryFn: async () => {
@@ -74,8 +73,11 @@ const SearchSkill = ({ width }: { width?: string }) => {
         <Controller
             control={control}
             name="skill"
+            rules={{
+                validate: (value) => value.length > 1 || '* 기술을 하나 이상 선택해주세요.',
+            }}
             defaultValue={[]}
-            render={({ field: { value, onChange } }) => {
+            render={({ field: { value, onChange }, fieldState: { error } }) => {
                 const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                     setInputValue(e.target.value);
                     setToggleDropdown(true);
@@ -115,6 +117,7 @@ const SearchSkill = ({ width }: { width?: string }) => {
                                 <FaMagnifyingGlass className="w-[16.8px] h-[16.8px] text-[var(--color-gray-500)]" />
                             </span>
                         </div>
+                        {error && <p className="mt-1 text-sm text-red-500">{error.message}</p>}
 
                         {toggleDropdown && (
                             <div className="absolute top-[124px] left-0 border border-[var(--color-gray-300)] bg-white p-[24px] flex flex-col gap-[16px] rounded-[8px] z-10 w-full max-h-[400px] overflow-y-auto">

@@ -2,7 +2,10 @@
 /* eslint-disable no-unused-vars */
 
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import DatePicker from 'react-datepicker';
+import { Controller, useFormContext } from 'react-hook-form';
+import { ko } from 'date-fns/locale';
+import 'react-datepicker/dist/react-datepicker.css';
 import { AiOutlineClose } from 'react-icons/ai';
 
 interface PortfolioLicenseProps {
@@ -13,7 +16,7 @@ interface PortfolioLicenseProps {
 }
 
 const PortfolioLicense = ({ id, isOnlyOneSection, onDelete, index }: PortfolioLicenseProps) => {
-    const { register } = useFormContext();
+    const { register, control } = useFormContext();
     const fieldNamePrefix = `certificates[${index}]`;
     return (
         <div className="relative flex flex-col gap-[12px] mb-[30px]">
@@ -31,11 +34,23 @@ const PortfolioLicense = ({ id, isOnlyOneSection, onDelete, index }: PortfolioLi
                         placeholder="등록번호"
                         {...register(`${fieldNamePrefix}.number`)}
                     />
-                    <input
-                        type="date"
-                        className="border w-[33%] rounded-[8px] p-[16px]"
-                        placeholder="취득일"
-                        {...register(`${fieldNamePrefix}.certificateDate`)}
+                    <Controller
+                        control={control}
+                        name={`${fieldNamePrefix}.certificateDate`}
+                        render={({ field }) => (
+                            <DatePicker
+                                locale={ko}
+                                placeholderText="취득일"
+                                selected={field.value}
+                                onChange={(date) => field.onChange(date)}
+                                className="w-full rounded-[8px] p-[16px] border"
+                                dateFormat="yyyy-MM-dd"
+                                withPortal
+                                showMonthDropdown
+                                showYearDropdown
+                                dropdownMode="select"
+                            />
+                        )}
                     />
                 </div>
             </div>
