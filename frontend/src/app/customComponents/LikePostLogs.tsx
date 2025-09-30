@@ -20,7 +20,10 @@ const LikePost = ({ id }: { id: string | string[] }) => {
 
     return (
         <div className="fixed right-[30%] top-[40%]">
-            <button onClick={handleLike} className="cursor-pointer">
+            <button
+                onClick={handleLike}
+                className="cursor-pointer bg-gray-100 p-[10px]  rounded-full border border-gray-200"
+            >
                 {data?.likeCheck ? (
                     <AiFillHeart size={24} color="red" />
                 ) : (

@@ -9,6 +9,7 @@ import { useLikePortfolio } from '@/app/hooks/useLikePortfolio';
 import LikePost from '@/app/customComponents/LikePost';
 import Comment from '@/app/customComponents/Comment';
 import CommentView from '@/app/customComponents/CommentView';
+import TopBtn from '@/app/customComponents/TopBtn';
 
 const PortfolioOutput = () => {
     const params = useParams();
@@ -62,7 +63,11 @@ const PortfolioOutput = () => {
                     <p className="text-[20px] font-medium">{portfolio.email}</p>
                 </section>
                 <section className="flex w-full gap-[24px] items-center">
-                    <p className="text-[24px] font-bold">{portfolio.industry}</p>
+                    <p className="text-[24px]  font-bold">{portfolio.industry}</p>
+                    <div className="border-r h-[14px] border-gray-300" />
+                    <p className="text-[24px]  font-bold">{portfolio.jobPosition}</p>
+                </section>
+                <section>
                     <p className="flex gap-[8px] flex-wrap">
                         {portfolio.skill.map((s, idx) => (
                             <div
@@ -187,6 +192,7 @@ const PortfolioOutput = () => {
             </div>
 
             <LikePost id={id} />
+            <TopBtn />
         </main>
     );
 };

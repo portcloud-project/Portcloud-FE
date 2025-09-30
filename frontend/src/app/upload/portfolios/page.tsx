@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import SearchSkill from '@/app/customComponents/SearchSkill';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+import UploadDropDown from '@/app/customComponents/UploadDropDown';
 
 export interface ProjectSectionData {
     id: number;
@@ -69,6 +70,18 @@ const UploadPortfolios = () => {
     const router = useRouter();
     const queyryclient = useQueryClient();
 
+    const industryArr = ['기획', '개발', '디자인', '마케팅', '기타'];
+    const jobArr = [
+        'Frontend',
+        'Backend',
+        'Designer',
+        'Publisher',
+        'PM',
+        'Marketer',
+        'DevOps',
+        'QA',
+    ];
+
     const methods = useForm<FormData>({
         defaultValues: {
             title: '',
@@ -114,6 +127,7 @@ const UploadPortfolios = () => {
 
     const onSubmit = async (data: FormData) => {
         try {
+            console.log(data);
             const token = Cookies.get('accessToken');
             const formData = new FormData();
 
@@ -300,7 +314,7 @@ const UploadPortfolios = () => {
                         )}
                     </div>
                     <div className="flex gap-[12px]">
-                        <div className="flex flex-col flex-grow gap-[12px]">
+                        {/* <div className="flex flex-col flex-grow gap-[12px]">
                             <label htmlFor="" className="font-bold text-[24px]">
                                 분야 *
                             </label>
@@ -318,8 +332,19 @@ const UploadPortfolios = () => {
                                     {errors.industry.message as string}
                                 </p>
                             )}
-                        </div>
-                        <div className="flex flex-col flex-grow gap-[12px]">
+                        </div> */}
+                        <UploadDropDown
+                            name="industry"
+                            width="w-[376px]"
+                            height="h-[50px]"
+                            labelFont="font-bold"
+                            labelText="text-[24px]"
+                            gap="gap-[12px]"
+                            arr={industryArr}
+                            dropDownLabel="분야"
+                            dropDownPlaceholoder="분야를 입력해주세요"
+                        />
+                        {/* <div className="flex flex-col flex-grow gap-[12px]">
                             <label htmlFor="" className="font-bold text-[24px]">
                                 직무 *
                             </label>
@@ -337,7 +362,18 @@ const UploadPortfolios = () => {
                                     {errors.jobPosition.message as string}
                                 </p>
                             )}
-                        </div>
+                        </div> */}
+                        <UploadDropDown
+                            name="jobPosition"
+                            width="w-[376px]"
+                            height="h-[50px]"
+                            labelFont="font-bold"
+                            labelText="text-[24px]"
+                            gap="gap-[12px]"
+                            arr={jobArr}
+                            dropDownLabel="직무"
+                            dropDownPlaceholoder="직무를 입력해주세요"
+                        />
                     </div>
                     <SearchSkill />
                     <div className="flex flex-col gap-[12px]">

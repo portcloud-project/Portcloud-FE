@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
-import logo from '../imgs/logoImage.svg';
+import logo from '../imgs/logoImage_v2.png';
+
 import { useState } from 'react';
 import UseRule from '../customComponents/useRule';
 import PrivateAccept from '../customComponents/PrivateAccept';

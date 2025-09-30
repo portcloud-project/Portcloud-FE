@@ -4,6 +4,7 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { AiOutlineClose } from 'react-icons/ai';
+import UploadDropDown from './UploadDropDown';
 
 interface PortfolioSchoolProps {
     index: number;
@@ -15,6 +16,7 @@ interface PortfolioSchoolProps {
 const PortfolioSchool = ({ id, isOnlyOneSection, onDelete, index }: PortfolioSchoolProps) => {
     const { register } = useFormContext();
     const fieldNamePrefix = `educations[${index}]`;
+    const schoolArr = ['졸업 ', '재학', '휴학', '중퇴', '졸업예정'];
     return (
         <div className="relative flex flex-col gap-[12px] mb-[30px]">
             <div className="flex flex-col gap-[12px]">
@@ -27,7 +29,7 @@ const PortfolioSchool = ({ id, isOnlyOneSection, onDelete, index }: PortfolioSch
                             required: '학교/학과명은 필수입니다.',
                         })}
                     />
-                    <select
+                    {/* <select
                         id=""
                         className="border w-[30%] rounded-[8px] p-[16px]"
                         {...register(`${fieldNamePrefix}.schoolStatus`, {
@@ -37,7 +39,18 @@ const PortfolioSchool = ({ id, isOnlyOneSection, onDelete, index }: PortfolioSch
                         <option value="재학">재학</option>
                         <option value="졸업">졸업</option>
                         <option value="졸업예정">졸업예정</option>
-                    </select>
+                    </select> */}
+                    <UploadDropDown
+                        name={`${fieldNamePrefix}.schoolStatus`}
+                        width="w-[245px]"
+                        height="h-[56px]"
+                        labelFont="font-bold"
+                        labelText="text-[24px]"
+                        gap=""
+                        arr={schoolArr}
+                        dropDownLabel=""
+                        dropDownPlaceholoder="상태"
+                    />
                 </div>
             </div>
             {!isOnlyOneSection && (

@@ -3,6 +3,7 @@ import CommentLogs from '@/app/customComponents/CommentLogs';
 import CommentViewLogs from '@/app/customComponents/CommentViewLogs';
 import Like from '@/app/customComponents/Like';
 import LikePostLogs from '@/app/customComponents/LikePostLogs';
+import TopBtn from '@/app/customComponents/TopBtn';
 import { useDeleteLogs } from '@/app/hooks/useDeleteAllLogs';
 import { useLikeLogs } from '@/app/hooks/useLikeLogs';
 import { useLogsDetail } from '@/app/hooks/useLogsDetail';
@@ -68,6 +69,7 @@ const LogsOutput = () => {
                 <CommentViewLogs id={id} />
             </div>
             <LikePostLogs id={id} />
+            <TopBtn />
         </main>
     );
 };
