@@ -1,30 +1,9 @@
 import { useRouter } from 'next/navigation';
-import { useMainProject } from '../hooks/useMainProject';
-import { FormData } from '../upload/portfolios/page';
+import { MainListProps } from './MainList';
+import { useMainLogs } from '../hooks/useMainLogs';
 
-export interface MainListProps {
-    title: string;
-    items?: FormData[];
-}
-
-export interface Item {
-    id: number;
-    title: string;
-    description: string;
-    writeName: string;
-    file: string | null;
-    industry: string;
-    thumbnailUrl: string | null;
-}
-
-export interface ApiResponse<T> {
-    status: number;
-    message: string | null;
-    data: T;
-}
-
-const MainList = ({ title }: MainListProps) => {
-    const { isLoading, isError, error, data } = useMainProject();
+const MainPortfolio = ({ title }: MainListProps) => {
+    const { isLoading, isError, error, data } = useMainLogs();
     const router = useRouter();
     if (isLoading) {
         return (
@@ -53,28 +32,28 @@ const MainList = ({ title }: MainListProps) => {
                     data?.map((item) => {
                         return (
                             <li
-                                onClick={() => router.push('')}
+                                onClick={() => router.push(`/output/portfolio/${item.id}`)}
                                 key={`${item.id}`}
-                                className="group min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:w-full"
+                                className="group min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer tablet:shrink-0 tablet:w-full"
                             >
                                 {/* 앞면 */}
                                 <div className="absolute inset-0 rounded-[20px] overflow-hidden duration-700 ease-in-out group-hover:opacity-0">
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailUrl})`,
                                         }}
                                     >
                                         <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
                                             <p>{item.title}</p>
-                                            <p>{item.description}</p>
+
                                             <p className="text-[14px] text-gray-100">
                                                 {item.writeName}
                                             </p>
                                         </div>
                                         <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
                                             <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
-                                                개발
+                                                {item.category}
                                             </p>
                                         </div>
                                     </div>
@@ -86,7 +65,7 @@ const MainList = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailUrl})`,
                                         }}
                                     ></div>
                                     {/* 오버레이 */}
@@ -94,14 +73,12 @@ const MainList = ({ title }: MainListProps) => {
                                     {/* 텍스트  */}
                                     <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
                                         <p>{item.title}</p>
-                                        <p>{item.description}</p>
-                                        <p className="text-[14px] text-gray-100">
-                                            {item.writeName}
-                                        </p>
+
+                                        <p className="text-[14px] text-gray-100">{item.category}</p>
                                     </div>
                                     <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
                                         <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
-                                            개발
+                                            {item.category}
                                         </p>
                                     </div>
                                 </div>
@@ -109,7 +86,7 @@ const MainList = ({ title }: MainListProps) => {
                         );
                     })
                 ) : (
-                    <li className="w-[1392px] h-[248px] bg-gray-300 rounded-[20px] items-center flex justify-center text-white text-[20px] font-bold">
+                    <li className="w-[1392px] h-[248px] bg-gray-300 rounded-[20px] items-center flex justify-center text-white text-[20px] font-bold px-[24px]">
                         목록이 없습니다
                     </li>
                 )}
@@ -118,4 +95,4 @@ const MainList = ({ title }: MainListProps) => {
     );
 };
 
-export default MainList;
+export default MainPortfolio;
