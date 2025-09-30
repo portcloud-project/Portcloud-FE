@@ -25,21 +25,9 @@ const PortfolioSchool = ({ id, isOnlyOneSection, onDelete, index }: PortfolioSch
                         type="text"
                         className="border w-[70%] rounded-[8px] p-[16px]"
                         placeholder="학교/학과"
-                        {...register(`${fieldNamePrefix}.school`, {
-                            required: '학교/학과명은 필수입니다.',
-                        })}
+                        {...register(`${fieldNamePrefix}.school`)}
                     />
-                    {/* <select
-                        id=""
-                        className="border w-[30%] rounded-[8px] p-[16px]"
-                        {...register(`${fieldNamePrefix}.schoolStatus`, {
-                            required: '상태를 선택해 주세요',
-                        })}
-                    >
-                        <option value="재학">재학</option>
-                        <option value="졸업">졸업</option>
-                        <option value="졸업예정">졸업예정</option>
-                    </select> */}
+
                     <UploadDropDown
                         name={`${fieldNamePrefix}.schoolStatus`}
                         width="w-[245px]"
@@ -52,6 +40,7 @@ const PortfolioSchool = ({ id, isOnlyOneSection, onDelete, index }: PortfolioSch
                         dropDownPlaceholoder="상태"
                     />
                 </div>
+                <p className="text-red-500 text-sm mt-1"></p>
             </div>
             {!isOnlyOneSection && (
                 <button

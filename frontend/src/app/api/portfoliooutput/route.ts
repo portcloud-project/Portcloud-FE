@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response.data);
+        console.log(response.data.data.certificates);
         const data = response.data.data;
         return NextResponse.json(data, { status: 200 });
     } catch (err) {

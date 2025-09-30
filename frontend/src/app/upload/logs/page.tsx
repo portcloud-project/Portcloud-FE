@@ -4,7 +4,8 @@ import LogsModal from '@/app/customComponents/LogsModal';
 import MarkdownEditor from '@/app/customComponents/MarkdownEditor';
 import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+
 import { useState } from 'react';
 import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
 
@@ -23,7 +24,7 @@ const UploadLogs = () => {
             content: '',
             thumbnail: undefined,
             category: '',
-            blogStatus: '1',
+            blogStatus: '',
         },
     });
 
@@ -43,11 +44,12 @@ const UploadLogs = () => {
         console.log(data);
         try {
             const formdata = new FormData();
+            const newbolgStatus = data.blogStatus === '공개' ? '1' : '2';
             formdata.append('title', data.title);
             formdata.append('content', data.content);
-            formdata.append('thumbnail', data.thumbnail[0]); // 파일 첨부
+            formdata.append('thumbnail', data.thumbnail[0]);
             formdata.append('category', data.category);
-            formdata.append('blogStatus', data.blogStatus);
+            formdata.append('blogStatus', newbolgStatus);
             console.log('FormData:', Array.from(formdata.entries()));
             const response = await axios.post('/api/logs-post', formdata, {
                 headers: {

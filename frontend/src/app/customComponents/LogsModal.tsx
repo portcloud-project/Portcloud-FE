@@ -4,6 +4,7 @@ import { SubmitHandler, useFormContext } from 'react-hook-form';
 import CardLayout from '../layoutComponents/CardLayout';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { UploadLogsFormValuesType } from '../upload/logs/page';
+import UploadDropDown from './UploadDropDown';
 
 const LogsModal = ({
     setLogsModal,
@@ -13,6 +14,8 @@ const LogsModal = ({
     onLogsSubmit: SubmitHandler<UploadLogsFormValuesType>;
 }) => {
     const { register, handleSubmit } = useFormContext<UploadLogsFormValuesType>();
+    const categoryArr = ['정보공유', '자기개발'];
+    const blogStatusArr = ['공개', '비공개'];
     return (
         <CardLayout setLoginModal={setLogsModal}>
             <Card
@@ -25,7 +28,7 @@ const LogsModal = ({
                     <div className="flex gap-[32px]">
                         <div className="flex flex-col gap-[12px]">
                             <label htmlFor="file" className="text-[20px] font-bold">
-                                대표 이미지 첨부
+                                * 대표 이미지 첨부
                             </label>
                             <input
                                 className="w-full border min-h-[350px] rounded-[8px] p-[20px]"
@@ -39,34 +42,32 @@ const LogsModal = ({
                         </div>
                         <div className="flex flex-col w-1/2 gap-[30px]">
                             <div className="flex flex-col gap-[12px]">
-                                <label htmlFor="category" className="text-[20px] font-bold">
-                                    카테고리
-                                </label>
-                                <select
-                                    className="min-h-[64px] border rounded-[8px] p-[20px]"
-                                    id="category"
-                                    {...register('category', {
-                                        required: '* 카테고리를 선택해 주세요.',
-                                    })}
-                                >
-                                    <option value="정보공유">정보 공유</option>
-                                    <option value="자기개발">자기 개발</option>
-                                </select>
+                                <UploadDropDown
+                                    name="category"
+                                    width="w-[300px]"
+                                    height="h-[50px]"
+                                    labelFont="font-bold"
+                                    labelText="text-[24px]"
+                                    gap="gap-[12px]"
+                                    arr={categoryArr}
+                                    dropDownLabel="* 카테고리"
+                                    dropDownPlaceholoder="* 카테고리를 선택해 주세요"
+                                    rules={{ required: '* 카테고리를 선택해 주세요' }}
+                                />
                             </div>
                             <div className="flex flex-col gap-[12px]">
-                                <label htmlFor="blogStatus" className="text-[20px] font-bold">
-                                    공개여부
-                                </label>
-                                <select
-                                    className="min-h-[64px] border rounded-[8px] p-[20px]"
-                                    id="blogStatus"
-                                    {...register('blogStatus', {
-                                        required: '* 공개여부를 선택해 주세요.',
-                                    })}
-                                >
-                                    <option value="1">공개</option>
-                                    <option value="2">비공개</option>
-                                </select>
+                                <UploadDropDown
+                                    name="blogStatus"
+                                    width="w-[300px]"
+                                    height="h-[50px]"
+                                    labelFont="font-bold"
+                                    labelText="text-[24px]"
+                                    gap="gap-[12px]"
+                                    arr={blogStatusArr}
+                                    dropDownLabel="* 공개여부"
+                                    dropDownPlaceholoder="* 공개여부를 선택해주에요"
+                                    rules={{ required: '* 공개여부를 선택해주에요' }}
+                                />
                             </div>
                         </div>
                     </div>

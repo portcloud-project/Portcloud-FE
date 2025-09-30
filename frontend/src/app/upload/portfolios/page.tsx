@@ -314,25 +314,6 @@ const UploadPortfolios = () => {
                         )}
                     </div>
                     <div className="flex gap-[12px]">
-                        {/* <div className="flex flex-col flex-grow gap-[12px]">
-                            <label htmlFor="" className="font-bold text-[24px]">
-                                분야 *
-                            </label>
-                            <input
-                                id="filed"
-                                type="text"
-                                className=" py-[12px] border rounded-[8px] px-[20px]"
-                                placeholder="분야를 입력해 주세요"
-                                {...register('industry', {
-                                    required: '* 분야를 입력해 주세요',
-                                })}
-                            />
-                            {errors.industry && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.industry.message as string}
-                                </p>
-                            )}
-                        </div> */}
                         <UploadDropDown
                             name="industry"
                             width="w-[376px]"
@@ -341,28 +322,11 @@ const UploadPortfolios = () => {
                             labelText="text-[24px]"
                             gap="gap-[12px]"
                             arr={industryArr}
-                            dropDownLabel="분야"
+                            dropDownLabel="* 분야"
                             dropDownPlaceholoder="분야를 입력해주세요"
+                            rules={{ required: '* 분야를 입력해 주세요' }}
                         />
-                        {/* <div className="flex flex-col flex-grow gap-[12px]">
-                            <label htmlFor="" className="font-bold text-[24px]">
-                                직무 *
-                            </label>
-                            <input
-                                id="job"
-                                type="text"
-                                className=" py-[12px] border rounded-[8px] px-[20px]"
-                                placeholder="직무를 입력해 주세요"
-                                {...register('jobPosition', {
-                                    required: '* 직무를 입력해 주세요',
-                                })}
-                            />
-                            {errors.jobPosition && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.jobPosition.message as string}
-                                </p>
-                            )}
-                        </div> */}
+
                         <UploadDropDown
                             name="jobPosition"
                             width="w-[376px]"
@@ -371,8 +335,9 @@ const UploadPortfolios = () => {
                             labelText="text-[24px]"
                             gap="gap-[12px]"
                             arr={jobArr}
-                            dropDownLabel="직무"
+                            dropDownLabel="* 직무"
                             dropDownPlaceholoder="직무를 입력해주세요"
+                            rules={{ required: '* 분야를 입력해 주세요' }}
                         />
                     </div>
                     <SearchSkill />
@@ -397,7 +362,7 @@ const UploadPortfolios = () => {
 
                     {/* 학력 섹션 */}
                     <div className="flex flex-col gap-[12px]">
-                        <h1>학력 *</h1>
+                        <h1>학력</h1>
                         {schoolSections.map((section, index) => (
                             <PortfolioSchool
                                 key={section.id}
