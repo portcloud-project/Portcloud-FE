@@ -37,7 +37,7 @@ const MypageCard = () => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailURL})`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailUrl})`,
                                         }}
                                     ></div>
                                 </div>
@@ -48,7 +48,7 @@ const MypageCard = () => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailURL})`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailUrl})`,
                                         }}
                                     ></div>
                                     {/* 오버레이 */}
