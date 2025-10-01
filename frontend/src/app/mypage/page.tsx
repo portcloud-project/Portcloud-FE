@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MypageAdd from '../customComponents/MypageAdd';
 import { userStore } from '../stores/userStore';
 import MyPagePortfolio from '../customComponents/MypagePortfolio';
+import MypageLogs from '../customComponents/MypageLogs';
 
 const Mypage = () => {
     const tabsArr = [
@@ -73,7 +74,10 @@ const Mypage = () => {
                 </TabsList>
 
                 <TabsContent value="profile">여긴 프로필 수정</TabsContent>
-                <TabsContent value="bookMarks">여긴 북마크 관리</TabsContent>
+                <TabsContent value="bookMarks">
+                    여긴 북마크 관리
+                    <MypageLogs />
+                </TabsContent>
                 <TabsContent value="portfolios" className="overflow-y-auto p-[20px]">
                     <MyPagePortfolio />
                 </TabsContent>

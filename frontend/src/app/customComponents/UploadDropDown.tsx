@@ -7,7 +7,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useState } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, RegisterOptions, useFormContext } from 'react-hook-form';
 import { FaAngleDown, FaAngleUp, FaCheck } from 'react-icons/fa6';
 
 type UploadDropDownPropsType = {
@@ -21,7 +21,7 @@ type UploadDropDownPropsType = {
     labelFont: string;
     gap: string;
     name: string;
-    rules?: string;
+    rules?: RegisterOptions;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     errors?: any;
     // eslint-disable-next-line no-unused-vars
@@ -54,8 +54,8 @@ const UploadDropDown = ({
             <Controller
                 control={control}
                 name={`${name}`}
-                rules={{ required: `${rules}` }}
-                render={({ field }) => (
+                rules={rules}
+                render={({ field, fieldState: { error } }) => (
                     <DropdownMenu open={open} onOpenChange={setOpen}>
                         <DropdownMenuTrigger
                             className={`relative ${width} ${height} border rounded-[8px] px-[12px] flex items-center justify-between cursor-pointer transition duration-300 ease-in-out ${open ? 'border-[var(--color-purple-500)]' : 'border-[var(--color-gray-400)]'} ${errors ? 'border-[var(--color-red-500)]' : ''}`}
@@ -98,6 +98,7 @@ const UploadDropDown = ({
                                 </DropdownMenuItem>
                             ))}
                         </DropdownMenuContent>
+                        {error && <p className="mt-1 text-sm text-red-500">{error.message}</p>}
                     </DropdownMenu>
                 )}
             />

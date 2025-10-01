@@ -1,9 +1,9 @@
 import { useRouter } from 'next/navigation';
-import { useMainPortfolio } from '../hooks/useMainPortfolio';
 import { MainListProps } from './MainList';
+import { useMainLogs } from '../hooks/useMainLogs';
 
 const MainPortfolio = ({ title }: MainListProps) => {
-    const { isLoading, isError, error, data } = useMainPortfolio();
+    const { isLoading, isError, error, data } = useMainLogs();
     const router = useRouter();
     if (isLoading) {
         return (
@@ -32,7 +32,7 @@ const MainPortfolio = ({ title }: MainListProps) => {
                     data?.map((item) => {
                         return (
                             <li
-                                onClick={() => router.push(`/output/portfolio/${item.id}`)}
+                                onClick={() => router.push(`/output/logs/${item.id}`)}
                                 key={`${item.id}`}
                                 className="group min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer tablet:shrink-0 tablet:w-full"
                             >
@@ -41,19 +41,19 @@ const MainPortfolio = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailUrl})`,
                                         }}
                                     >
                                         <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
                                             <p>{item.title}</p>
-                                            <p>{item.description}</p>
+
                                             <p className="text-[14px] text-gray-100">
                                                 {item.writeName}
                                             </p>
                                         </div>
                                         <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
                                             <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
-                                                {item.industry}
+                                                {item.category}
                                             </p>
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@ const MainPortfolio = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailUrl})`,
                                         }}
                                     ></div>
                                     {/* 오버레이 */}
@@ -73,14 +73,14 @@ const MainPortfolio = ({ title }: MainListProps) => {
                                     {/* 텍스트  */}
                                     <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
                                         <p>{item.title}</p>
-                                        <p>{item.description}</p>
+
                                         <p className="text-[14px] text-gray-100">
                                             {item.writeName}
                                         </p>
                                     </div>
                                     <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
                                         <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
-                                            {item.industry}
+                                            {item.category}
                                         </p>
                                     </div>
                                 </div>

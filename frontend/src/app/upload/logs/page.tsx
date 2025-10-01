@@ -1,11 +1,20 @@
 'use client';
 
+import LogsModal from '@/app/customComponents/LogsModal';
 import MarkdownEditor from '@/app/customComponents/MarkdownEditor';
+import { useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+
+import { useState } from 'react';
 import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
 
-interface UploadLogsFormValuesType {
+export interface UploadLogsFormValuesType {
     title: string;
     content: string;
+    thumbnail: File[];
+    category: string;
+    blogStatus: string;
 }
 
 const UploadLogs = () => {
@@ -13,8 +22,15 @@ const UploadLogs = () => {
         defaultValues: {
             title: '',
             content: '',
+            thumbnail: undefined,
+            category: '',
+            blogStatus: '',
         },
     });
+
+    const [modal, setModal] = useState<boolean>(false);
+    const router = useRouter();
+    const queryclient = useQueryClient();
 
     const {
         handleSubmit,
@@ -24,8 +40,29 @@ const UploadLogs = () => {
     } = methods;
     const errors = formErrors as FieldErrors<UploadLogsFormValuesType>;
 
-    const onLogsSubmit = (data: UploadLogsFormValuesType) => {
-        console.log(data.content);
+    const onLogsSubmit = async (data: UploadLogsFormValuesType) => {
+        console.log(data);
+        try {
+            const formdata = new FormData();
+            const newbolgStatus = data.blogStatus === '공개' ? '1' : '2';
+            formdata.append('title', data.title);
+            formdata.append('content', data.content);
+            formdata.append('thumbnail', data.thumbnail[0]);
+            formdata.append('category', data.category);
+            formdata.append('blogStatus', newbolgStatus);
+            console.log('FormData:', Array.from(formdata.entries()));
+            const response = await axios.post('/api/logs-post', formdata, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            router.push('/works/logs');
+            queryclient.invalidateQueries();
+            return response.status;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     };
 
     return (
@@ -95,14 +132,16 @@ const UploadLogs = () => {
                             />
                         )}
                     />
-                    <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="px-4 py-2 rounded-md bg-[var(--color-purple-500)] text-white cursor-pointer"
-                    >
-                        업로드
-                    </button>
+                    {modal && <LogsModal setLogsModal={setModal} onLogsSubmit={onLogsSubmit} />}
                 </form>
+                <button
+                    type="button"
+                    disabled={isSubmitting}
+                    className="px-4 py-2 rounded-md bg-[var(--color-purple-500)] text-white cursor-pointer ml-auto"
+                    onClick={() => setModal(true)}
+                >
+                    등록하기
+                </button>
             </FormProvider>
         </>
     );
