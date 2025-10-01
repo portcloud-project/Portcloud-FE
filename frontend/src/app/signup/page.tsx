@@ -270,7 +270,9 @@ const Signup = () => {
                                     className="w-full h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
                                     min="1900-01-01"
                                     max={`${new Date().getFullYear()}-${new Date().getMonth}-${new Date().getDate()}`}
+
                                     {...register('birthDate', {})}
+
                                 />
                             </div>
                             {errors.birthDate && (
@@ -295,7 +297,9 @@ const Signup = () => {
                                 type="text"
                                 id="nickname"
                                 placeholder="닉네임"
+
                                 className={`w-full h-[44px] border border-[var(--color-gray-400)] rounded-[8px]  px-[12px] focus:outline-none transition duration-300 ease-in-out ${
+
                                     errors.nickname
                                         ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
                                         : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
@@ -310,7 +314,9 @@ const Signup = () => {
                             />
                             {/* 닉네임 error section */}
                             {errors.nickname && (
+
                                 <p className="text-sm text-[var(--color-red-500)] left-0 ">
+
                                     {errors.nickname.message}
                                 </p>
                             )}
