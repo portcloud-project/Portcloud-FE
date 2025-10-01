@@ -11,9 +11,10 @@ interface Props {
     onVerified?: () => void;
     /** 이미 인증 완료된 상태로 보여줄 때 */
     verified?: boolean;
+    setNext?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EmailVerification = ({ onVerified, verified: verifiedProp = false }: Props) => {
+const EmailVerification = ({ onVerified, verified: verifiedProp = false, setNext }: Props) => {
     const {
         register,
         formState: { errors },
@@ -32,7 +33,7 @@ const EmailVerification = ({ onVerified, verified: verifiedProp = false }: Props
 
     const sendVerification = async () => {
         const email = getValues('email');
-        // 클라이언트쪽 1차 검증
+        // 이메일 검증
         const emailOk = /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/.test(email);
         if (!emailOk) {
             setError('email', { type: 'manual', message: '올바른 이메일 형식을 입력하세요' });
@@ -71,6 +72,7 @@ const EmailVerification = ({ onVerified, verified: verifiedProp = false }: Props
             });
             if (res.status === 200) {
                 setVerified(true);
+                setNext?.(true);
                 onVerified?.();
                 alert('인증이 확인되었습니다');
             } else {
