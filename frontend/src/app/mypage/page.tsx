@@ -74,8 +74,7 @@ const Mypage = () => {
                 </TabsList>
 
                 <TabsContent value="profile">여긴 프로필 수정</TabsContent>
-                <TabsContent value="bookMarks">
-                    여긴 북마크 관리
+                <TabsContent value="bookMarks" className="overflow-y-auto p-[20px]">
                     <MypageLogs />
                 </TabsContent>
                 <TabsContent value="portfolios" className="overflow-y-auto p-[20px]">

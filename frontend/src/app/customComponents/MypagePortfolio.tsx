@@ -56,6 +56,14 @@ const MyPagePortfolio = () => {
                                 backgroundImage: `url(https://port-cloud.com/img/${portfolio.file})`,
                             }}
                         ></div>
+
+                        <div className="absolute bottom-0 left-0 right-0 h-[100px] bg-gradient-to-t from-black/60 to-transparent rounded-b-[20px] z-10 flex flex-col justify-end p-[24px] gap-[4px]">
+                            <p className="font-bold text-white text-[18px]">
+                                {portfolio.title}
+                                <p className="text-gray-100 text-[14px]">{portfolio.jopPosition}</p>
+                                <p>{dayjs(portfolio.createAt).format('YYYY-MM-DD')}</p>
+                            </p>
+                        </div>
                     </div>
 
                     {/* 뒷면 */}
@@ -70,10 +78,12 @@ const MyPagePortfolio = () => {
                         {/* 오버레이 */}
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
 
-                        <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
-                            <p>{portfolio.title}</p>
-                            <p>{dayjs(portfolio.createAt).format('YYYY-MM-DD')}</p>
-                            <p className="text-[14px] text-gray-100">{portfolio.jopPosition}</p>
+                        <div className="absolute bottom-0 left-0 right-0 h-[100px] rounded-b-[20px] z-10 flex flex-col justify-end p-[24px] gap-[4px]">
+                            <p className="font-bold text-white text-[18px]">
+                                {portfolio.title}
+                                <p className="text-gray-100 text-[14px]">{portfolio.jopPosition}</p>
+                                <p>{dayjs(portfolio.createAt).format('YYYY-MM-DD')}</p>
+                            </p>
                         </div>
                         <div className="absolute inset-0 flex items-center justify-center z-10 text-white font-bold text-[18px] p-[24px] flex-col  ">
                             <p

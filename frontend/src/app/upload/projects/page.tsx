@@ -176,7 +176,7 @@ const UploadProjects = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="people"
-                            rules="진행 인원을 선택해주세요"
+                            rules={{ required: '진행 인원을 선택해주세요' }}
                             errors={errors.people}
                         />
                     </div>
@@ -272,7 +272,7 @@ const UploadProjects = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="distribution"
-                            rules="배포 현황을 선택해주세요"
+                            rules={{ required: '배포 현황을 선택해주세요' }}
                             errors={errors.distribution}
                         />
                     </div>
