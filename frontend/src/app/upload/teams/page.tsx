@@ -41,7 +41,7 @@ const UploadTeams = () => {
             router.push('/works/teams');
             return response.status;
         } catch (err) {
-            console.error(err); 
+            console.error(err);
         }
     };
 
@@ -128,9 +128,9 @@ const UploadTeams = () => {
                             {...register('content', {
                                 required: '내용을 입력해주세요',
                                 minLength: {
-                                        value: 3,
-                                        message: '내용은 3자 이상 입력해주세요',
-                                    },
+                                    value: 3,
+                                    message: '내용은 3자 이상 입력해주세요',
+                                },
                             })}
                         />
                         {/* 내용 error section */}
@@ -154,8 +154,8 @@ const UploadTeams = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="position"
-                            rules='모집 포지션을 선택해주세요'
-                            errors = {errors.position}
+                            rules="모집 포지션을 선택해주세요"
+                            errors={errors.position}
                         />
                         {/* 모집 인원 section */}
                         <UploadDropDown
@@ -168,8 +168,8 @@ const UploadTeams = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="people"
-                            rules='모집 인원을 선택해주세요'
-                            errors = {errors.people}
+                            rules="모집 인원을 선택해주세요"
+                            errors={errors.people}
                         />
                         {/* 스킬 section */}
                         <SearchSkill width="w-[384px]" />
@@ -204,7 +204,7 @@ const UploadTeams = () => {
                                 </p>
                             )}
                         </div>
-                        
+
                         {/* 연락 방법 section */}
                         <div className="w-[376px] h-fit flex flex-col justify-center items-start gap-[12px] relative">
                             <label

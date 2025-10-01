@@ -14,7 +14,9 @@ export async function POST(req: NextRequest) {
 
         const formData = await req.formData();
 
-        const raw = String(formData.get('distribution') ?? '').trim().toLowerCase();
+        const raw = String(formData.get('distribution') ?? '')
+            .trim()
+            .toLowerCase();
         const isTrue =
             raw === 'true' || raw === '1' || raw === 'y' || raw === 'yes' || raw === '배포 중';
         formData.set('distribution', isTrue ? 'true' : 'false');

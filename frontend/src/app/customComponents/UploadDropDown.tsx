@@ -54,7 +54,7 @@ const UploadDropDown = ({
             <Controller
                 control={control}
                 name={`${name}`}
-                rules={{required: `${rules}`}}
+                rules={{ required: `${rules}` }}
                 render={({ field }) => (
                     <DropdownMenu open={open} onOpenChange={setOpen}>
                         <DropdownMenuTrigger
