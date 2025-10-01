@@ -271,20 +271,8 @@ const Signup = () => {
                                     min="1900-01-01"
                                     max={`${new Date().getFullYear()}-${new Date().getMonth}-${new Date().getDate()}`}
                                     {...register('birthDate', {
-                                        required: '생년월일을 입력해 주세요',
-                                        // validate: (a) => {
-                                        //     const year = Number(a.getFullYear);
-                                        //     const current = new Date().getFullYear();
-                                        //     if (!year) return '유효하지 않은 출생 연도입니다';
-                                        //     return (
-                                        //         (year < 1900 && year > current) ||
-                                        //         '유효하지 않은 출생 연도입니다'
-                                        //     );
-                                        // },
-                                        // Number(a.getFullYear) < 1800 ||
-                                        // Number(a.getFullYear) > new Date().getFullYear()
-                                        //     ? '유효하지 않은 출생 연도입니다'
-                                        //     : true,
+
+
                                     })}
                                 />
                             </div>
@@ -310,7 +298,9 @@ const Signup = () => {
                                 type="text"
                                 id="nickname"
                                 placeholder="닉네임"
-                                className={`w-full h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:outline-none transition duration-300 ease-in-out ${
+
+                                className={`w-full h-[44px] border border-[var(--color-gray-400)] rounded-[8px]  px-[12px] focus:outline-none transition duration-300 ease-in-out ${
+
                                     errors.nickname
                                         ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
                                         : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
@@ -325,7 +315,9 @@ const Signup = () => {
                             />
                             {/* 닉네임 error section */}
                             {errors.nickname && (
-                                <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[73px]">
+
+                                <p className="text-sm text-[var(--color-red-500)] left-0 ">
+
                                     {errors.nickname.message}
                                 </p>
                             )}
@@ -335,7 +327,7 @@ const Signup = () => {
                             name="job"
                             control={control}
                             rules={{ required: '관심 직군을 선택해 주세요' }}
-                            render={({ field, fieldState }) => (
+                            render={({ field }) => (
                                 <div className="relative">
                                     <UploadDropDown
                                         arr={isInterestArr}
@@ -350,11 +342,6 @@ const Signup = () => {
                                         onChange={field.onChange}
                                         name="job"
                                     />
-                                    {fieldState.error && (
-                                        <p className="text-sm text-[var(--color-red-500)] absolute left-0 top-[73px]">
-                                            {fieldState.error.message}
-                                        </p>
-                                    )}
                                 </div>
                             )}
                         />

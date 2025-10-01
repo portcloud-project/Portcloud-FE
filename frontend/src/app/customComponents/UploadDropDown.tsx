@@ -98,7 +98,8 @@ const UploadDropDown = ({
                                 </DropdownMenuItem>
                             ))}
                         </DropdownMenuContent>
-                        {error && <p className="mt-1 text-sm text-red-500">{error.message}</p>}
+
+                        {error && <p className="text-sm text-red-500">{error.message}</p>}
                     </DropdownMenu>
                 )}
             />
