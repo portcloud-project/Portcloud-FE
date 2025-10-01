@@ -275,7 +275,6 @@ const UploadProjects = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="distribution"
-
                             rules={{}}
                             errors={errors.distribution}
                         />
