@@ -106,7 +106,6 @@ const Signup = () => {
                     className="w-[345px] tablet:w-[480px] flex flex-col justify-start items-start gap-[22px]"
                 >
                     {/* email section */}
-                    {/* 이메일 + 인증번호 컴포넌트화 */}
                     <EmailVerification
                         verified={isVerified}
                         onVerified={() => setIsVerified(true)}

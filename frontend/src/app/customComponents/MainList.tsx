@@ -55,7 +55,7 @@ const MainList = ({ title }: MainListProps) => {
                     data?.map((item) => {
                         return (
                             <li
-                                onClick={() => router.push('')}
+                                onClick={() => router.push(`/output/projects/${item.id}`)}
                                 key={`${item.id}`}
                                 className="group min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:w-full"
                             >
@@ -64,7 +64,7 @@ const MainList = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailUrl})`,
                                         }}
                                     >
                                         <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">

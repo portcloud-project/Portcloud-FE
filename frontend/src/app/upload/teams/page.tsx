@@ -9,7 +9,7 @@ import { Skills } from '@/app/stores/skillStore';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-interface UploadTeamsFormValuesType {
+export interface UploadTeamsFormValuesType {
     title: string;
     content: string;
     position: string;
@@ -18,6 +18,9 @@ interface UploadTeamsFormValuesType {
     endDate: string;
     contact: string;
     saveStatus: true;
+    writerName: string;
+    createdAt: string;
+    id: string;
 }
 
 const UploadTeams = () => {
@@ -154,7 +157,7 @@ const UploadTeams = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="position"
-                            rules="모집 포지션을 선택해주세요"
+                            rules={{ required: '모집 포지션을 선택해주세요' }}
                             errors={errors.position}
                         />
                         {/* 모집 인원 section */}
@@ -168,7 +171,7 @@ const UploadTeams = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="people"
-                            rules="모집 인원을 선택해주세요"
+                            rules={{ required: '모집 인원을 선택해주세요' }}
                             errors={errors.people}
                         />
                         {/* 스킬 section */}
