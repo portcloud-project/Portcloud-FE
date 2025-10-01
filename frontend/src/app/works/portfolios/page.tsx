@@ -33,7 +33,7 @@ const UserPortfolios = () => {
     });
 
     return (
-        <section className="flex gap-[48px] flex-col">
+        <section className="flex gap-[48px] flex-col justify-center items-center px-[24px]">
             <MainPortfolio title={'추천 포트폴리오'} />
             <RecentPortfolio title={'최신 포트폴리오'} items={filteredItems} />
             <div ref={ref}>{isFetchingNextPage && <p>데이터를 받아오는 중....</p>}</div>

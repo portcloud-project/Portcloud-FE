@@ -1,10 +1,12 @@
 import { useRouter } from 'next/navigation';
 import { useMainProject } from '../hooks/useMainProject';
 import { FormData } from '../upload/portfolios/page';
+import { AllLogs } from '../hooks/useRecentLogs';
 
 export interface MainListProps {
     title: string;
     items?: FormData[];
+    contentWithItem?: AllLogs[];
 }
 
 export interface Item {
@@ -12,7 +14,9 @@ export interface Item {
     title: string;
     description: string;
     writeName: string;
-    thumbnailURL: string | null;
+    file: string | null;
+    industry: string;
+    thumbnailUrl: string | null;
 }
 
 export interface ApiResponse<T> {
@@ -46,12 +50,12 @@ const MainList = ({ title }: MainListProps) => {
     return (
         <div className="w-full flex flex-col gap-[16px]">
             <p className="font-bold text-[20px]">{title}</p>
-            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-center overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
+            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-start overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
                 {data && data.length > 0 ? (
                     data?.map((item) => {
                         return (
                             <li
-                                onClick={() => router.push('')}
+                                onClick={() => router.push(`/output/projects/${item.id}`)}
                                 key={`${item.id}`}
                                 className="group min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:w-full"
                             >
@@ -60,9 +64,22 @@ const MainList = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailURL})`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailUrl})`,
                                         }}
-                                    ></div>
+                                    >
+                                        <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
+                                            <p>{item.title}</p>
+                                            <p>{item.description}</p>
+                                            <p className="text-[14px] text-gray-100">
+                                                {item.writeName}
+                                            </p>
+                                        </div>
+                                        <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
+                                            <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
+                                                개발
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {/* 뒷면 */}
@@ -71,7 +88,7 @@ const MainList = ({ title }: MainListProps) => {
                                     <div
                                         className="absolute inset-0 bg-cover bg-center"
                                         style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${item.thumbnailURL})`,
+                                            backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
                                         }}
                                     ></div>
                                     {/* 오버레이 */}

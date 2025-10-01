@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormData } from '../upload/portfolios/page';
-interface RecentPortfolioType<T> {
+export interface RecentPortfolioType<T> {
     content: T[];
     page: number;
     size: number;

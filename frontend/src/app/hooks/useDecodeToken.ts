@@ -8,7 +8,6 @@ export function parseJwt(token: string) {
                 .map((c) => '%' + c.charCodeAt(0).toString(16).padStart(2, '0'))
                 .join(''),
         );
-        console.log(jsonPayload);
         return JSON.parse(jsonPayload);
     } catch (e) {
         console.error('JWT 디코딩 실패:', e);
