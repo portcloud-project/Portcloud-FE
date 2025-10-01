@@ -6,7 +6,6 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
     const BASE_URL = process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL;
     try {
-        const token = request.cookies.get('accessToken')?.value;
         const id = request.nextUrl.searchParams.get('id');
         
         if(!id) {
@@ -15,12 +14,7 @@ export async function GET(request: NextRequest) {
             });
         }
 
-        const res = await axios.get(`${BASE_URL}api/projects`, {
-            params: {id},
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        });
+        const res = await axios.get(`${BASE_URL}api/teampost/${id}`);
         const data = res.data.data;
         return NextResponse.json(data, {status: 200});
     } catch (error) {

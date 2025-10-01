@@ -21,7 +21,9 @@ type UploadDropDownPropsType = {
     labelFont: string;
     gap: string;
     name: string;
-
+    rules?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    errors?: any;
     // eslint-disable-next-line no-unused-vars
     onChange?: (a: string) => void;
 };
@@ -35,6 +37,8 @@ const UploadDropDown = ({
     gap,
     labelText,
     labelFont,
+    errors,
+    rules,
 }: UploadDropDownPropsType) => {
     const [open, setOpen] = useState<boolean>(false);
     const { control } = useFormContext();
@@ -50,10 +54,11 @@ const UploadDropDown = ({
             <Controller
                 control={control}
                 name={`${name}`}
+                rules={{required: `${rules}`}}
                 render={({ field }) => (
                     <DropdownMenu open={open} onOpenChange={setOpen}>
                         <DropdownMenuTrigger
-                            className={` ${width} ${height} border rounded-[8px] px-[12px] flex items-center justify-between cursor-pointer transition duration-300 ease-in-out ${open ? 'border-[var(--color-purple-500)]' : 'border-[var(--color-gray-400)]'}`}
+                            className={`relative ${width} ${height} border rounded-[8px] px-[12px] flex items-center justify-between cursor-pointer transition duration-300 ease-in-out ${open ? 'border-[var(--color-purple-500)]' : 'border-[var(--color-gray-400)]'} ${errors ? 'border-[var(--color-red-500)]' : ''}`}
                         >
                             <span className="flex-1 text-left">
                                 {field.value || (
@@ -69,6 +74,11 @@ const UploadDropDown = ({
                                     <FaAngleDown className="w-[15px] h-[15px] text-[var(--color-gray-400)]" />
                                 )}
                             </span>
+                            {errors && (
+                                <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[76px] whitespace-nowrap">
+                                    {errors.message}
+                                </p>
+                            )}
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
                             className={`${width} flex flex-col gap-[4px] p-[6px]`}
