@@ -15,6 +15,8 @@ import SearchSkill from '@/app/customComponents/SearchSkill';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
+import CustomAlert from '@/app/customComponents/CustomAlert';
+import { useState } from 'react';
 
 export interface ProjectSectionData {
     id: number;
@@ -69,6 +71,7 @@ const UploadPortfolios = () => {
     const user = userStore((state) => state.user);
     const router = useRouter();
     const queyryclient = useQueryClient();
+    const [isLoading, setIsLoading] = useState(false);
 
     const industryArr = ['기획', '개발', '디자인', '마케팅', '기타'];
     const jobArr = [
@@ -126,6 +129,7 @@ const UploadPortfolios = () => {
     });
 
     const onSubmit = async (data: FormData) => {
+        setIsLoading(true);
         try {
             console.log(data);
             const token = Cookies.get('accessToken');
@@ -193,6 +197,7 @@ const UploadPortfolios = () => {
             });
             router.push('/works/portfolios');
             console.log('업로드 완료', response.status);
+
             queyryclient.invalidateQueries();
         } catch (err) {
             console.error('Next 서버 전송중 오류', err);
@@ -525,12 +530,20 @@ const UploadPortfolios = () => {
                         <button
                             type="submit"
                             className="flex justify-center max-w-[248px] min-h-[48px] items-center px-[96px] bg-purple-500 text-white text-[14px] font-semibold rounded-[8px] cursor-pointer"
+                            disabled={isLoading}
                         >
                             등록하기
                         </button>
                     </div>
                 </form>
             </FormProvider>
+            {isLoading && (
+                <CustomAlert
+                    title="프로젝트 업로드 중 ..."
+                    isLoading={isLoading}
+                    message="잠시 시간이 소요될 수 있습니다."
+                />
+            )}
         </section>
     );
 };

@@ -5,7 +5,7 @@ export const useDeletePortfolio = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (id: string | string[]) => {
+        mutationFn: async (id: string | string[] | null) => {
             await axios.delete(`/api/deleteportfolio`, { params: { id } });
         },
         onSuccess: (_data, id) => {

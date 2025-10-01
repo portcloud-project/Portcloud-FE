@@ -13,7 +13,7 @@ interface AllLogs {
 }
 
 const fetchAllLogs = async (): Promise<AllLogs[]> => {
-    const response = await axios.get<ApiResponse<AllLogs[]>>('/api/alllogs');
+    const response = await axios.get<ApiResponse<AllLogs[]>>('/api/allLogs');
     if (response.data && Array.isArray(response.data.data)) {
         return response.data.data;
     } else {
