@@ -43,9 +43,11 @@ const RecentPortfolio = ({ title, items }: MainListProps) => {
                                         backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
                                     }}
                                 >
-                                    <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
-                                        <p>{item.title}</p>
-                                        <p className="text-[14px] text-gray-100">
+                                    <div className="absolute bottom-0 left-0 right-0 h-[100px] bg-gradient-to-t from-black/60 to-transparent rounded-b-[20px] z-10 flex flex-col justify-end p-[24px] gap-[4px]">
+                                        <p className="font-bold text-white text-[18px]">
+                                            {item.title}
+                                        </p>
+                                        <p className="text-gray-100 text-[14px]">
                                             {item.writeName}
                                         </p>
                                     </div>
@@ -68,9 +70,9 @@ const RecentPortfolio = ({ title, items }: MainListProps) => {
                                 ></div>
                                 {/* 오버레이 */}
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-                                <div className="absolute inset-0 flex items-start justify-end z-10 text-white font-bold text-[18px] p-[24px] flex-col gap-[4px]">
-                                    <p>{item.title}</p>
-                                    <p className="text-[14px] text-gray-100">{item.writeName}</p>
+                                <div className="absolute bottom-0 left-0 right-0 h-[100px]  rounded-b-[20px] z-10 flex flex-col justify-end p-[24px] gap-[4px]">
+                                    <p className="font-bold text-white text-[18px]">{item.title}</p>
+                                    <p className="text-gray-100 text-[14px]">{item.writeName}</p>
                                 </div>
                                 <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
                                     <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">

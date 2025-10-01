@@ -14,6 +14,7 @@ import { parseJwt } from '../hooks/useDecodeToken';
 import { userStore } from '../stores/userStore';
 import { useQueryClient } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
+import CustomAlert from './CustomAlert';
 
 interface LoginForm {
     email: string;
@@ -28,6 +29,7 @@ const Login = ({
     const [pwVisible, setPwVisible] = useState<boolean>(false);
     const setUser = userStore((state) => state.setUser);
     // 모달 true 일때 DOM 조작 (스크롤 막기 + 스크롤 바 없애기)
+    const [isLoding, setIsLoading] = useState(false);
     useEffect(() => {
         document.body.style.overflow = 'hidden';
         document.body.style.paddingRight = '0px';
@@ -42,6 +44,7 @@ const Login = ({
     const { register, handleSubmit } = useForm<LoginForm>();
 
     const loginSubmit = async (data: LoginForm) => {
+        setIsLoading(true);
         try {
             const res = await axios.post('/api/login', data);
 
@@ -163,6 +166,13 @@ const Login = ({
                     </Link>
                 </CardFooter>
             </Card>
+            {isLoding && (
+                <CustomAlert
+                    isLoading={isLoding}
+                    message="잠시 시간이 소요될 수 있습니다."
+                    title="로그인 중..."
+                />
+            )}
         </CardLayout>
     );
 };

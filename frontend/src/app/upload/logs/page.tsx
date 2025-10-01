@@ -31,6 +31,7 @@ const UploadLogs = () => {
     const [modal, setModal] = useState<boolean>(false);
     const router = useRouter();
     const queryclient = useQueryClient();
+    const [isLoding, setIsLoading] = useState(false);
 
     const {
         handleSubmit,
@@ -41,6 +42,7 @@ const UploadLogs = () => {
     const errors = formErrors as FieldErrors<UploadLogsFormValuesType>;
 
     const onLogsSubmit = async (data: UploadLogsFormValuesType) => {
+        setIsLoading(true);
         console.log(data);
         try {
             const formdata = new FormData();
@@ -132,7 +134,13 @@ const UploadLogs = () => {
                             />
                         )}
                     />
-                    {modal && <LogsModal setLogsModal={setModal} onLogsSubmit={onLogsSubmit} />}
+                    {modal && (
+                        <LogsModal
+                            setLogsModal={setModal}
+                            onLogsSubmit={onLogsSubmit}
+                            isLoding={isLoding}
+                        />
+                    )}
                 </form>
                 <button
                     type="button"

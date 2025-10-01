@@ -9,6 +9,7 @@ import UploadDropDown from '../customComponents/UploadDropDown';
 import EmailVerification from '../customComponents/Emailverification';
 import PrivateAccept from '../customComponents/PrivateAccept';
 import UseRule from '../customComponents/useRule';
+import CustomAlert from '../customComponents/CustomAlert';
 
 interface SignUpFormValuesType {
     email: string;
@@ -27,6 +28,7 @@ interface SignUpFormValuesType {
 const Signup = () => {
     const [pwVisible, setPwVisible] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
+    const [isLoding, setIsLoading] = useState(false);
     const [privateModal, setPrivateModal] = useState<boolean>(false);
     const [useRuleModal, setUseRuleModal] = useState<boolean>(false);
 
@@ -64,6 +66,7 @@ const Signup = () => {
     ];
 
     const onSignUpSubmit = async (data: SignUpFormValuesType) => {
+        setIsLoading(true);
         if (!isVerified) {
             alert('이메일 인증을 완료해 주세요');
             return;
@@ -429,6 +432,13 @@ const Signup = () => {
             <h3 className="text-[14px] text-[var(--color-gray-900)] font-normal">
                 만 14세 이상이며, PortCloud 이용약관, 개인 정보 수집 안내를 확인하고, 동의합니다.
             </h3>
+            {isLoding && (
+                <CustomAlert
+                    isLoading={isLoding}
+                    title="회원가입 중.."
+                    message="잠시 시간이 소요될 수 있습니다."
+                />
+            )}
         </main>
     );
 };

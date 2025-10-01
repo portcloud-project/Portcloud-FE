@@ -5,13 +5,16 @@ import CardLayout from '../layoutComponents/CardLayout';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { UploadLogsFormValuesType } from '../upload/logs/page';
 import UploadDropDown from './UploadDropDown';
+import CustomAlert from './CustomAlert';
 
 const LogsModal = ({
     setLogsModal,
     onLogsSubmit,
+    isLoding,
 }: {
     setLogsModal: React.Dispatch<React.SetStateAction<boolean>>;
     onLogsSubmit: SubmitHandler<UploadLogsFormValuesType>;
+    isLoding: boolean;
 }) => {
     const { register, handleSubmit } = useFormContext<UploadLogsFormValuesType>();
     const categoryArr = ['정보공유', '자기개발'];
@@ -75,11 +78,19 @@ const LogsModal = ({
                         type="button"
                         className="px-4 py-2 rounded-md bg-[var(--color-purple-500)] text-white cursor-pointer max-w-[87px] ml-auto"
                         onClick={() => handleSubmit(onLogsSubmit)()}
+                        disabled={isLoding}
                     >
                         등록하기
                     </button>
                 </CardContent>
             </Card>
+            {isLoding && (
+                <CustomAlert
+                    isLoading={isLoding}
+                    title="기록 업로드 중..."
+                    message="잠시 시간이 소요될 수 있습니다."
+                />
+            )}
         </CardLayout>
     );
 };
