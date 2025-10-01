@@ -6,7 +6,7 @@ import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 import { Skills } from '@/app/stores/skillStore';
 
-interface UploadProjectsFormValuesType {
+export interface UploadProjectsFormValuesType {
     title: string;
     startDate: string;
     endDate: string;
@@ -18,6 +18,9 @@ interface UploadProjectsFormValuesType {
     skill: Skills[];
     thumbnailImg: string | null;
     demonstrationVideo: string | null;
+    id: string;
+    writeName: string;
+    createdAt: string;
 }
 
 const UploadProjects = () => {
@@ -176,7 +179,7 @@ const UploadProjects = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="people"
-                            rules="진행 인원을 선택해주세요"
+                            rules={{required:'진행 인원을 선택해주세요'}}
                             errors={errors.people}
                         />
                     </div>
@@ -272,7 +275,7 @@ const UploadProjects = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="distribution"
-                            rules="배포 현황을 선택해주세요"
+                            rules={{}}
                             errors={errors.distribution}
                         />
                     </div>
@@ -280,7 +283,7 @@ const UploadProjects = () => {
                     {/* 대표 이미지 section */}
                     <div className="w-full h-fit flex flex-col justify-center items-start gap-[12px]">
                         <label
-                            htmlFor=""
+                            htmlFor="thumbnailImg"
                             className="w-fit flex flex-row justify-center items-center gap-[12px] text-[24px] font-bold text-[var(--color-gray-900)]"
                         >
                             대표 이미지 *
@@ -291,8 +294,9 @@ const UploadProjects = () => {
                         <div className="w-full flex flex-row justify-between items-center gap-[6px]">
                             <input
                                 type="file"
-                                id="file"
+                                id="thumbnailImg"
                                 className="w-[768px] h-[312px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
+                                {...register(('thumbnailImg'))}
                             />
                         </div>
                     </div>
@@ -300,7 +304,7 @@ const UploadProjects = () => {
                     {/* 시연 영상 section */}
                     <div className="w-full h-fit flex flex-col justify-center items-start gap-[12px]">
                         <label
-                            htmlFor=""
+                            htmlFor="demonstrationVideo"
                             className="w-fit flex flex-row justify-center items-center gap-[12px] text-[24px] font-bold text-[var(--color-gray-900)]"
                         >
                             시연 영상
@@ -311,8 +315,9 @@ const UploadProjects = () => {
                         <div className="w-full flex flex-row justify-between items-center gap-[6px]">
                             <input
                                 type="file"
-                                id="video"
+                                id="demonstrationVideo"
                                 className="w-[768px] h-[312px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
+                                {...register('demonstrationVideo')}
                             />
                         </div>
                     </div>

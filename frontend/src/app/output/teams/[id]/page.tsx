@@ -1,64 +1,31 @@
 'use client';
 
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useTeamDetail } from '@/app/hooks/useTeamsDetail';
 
 const OutputTeams = (props: { params: { id: string } }) => {
-    const [title, setTitle] = useState<string>('');
-    const [writerName, setWriterName] = useState<string>('');
-    const [createdAt, setCreatedAt] = useState<string>('');
-    const [content, setContent] = useState<string>('');
-    const [positionType, setPositionType] = useState<string>('');
-    const [positionSkills, setPositionSkills] = useState<string>('');
-    const [recruitStatus, setRecruitStatus] = useState<string>('');
-    const [recruitDeadline, setRecruitDeadline] = useState<string>('');
-    const [contactMethod, setContactMethod] = useState<string>('');
 
-    const fetchOutputTeams = async () => {
-        const id = props.params.id;
+    const id = props.params.id;
+    const { data: teams, isLoading, isError, error } = useTeamDetail(id);
 
-        try {
-            const res = await axios.get('/api/output-teams', {
-                params: { id: id },
-            });
-            const data = res.data;
-            setTitle(data.title);
-            setWriterName(data.writerName);
-            setCreatedAt(data.createdAt);
-            setContent(data.content);
-            setPositionType(data.projectType);
-            setPositionSkills(data.skills);
-            const reStatus = data.recruitStatus;
-            const recruitMapping = (a: string): string => {
-                return a === 'RECRUITING' ? '모집 중' : '모집 완료';
-            };
-            setRecruitStatus(recruitMapping(reStatus));
-            setRecruitDeadline(data.recruitDeadline);
-            setContactMethod(data.contactMethod);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    useEffect(() => {
-        fetchOutputTeams();
-    }, []);
+    if (isLoading) return <p>불러오는 중...</p>;
+    if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
+    if (!teams?.id) return <p>해당 팀이 삭제되었거나 찾을 수 없습니다.</p>;
 
     const writeInfoArr = [
         {
             title: '작성자',
-            value: `${writerName}`,
+            value: `${teams?.writerName ?? ''}`,
         },
         {
             title: '작성기간',
-            value: `${createdAt}`,
+            value: `${teams?.createdAt}`,
         },
     ];
 
     const positionArr = [
         {
             title: '포지션',
-            value: `${positionType}`,
+            value: `${teams?.position}`,
         },
         {
             title: '인원',
@@ -66,18 +33,18 @@ const OutputTeams = (props: { params: { id: string } }) => {
         },
         {
             title: '필요 스킬',
-            value: `${positionSkills}`,
+            value: `${teams?.skill}`,
         },
     ];
 
     const contactArr = [
         {
             title: '모집 마감일',
-            value: `${recruitDeadline}`,
+            value: `${teams?.endDate}`,
         },
         {
             title: '연락 방법',
-            value: `${contactMethod}`,
+            value: `${teams?.contact}`,
         },
     ];
 
@@ -88,7 +55,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
                 {/* 제목, 배포현황 */}
                 <div className="w-full h-[104px] flex flex-row justify-between items-start">
                     <span className="w-full h-[104px] flex justify-start items-start">
-                        <h3 className="font-bold text-[40px] leading-[44px]">{title}</h3>
+                        <h3 className="font-bold text-[40px] leading-[44px]">{teams?.title}</h3>
                     </span>
                 </div>
                 {/* 작성자, 작성기간, 수정 및 삭제 */}
@@ -125,7 +92,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
 
             {/* 내용 section */}
             <section className="flex flex-col w-full h-auto justify-center items-start">
-                <p className="text-[16px] font-normal text-[var(--color-gray-900)]">{content}</p>
+                <p className="text-[16px] font-normal text-[var(--color-gray-900)]">{teams?.content}</p>
             </section>
 
             {/* 밑줄 */}
@@ -146,7 +113,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
                     ))}
                     <div className="flex justify-center items-center w-[72px] h-[34px] border border-[var(--color-purple-500)] bg-[var(--color-purple-50)] rounded-full absolute top-[18px] right-[20px]">
                         <h3 className="text-[14px] text-[var(--color-purple-500)] font-semibold">
-                            {recruitStatus}
+                            {teams?.saveStatus}
                         </h3>
                     </div>
                 </span>

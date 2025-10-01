@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const res = await axios.get(`${BASE_URL}api/projects`, {
+        const res = await axios.get(`${BASE_URL}api/project`, {
             params: { id },
             headers: {
                 Authorization: `Bearer ${token}`,
