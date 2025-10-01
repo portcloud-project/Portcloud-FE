@@ -94,11 +94,13 @@ const Signup = () => {
         }
     };
 
+
     const isInterestArr = ['', 'PM', 'DESIGNER', 'FE', 'BE', 'QA'];
 
     return (
         <main className="w-full px-[24px] flex flex-col justify-start items-center mx-auto laptop:max-w-[1440px] tablet:w-full gap-[48px]">
             <h3 className="font-bold text-[28px] text-black">회원가입</h3>
+
             <FormProvider {...methods}>
                 <form
                     autoComplete="off"
@@ -110,6 +112,7 @@ const Signup = () => {
                         verified={isVerified}
                         onVerified={() => setIsVerified(true)}
                     />
+
 
                     {/* password section */}
                     <div className="w-full h-fit flex flex-col justify-center items-start gap-[6px]">
