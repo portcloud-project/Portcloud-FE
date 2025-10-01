@@ -14,9 +14,9 @@ const CustomConfirm: React.FC<CustomAlertProps> = ({
     onCancel, // 부모 요소에서 정의해서 내려줌
     message,
     title,
-    errorMsg,
-    isError,
-    onSuccess,
+    // errorMsg,
+    // isError,
+    // onSuccess,
 }) => {
     return (
         <main className="z-index fixed inset-0 flex items-center justify-center">

@@ -42,6 +42,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
 
     useEffect(() => {
         fetchOutputTeams();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const writeInfoArr = [

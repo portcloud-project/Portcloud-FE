@@ -35,6 +35,7 @@ const OutputProjects = (props: { params: { id: string } }) => {
 
     useEffect(() => {
         fetchOutputProject();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const {
