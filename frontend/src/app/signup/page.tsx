@@ -311,7 +311,7 @@ const Signup = () => {
                             />
                             {/* 닉네임 error section */}
                             {errors.nickname && (
-                                <p className="text-sm text-[var(--color-red-500)]  left-0 ">
+                                <p className="text-sm text-[var(--color-red-500)] left-0 ">
                                     {errors.nickname.message}
                                 </p>
                             )}
