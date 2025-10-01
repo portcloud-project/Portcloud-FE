@@ -94,7 +94,6 @@ const Signup = () => {
         }
     };
 
-
     const isInterestArr = ['', 'PM', 'DESIGNER', 'FE', 'BE', 'QA'];
 
     return (
@@ -112,7 +111,6 @@ const Signup = () => {
                         verified={isVerified}
                         onVerified={() => setIsVerified(true)}
                     />
-
 
                     {/* password section */}
                     <div className="w-full h-fit flex flex-col justify-center items-start gap-[6px]">

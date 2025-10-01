@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation';
 import { useRecentPortfolio } from '@/app/hooks/useRecentPortfolio';
 import { MainListProps } from './MainList';
 
-
 const RecentPortfolio = ({ title, items }: MainListProps) => {
     const { isLoading, isError, error } = useRecentPortfolio();
     const router = useRouter();

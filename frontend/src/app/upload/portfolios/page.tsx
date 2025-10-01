@@ -198,7 +198,6 @@ const UploadPortfolios = () => {
             router.push('/works/portfolios');
             console.log('업로드 완료', response.status);
 
-
             queyryclient.invalidateQueries();
 
         } catch (err) {
