@@ -4,6 +4,7 @@ import MypageAdd from '../customComponents/MypageAdd';
 import { userStore } from '../stores/userStore';
 import MyPagePortfolio from '../customComponents/MypagePortfolio';
 import MypageLogs from '../customComponents/MypageLogs';
+import MypageUserProfile from '../customComponents/MypageUserProfile';
 
 const Mypage = () => {
     const tabsArr = [
@@ -73,7 +74,9 @@ const Mypage = () => {
                     </div>
                 </TabsList>
 
-                <TabsContent value="profile">여긴 프로필 수정</TabsContent>
+                <TabsContent value="profile" className="p-[20px]">
+                    <MypageUserProfile />
+                </TabsContent>
                 <TabsContent value="bookMarks" className="overflow-y-auto p-[20px]">
                     <MypageLogs />
                 </TabsContent>
