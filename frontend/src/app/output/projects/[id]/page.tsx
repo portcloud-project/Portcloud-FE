@@ -1,30 +1,41 @@
 'use client';
 
-import OutputHeader from '@/app/customComponents/OutputHeader';
 import { useForm } from 'react-hook-form';
-// import axios from 'axios';
-// import { useEffect } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 interface ProjectsCommentsType {
     projectsComments: string;
 }
 
 const OutputProjects = (props: { params: { id: string } }) => {
-    // const fetchOutputProject = async () => {
-    //     try {
-    //         const res = await axios.get('/api/output-project');
+    const [title, setTitle] = useState<string>('');
+    const [writeName, setWriteName] = useState<string>('');
+    const [des, setDes] = useState<string>('');
 
-    //         console.log(res.data);
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // };
+    const fetchOutputProject = async () => {
+        const id = props.params.id;
 
-    // useEffect(() => {
-    //     fetchOutputProject();
-    // }, []);
+        try {
+            const res = await axios.get('/api/output-project', {
+                params: { id: id },
+            });
 
-    console.log(props.params.id);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const found = res.data.content.find((a: any) => Number(a.id) === Number(id));
+            setTitle(found?.title);
+            setWriteName(found?.writeName);
+            setDes(found.description);
+            console.log(res.data.content);
+            console.log(found);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    useEffect(() => {
+        fetchOutputProject();
+    }, []);
 
     const {
         watch,
@@ -40,10 +51,65 @@ const OutputProjects = (props: { params: { id: string } }) => {
 
     const projectsComments = watch('projectsComments', '');
 
+    const writeInfoArr = [
+        {
+            title: '작성자',
+            value: `${writeName}`,
+        },
+        {
+            title: '작성기간',
+            value: '2025.07.19 20:37',
+        },
+    ];
+
     return (
         <main className="flex flex-col justify-start itmes-start w-[768px] h-auto gap-[48px]">
             {/* 작성 정보 section */}
-            <OutputHeader />
+            <section className="flex flex-col gap-[24px] w-full h-auto">
+                {/* 제목, 배포현황 */}
+                <div className="w-full flex flex-row justify-between items-start">
+                    <span className="w-[654px] h-[104px] flex justify-start items-start">
+                        <h3 className="font-bold text-[40px] leading-[44px]">{title}</h3>
+                    </span>
+                    <span className="w-auto h-[104px]">
+                        {/* 분기처리 예정 */}
+                        <div
+                            className={`w-[90px] h-[40px] border border-[var(--color-green-600)] text-[var(--color-green-600)] font-semibold text-[16px] flex justify-center items-center rounded-[20px]`}
+                        >
+                            배포중
+                        </div>
+                    </span>
+                </div>
+                {/* 작성자, 작성기간, 수정 및 삭제 */}
+                <div className="w-full flex flex-row justify-between items-center">
+                    <span className="flex flex-row justify-start items-center gap-[8px] text-[16px]">
+                        {writeInfoArr.map((a, i) => {
+                            return (
+                                <span
+                                    key={i}
+                                    className="flex flex-row justify-start items-center gap-[6px]"
+                                >
+                                    <h3 className="font-normal text-[var(--color-gray-500)]">
+                                        {a.title}
+                                    </h3>
+                                    <p className="font-semibold text-[var(--color-gray-500)]">
+                                        {a.value}
+                                    </p>
+                                </span>
+                            );
+                        })}
+                        {/* 중간에 | 이거 넣어야함 예정 */}
+                    </span>
+                    {/* 분기처리 예정 */}
+                    <span className="flex flex-row justify-start items-center gap-[8px] text-[16px] font-normal text-[var(--color-gray-500)]">
+                        <button className="cursor-pointer">수정</button>
+                        <span className="text[14px] text-[var(--color-gray-300)]">|</span>
+                        <button className="cursor-pointer">삭제</button>
+                    </span>
+                </div>
+                {/* 밑줄 */}
+                <hr className="w-full h-[1px] text-[var(--color-gray-300)]" />
+            </section>
 
             {/* 프로젝트 기간, 인원 section */}
             <section className="flex flex-row gap-[12px] w-full h-auto text-[var(--color-gray-900)] justify-start items-center">
@@ -62,7 +128,8 @@ const OutputProjects = (props: { params: { id: string } }) => {
             <section className="flex flex-col gap-[12px] w-full h-auto text-[var(--color-gray-900)] justify-center items-start">
                 <h3 className="font-bold text-[24px]">프로젝트 내용</h3>
                 <div className="border border-[var(--color-gray-300)] w-full h-[312px] p-[24px] rounded-[8px] text-[16px] text-[var(--color-gray-900)] font-normal">
-                    여기 내용
+                    {des} 백에서 DB created_at 값도 보내줘야됨 이거 말고 많이 보내줘야함 지금 설명,
+                    id, 썸네일 이미지, 제목, 작성자 밖에 없음
                 </div>
             </section>
 
