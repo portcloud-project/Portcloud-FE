@@ -3,7 +3,6 @@
 import { useTeamDetail } from '@/app/hooks/useTeamsDetail';
 
 const OutputTeams = (props: { params: { id: string } }) => {
-
     const id = props.params.id;
     const { data: teams, isLoading, isError, error } = useTeamDetail(id);
 
@@ -92,7 +91,9 @@ const OutputTeams = (props: { params: { id: string } }) => {
 
             {/* 내용 section */}
             <section className="flex flex-col w-full h-auto justify-center items-start">
-                <p className="text-[16px] font-normal text-[var(--color-gray-900)]">{teams?.content}</p>
+                <p className="text-[16px] font-normal text-[var(--color-gray-900)]">
+                    {teams?.content}
+                </p>
             </section>
 
             {/* 밑줄 */}

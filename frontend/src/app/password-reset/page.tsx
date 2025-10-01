@@ -33,7 +33,8 @@ const PasswordReset = () => {
         watch,
         getValues,
         // control,
-        formState: { errors,
+        formState: {
+            errors,
             // isSubmitting
         },
     } = methods;

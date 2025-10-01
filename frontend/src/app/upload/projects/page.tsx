@@ -179,7 +179,7 @@ const UploadProjects = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="people"
-                            rules={{required:'진행 인원을 선택해주세요'}}
+                            rules={{ required: '진행 인원을 선택해주세요' }}
                             errors={errors.people}
                         />
                     </div>
@@ -296,7 +296,7 @@ const UploadProjects = () => {
                                 type="file"
                                 id="thumbnailImg"
                                 className="w-[768px] h-[312px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:border-[var(--color-purple-500)] focus:outline-none transition duration-300 ease-in-out"
-                                {...register(('thumbnailImg'))}
+                                {...register('thumbnailImg')}
                             />
                         </div>
                     </div>

@@ -10,27 +10,26 @@ import MainList from '@/app/customComponents/MainList';
 export type SearchType = 'title' | 'nickname';
 
 const UserProject = () => {
-
     // const search = useSearchParams();
     //     const searchTitle = search.get('q')?.toLowerCase() || '';
     //     const searchType = (search.get('type') || 'title') as SearchType;
-    
+
     //     const { ref, inView } = useInView({
     //         threshold: 0.5,
     //         triggerOnce: false,
     //     });
     //     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useRecentProject();
-    
+
     //     useEffect(() => {
     //         if (inView && hasNextPage && !isFetchingNextPage) {
     //             fetchNextPage();
     //         }
     //     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
-    
+
     //     const allItems = data?.pages.flatMap((page) => page.content) ?? [];
     //     const filteredItems = allItems.filter((item) => {
     //         if (!searchTitle) return true;
-    
+
     //         if (searchType === 'title') return item.title.toLowerCase().includes(searchTitle);
     //         if (searchType === 'nickname') return item.writeName.toLowerCase().includes(searchTitle);
     //     });

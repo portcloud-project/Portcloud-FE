@@ -157,7 +157,7 @@ const UploadTeams = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="position"
-                            rules={{required:"모집 포지션을 선택해주세요"}}
+                            rules={{ required: '모집 포지션을 선택해주세요' }}
                             errors={errors.position}
                         />
                         {/* 모집 인원 section */}
@@ -171,7 +171,7 @@ const UploadTeams = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="people"
-                            rules={{required: "모집 인원을 선택해주세요"}}
+                            rules={{ required: '모집 인원을 선택해주세요' }}
                             errors={errors.people}
                         />
                         {/* 스킬 section */}
