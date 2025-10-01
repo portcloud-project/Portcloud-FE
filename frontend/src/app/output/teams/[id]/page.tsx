@@ -6,7 +6,6 @@ const OutputTeams = (props: { params: { id: string } }) => {
     const id = props.params.id;
     const { data: teams, isLoading, isError, error } = useTeamDetail(id);
 
-
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!teams?.id) return <p>해당 팀이 삭제되었거나 찾을 수 없습니다.</p>;

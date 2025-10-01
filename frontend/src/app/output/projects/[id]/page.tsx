@@ -33,7 +33,6 @@ const OutputProjects = (props: { params: { id: string } }) => {
 
     // const projectsComments = watch('projectsComments', '');
 
-
     const writeInfoArr = [
         {
             title: '작성자',
