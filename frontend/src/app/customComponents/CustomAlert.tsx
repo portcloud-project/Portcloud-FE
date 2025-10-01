@@ -12,10 +12,11 @@ interface CustomAlertProps {
 const CustomAlert: React.FC<CustomAlertProps> = ({
     message,
     title,
-    errorMsg,
+
+    // errorMsg,
     isLoading,
-    isError,
-    onSucces,
+    // isError,
+    // onSucces,
 }) => {
     return (
         <main className="z-index fixed inset-0 flex items-center justify-center">
