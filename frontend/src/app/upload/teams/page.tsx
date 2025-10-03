@@ -95,13 +95,17 @@ const UploadTeams = () => {
                                 type="text"
                                 id="title"
                                 placeholder="제목을 입력해주세요"
-                                className={`w-[768px] h-[64px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px]  focus:outline-none transition duration-300 ease-in-out ${
+                                className={`w-[768px] h-[64px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px]  focus:outline-none transition duration-300 ease-in-out  ${
                                     errors.title
                                         ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
                                         : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
                                 }`}
                                 {...register('title', {
                                     required: '제목을 입력해주세요',
+                                    minLength: {
+                                        value: 3,
+                                        message: '제목은 3자 이상 입력해주세요',
+                                    },
                                 })}
                             />
                             {/* 제목 error section */}
@@ -192,10 +196,10 @@ const UploadTeams = () => {
                                 type="date"
                                 id="endDate"
                                 placeholder="제목을 입력해주세요"
-                                className={`w-full h-[64px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:outline-none transition duration-300 ease-in-out relative ${
+                                className={`w-full h-[64px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:outline-none transition duration-300 ease-in-out relative focus:border-[var(--color-purple-500)] ${
                                     errors.endDate
-                                        ? 'bg-[var(--color-red-50)] border-[var(--color-red-500)]'
-                                        : 'focus:bg-[var(--color-green-50)] border-[var(--color-green-600)]'
+                                        ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
+                                        : ''
                                 }`}
                                 {...register('endDate', {
                                     required: '마감일을 입력해주세요',
@@ -222,8 +226,8 @@ const UploadTeams = () => {
                                 placeholder="이메일/카카오톡 오픈 채팅방 링크"
                                 className={`w-full h-[64px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px]  focus:outline-none transition duration-300 ease-in-out relative ${
                                     errors.contact
-                                        ? 'bg-[var(--color-red-50)] border-[var(--color-red-500)]'
-                                        : 'bg-[var(--color-green-50)] border-[var(--color-green-600)]'
+                                        ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
+                                        : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
                                 }`}
                                 {...register('contact', {
                                     required: '연락 방법을 입력해주세요',
@@ -237,7 +241,7 @@ const UploadTeams = () => {
                         </div>
                     </div>
                     <button
-                        className="w-[248px] h-[48px] rounded-[8px] text-white text-[16px] font-semibold leading-[24px] border border-[var(--color-purple-500)] bg-[var(--color-purple-500)] px-[24px] py-[12px] hover:text-[var(--color-purple-500)] hover:bg-white transition duration-300 ease-in-out cursor-pointer"
+                        className="w-[248px] h-[48px] rounded-[8px] text-white text-[16px] font-semibold leading-[24px] border border-[var(--color-purple-500)] bg-[var(--color-purple-500)] px-[24px] py-[12px] hover:text-[var(--color-purple-500)] hover:bg-white transition duration-300 ease-in-out cursor-pointer self-end"
                         type="submit"
                         disabled={isSubmitting}
                     >
