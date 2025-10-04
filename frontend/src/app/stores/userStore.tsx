@@ -5,6 +5,7 @@ interface User {
     name: string | null;
     nickname: string | null;
     sub: string | null;
+    profileUrl: string | null;
 }
 
 interface UserStore {
@@ -21,6 +22,7 @@ export const userStore = create<UserStore>()(
                 name: null,
                 nickname: null,
                 sub: null,
+                profileUrl: null,
             },
             setUser: (user) => set({ user }),
             clearUser: () => {
@@ -29,6 +31,7 @@ export const userStore = create<UserStore>()(
                         name: null,
                         nickname: null,
                         sub: null,
+                        profileUrl: null,
                     },
                 });
                 localStorage.removeItem('user');

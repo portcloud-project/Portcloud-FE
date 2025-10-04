@@ -7,16 +7,12 @@ export const useUserProfile = () =>
         mutationKey: ['user-profile'],
         mutationFn: async (formdata: FormData) => {
             const token = Cookies.get('accessToken');
-            const response = await axios.patch(
-                '/api/user-profile',
-                { formdata },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'multipart/form-data',
-                    },
+            const response = await axios.patch('/api/user-profile', formdata, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
                 },
-            );
+            });
             return response.data;
         },
     });

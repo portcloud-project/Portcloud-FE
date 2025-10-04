@@ -1,6 +1,10 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import UploadDropDown from './UploadDropDown';
 import { useUserProfile } from '../hooks/userProfile';
+import axios from 'axios';
+import { parseJwt } from '../hooks/useDecodeToken';
+import { userStore } from '../stores/userStore';
+import Cookies from 'js-cookie';
 interface UserProfileForm {
     profile: FileList;
     nickname: string;
@@ -11,10 +15,21 @@ const MypageUserProfile = () => {
     const categoryArr = ['FE', 'BE'];
     const mutateUser = useUserProfile();
 
-    const onSubmit = (data: UserProfileForm) => {
+    const onSubmit = async (data: UserProfileForm) => {
+        const token = Cookies.get('accessToken');
         const formdata = new FormData();
         formdata.append('profile', data.profile[0]);
-        mutateUser.mutate(formdata);
+        await mutateUser.mutateAsync(formdata);
+        const response = await axios.get('/api/user-me', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const jwt = response.data.data;
+        Cookies.set('accessToken', jwt);
+        const decode = parseJwt(jwt);
+        userStore.getState().setUser(decode);
     };
     return (
         <main className="flex flex-col w-full gap-[50px]">

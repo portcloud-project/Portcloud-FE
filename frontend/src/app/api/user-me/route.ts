@@ -3,16 +3,15 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export async function PATCH(req: NextRequest) {
+export async function GET(request: NextRequest) {
     try {
-        const token = req.cookies.get('accessToken')?.value;
-        const form = await req.formData();
-
-        const { data } = await axios.patch(`${BASE_URL}api/user/profile`, form, {
+        const token = request.cookies.get('accessToken')?.value;
+        const { data } = await axios.get(`${BASE_URL}api/user/token`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
+        console.log(data);
         return NextResponse.json(data, { status: data.status });
     } catch (err: unknown) {
         console.error(err);
