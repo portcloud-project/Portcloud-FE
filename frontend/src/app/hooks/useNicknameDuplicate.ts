@@ -2,17 +2,19 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-export const useUserProfile = () =>
+export const useNicknameDuplicate = () =>
     useMutation({
-        mutationKey: ['user-profile'],
-        mutationFn: async (formdata: FormData) => {
+        mutationFn: async (nickname: string) => {
             const token = Cookies.get('accessToken');
-            const response = await axios.patch('/api/user-profile', formdata, {
+            console.log('mutate call');
+            const response = await axios.get('/api/nickname-duplicate', {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
                 },
+                params: { nickname },
             });
+            console.log(response.data);
+
             return response.data;
         },
     });

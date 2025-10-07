@@ -55,6 +55,7 @@ const Login = ({
             }
             Cookies.set('accessToken', token);
             const payload = parseJwt(token);
+            console.log(res);
             queryClient.invalidateQueries();
             setUser(payload);
         } catch (err) {

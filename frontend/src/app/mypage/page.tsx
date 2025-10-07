@@ -5,6 +5,7 @@ import { userStore } from '../stores/userStore';
 import MyPagePortfolio from '../customComponents/MypagePortfolio';
 import MypageLogs from '../customComponents/MypageLogs';
 import MypageUserProfile from '../customComponents/MypageUserProfile';
+import Image from 'next/image';
 
 const Mypage = () => {
     const tabsArr = [
@@ -28,7 +29,7 @@ const Mypage = () => {
         // },
     ];
     const user = userStore((state) => state.user);
-    if (!user.name && !user.nickname && !user.sub) {
+    if (!user || (!user.name && !user.nickname && !user.sub)) {
         return (
             <div className="flex justify-center items-center w-full h-screen">
                 로그인 후에 이용가능한 기능입니다.
@@ -46,7 +47,14 @@ const Mypage = () => {
                 <TabsList>
                     <div className="flex flex-col justify-center items-center gap-[24px] w-full h-[344px] py-[48px] border-b-[1px] border-[var(--color-gray-300)]">
                         {/* 프로필 사진 */}
-                        <div className="w-[92px] h-[92px] rounded-full border border-black"></div>
+                        <div className="relative w-[92px] h-[92px] rounded-full border border-black">
+                            <Image
+                                src={`https://port-cloud.com/img/${user.profileUrl}`}
+                                alt="profile"
+                                fill
+                                className="object-cover rounded-full"
+                            />
+                        </div>
                         {/* 닉네임, 이메일 */}
                         <div className="flex flex-col justify-center items-center gap-[4px]">
                             <h3 className="text-balck text-[28px] font-bold">
