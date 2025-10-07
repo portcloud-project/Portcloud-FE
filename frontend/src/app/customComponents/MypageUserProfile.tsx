@@ -158,6 +158,9 @@ const MypageUserProfile = () => {
                 <form onSubmit={method.handleSubmit(onSubmit)} className="flex flex-col gap-[40px]">
                     <section className="w-[500px] flex flex-col gap-[16px]">
                         <h1 className="text-[36px] font-bold">프로필 수정</h1>
+                        <label htmlFor="profile" className="text-gray-500">
+                            * 10MB 이내의 파일을 업로드 해주세요.
+                        </label>
                         <div className="w-full flex gap-[32px]">
                             <div className="min-w-[92px] min-h-[92px] relative rounded-full">
                                 <Image
@@ -167,11 +170,11 @@ const MypageUserProfile = () => {
                                     className="object-cover rounded-full"
                                 />
                             </div>
+
                             <input
                                 type="file"
                                 {...method.register('profile')}
                                 className="w-full border-none rounded-[8px]"
-                                placeholder="10MB 이내의 파일을 업로드 해주세요."
                             />
                         </div>
                     </section>
@@ -184,6 +187,9 @@ const MypageUserProfile = () => {
                                 className="border w-full min-h-[64px] rounded-[8px] p-[20px]"
                                 name={name}
                                 ref={ref}
+                                minLength={3}
+                                maxLength={19}
+                                placeholder="닉네임 변경시 중복확인이 필요합니다."
                                 onChange={(e) => {
                                     onChange(e);
                                     // 닉네임 변경 시 검증 초기화
