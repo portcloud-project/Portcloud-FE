@@ -44,7 +44,7 @@ const UploadDropDown = ({
     const { control } = useFormContext();
 
     return (
-        <div className={`w-full flex flex-col justify-between items-start ${gap}`}>
+        <div className={`w-fit flex flex-col justify-between items-start ${gap}`}>
             <label
                 htmlFor="isDeploy"
                 className={`text-[var(--color-gray-900)] ${labelText} ${labelFont}`}
