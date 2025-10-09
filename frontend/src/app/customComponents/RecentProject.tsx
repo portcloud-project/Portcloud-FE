@@ -32,7 +32,7 @@ const RecentProject = ({ title, projectItems }: MainListProps) => {
                 {projectItems?.map((a) => (
                     <li
                         key={a?.id}
-                        className={`w-[330px] h-[248px] flex flex-col bg-blend-multiply bg-cover bg-center rounded-[20px] p-[24px] justify-end cursor-pointer hover:bg-black/60 transition duration-300 ease-in-out inset-0`}
+                        className={`w-[330px] h-[248px] flex flex-col bg-blend-multiply bg-cover bg-center rounded-[20px] p-[24px] justify-end cursor-pointer hover:bg-black/60 transition duration-300 ease-in-out inset-0 relative`}
                         style={{
                             backgroundImage: `url(https://port-cloud.com/img/${a?.thumbnailURL})`,
                         }}
@@ -43,6 +43,9 @@ const RecentProject = ({ title, projectItems }: MainListProps) => {
                             <p className="text-[14px] text-[var(--color-gray-100)] font-semibold">
                                 {a?.writeName}
                             </p>
+                        </div>
+                        <div className='w-[76px] h-[40px] rounded-[20px] bg-[var(--color-purple-500)] text-white font-semibold text-[16px] absolute top-[24px] right-[20px] whitespace-nowrap'>
+                            {a?.projectPosition}
                         </div>
                     </li>
                 ))}
