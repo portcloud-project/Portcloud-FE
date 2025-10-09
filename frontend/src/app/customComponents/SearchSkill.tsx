@@ -74,7 +74,7 @@ const SearchSkill = ({ width }: { width?: string }) => {
             control={control}
             name="skill"
             rules={{
-                validate: (value) => value.length > 1 || '* 기술을 하나 이상 선택해주세요.',
+                validate: (value) => value.length > 0 || '* 기술을 하나 이상 선택해주세요.',
             }}
             defaultValue={[]}
             render={({ field: { value, onChange }, fieldState: { error } }) => {
