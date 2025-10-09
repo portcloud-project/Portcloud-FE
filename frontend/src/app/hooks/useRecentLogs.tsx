@@ -7,7 +7,7 @@ export interface AllLogs {
     content: string;
     thumbnailUrl: string;
     category: string;
-    blogStatus: number;
+    blogStatus: number | string;
     owner: boolean;
     writeName: string;
     userId: number;
