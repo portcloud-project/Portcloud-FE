@@ -27,7 +27,7 @@ const LogsEdit = () => {
         },
     });
 
-    const { handleSubmit, register, reset, control } = method;
+    const { handleSubmit, reset, control } = method;
     const categoryArr = ['정보공유', '자기개발'];
     const statusArr = ['공개', '비공개'];
     const id = params.id;
