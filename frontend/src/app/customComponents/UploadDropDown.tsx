@@ -90,7 +90,7 @@ const UploadDropDown = ({
                             {arr.map((a, i) => (
                                 <DropdownMenuItem
                                     key={i}
-                                    className="text-[16px] text-[var(--color-gray-700)] data-[highlighted]:text-white bg-[white] data-[highlighted]:bg-[var(--color-purple-500)] transition duration-300 ease-in-out w-[364px] h-[48px]"
+                                    className="text-[16px] text-[var(--color-gray-700)] data-[highlighted]:text-white bg-[white] data-[highlighted]:bg-[var(--color-purple-500)] transition duration-300 ease-in-out w-full h-[48px]"
                                     onSelect={() => field.onChange?.(a)}
                                 >
                                     <FaCheck className="text-white" />

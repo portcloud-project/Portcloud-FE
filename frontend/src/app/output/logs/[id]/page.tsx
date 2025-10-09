@@ -8,12 +8,13 @@ import { useDeleteLogs } from '@/app/hooks/useDeleteAllLogs';
 import { useLikeLogs } from '@/app/hooks/useLikeLogs';
 import { useLogsDetail } from '@/app/hooks/useLogsDetail';
 import dayjs from 'dayjs';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 const LogsOutput = () => {
     const params = useParams();
+    const router = useRouter();
     const id = params.id;
     const { data: logs, isLoading, isError, error } = useLogsDetail(id);
     const { data: like } = useLikeLogs(id);
@@ -53,7 +54,9 @@ const LogsOutput = () => {
                         </div>
                         {logs?.owner && (
                             <div className="flex w-fit items-center gap-[12px]">
-                                <button>수정</button>
+                                <button onClick={() => router.push(`/output/logs/${id}/edit`)}>
+                                    수정
+                                </button>
                                 <div className="border-r h-[14px] border-gray-300" />
                                 <button onClick={handleDelete}>삭제</button>
                             </div>
