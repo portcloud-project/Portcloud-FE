@@ -26,7 +26,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
         try {
             await deleteMutation.mutateAsync(id);
             alert('해당 팀 구하기가 삭제되었습니다.');
-            router.back();
+            router.push('/works/teams');
         } catch (err) {
             console.error(err);
         }

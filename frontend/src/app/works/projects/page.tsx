@@ -25,7 +25,7 @@ const UserProject = () => {
             fetchNextPage();
         }
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
-
+    
     const allItems = data?.pages.flatMap((page) => page.content) ?? [];
     const filteredItems = allItems.filter((item) => {
         if (!searchTitle) return true;

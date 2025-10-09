@@ -6,6 +6,7 @@ export interface RecentProjectType<T> {
     content: T[];
     page: number;
     size: number;
+    pageParam: number;
     totalElements: number;
     totalPages: number;
     first: boolean;
@@ -26,9 +27,9 @@ export const useRecentProject = () => {
     return useInfiniteQuery<RecentProjectType<UploadProjectsFormValuesType>, Error>({
         queryKey: ['recent_project'],
         initialPageParam: 0,
-        queryFn: async () => {
+        queryFn: async ({ pageParam = 0 }) => {
             const { data } = await axios.get('/api/recentproject', {
-                params: { page: 0, size: limit },
+                params: { page: pageParam, size: limit },
             });
             return data;
         },
