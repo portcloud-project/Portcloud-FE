@@ -1,13 +1,12 @@
 'use client';
 
 import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
-// import axios from 'axios';
-// import SearchSkill from '@/app/customComponents/SearchSkill';
-import UploadDropDown from '@/app/customComponents/UploadDropDown';
-import SearchSkill from '@/app/customComponents/SearchSkill';
 import { Skills } from '@/app/stores/skillStore';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import useSectionManagement from '@/app/hooks/useSectionManagement';
+import { userStore } from '@/app/stores/userStore';
+import TeamRecruit from '@/app/customComponents/TeamRecruit';
 
 export interface UploadTeamsFormValuesType {
     title: string;
@@ -23,9 +22,12 @@ export interface UploadTeamsFormValuesType {
     id: string;
 }
 
+export interface TeamSectionData {
+    id: number;
+}
+
 const UploadTeams = () => {
-    const positionArr = ['Back-end', 'Front-end', 'Full-stack', 'PM', 'Designer'];
-    const peopleArr = [...Array.from({ length: 5 }, (_, i) => `${i + 1}명`)];
+    const user = userStore((state) => state.user);
     const router = useRouter();
 
     const onSubmit = async (data: UploadTeamsFormValuesType) => {
@@ -66,6 +68,24 @@ const UploadTeams = () => {
         handleSubmit,
     } = methods;
     const errors = formErrors as FieldErrors<UploadTeamsFormValuesType>;
+
+    const {
+        sections: teamSections,
+        addSection: handleAddTeamComponent,
+        deleteSection: handleTeamDeleteComponent,
+    } = useSectionManagement<TeamSectionData>([
+        {
+            id: 1,
+        },
+    ]);
+
+    if (!user.name && !user.nickname && !user.sub) {
+        return (
+            <div className="flex justify-center items-center w-full h-screen">
+                로그인 후에 이용가능한 기능입니다.
+            </div>
+        );
+    }
 
     return (
         <>
@@ -149,38 +169,34 @@ const UploadTeams = () => {
                     </div>
 
                     {/* 모집 포지션, 인원, 스킬 section */}
-                    <div className="w-full flex flex-row justify-between items-center gap-[16px]">
-                        {/* 모집 포지션 section */}
-                        <UploadDropDown
-                            arr={positionArr}
-                            dropDownLabel={'모집 포지션 *'}
-                            dropDownPlaceholoder={''}
-                            width="w-[216px]"
-                            height="h-[64px]"
-                            gap="gap-[12px]"
-                            labelFont="font-bold"
-                            labelText="text-[24px]"
-                            name="position"
-                            rules={{ required: '모집 포지션을 선택해주세요' }}
-                            errors={errors.position}
+                    {teamSections.map((section, index) => (
+                        <TeamRecruit
+                            key={section.id}
+                            id={section.id}
+                            index={index}
+                            onDelete={() => handleTeamDeleteComponent(section.id)}
+                            isOnlyOneSection={teamSections.length === 1}
                         />
-                        {/* 모집 인원 section */}
-                        <UploadDropDown
-                            arr={peopleArr}
-                            dropDownLabel={'모집 인원 *'}
-                            dropDownPlaceholoder={''}
-                            width="w-[136px]"
-                            height="h-[64px]"
-                            gap="gap-[12px]"
-                            labelFont="font-bold"
-                            labelText="text-[24px]"
-                            name="people"
-                            rules={{ required: '모집 인원을 선택해주세요' }}
-                            errors={errors.people}
-                        />
-                        {/* 스킬 section */}
-                        <SearchSkill width="w-[384px]" />
-                    </div>
+                    ))}
+                    {teamSections.length < 3 && (
+                        <button
+                            type="button"
+                            onClick={() =>
+                                handleAddTeamComponent({
+                                    companyName: '',
+                                    companyPosition: '',
+                                    duty: '',
+                                    date: '',
+                                    dutyDescription: '',
+                                    startDate: '',
+                                    endDate: '',
+                                })
+                            }
+                            className=" bg-gray-100 w-[44px] rounded-[100%] h-[44px] flex justify-center items-center border-gray-200 border m-auto mt-[12px]"
+                        >
+                            <div className="text-gray-600 text-[20px]">+</div>
+                        </button>
+                    )}
 
                     {/* 마감일, 연락 방법 section */}
                     <div className="w-full flex flex-row justify-between items-center gap-[16px]">

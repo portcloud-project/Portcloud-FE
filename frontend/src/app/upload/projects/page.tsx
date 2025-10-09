@@ -21,6 +21,7 @@ export interface UploadProjectsFormValuesType {
     id: string;
     writeName: string;
     createdAt: string;
+    thumbnailURL: string | null;
 }
 
 const UploadProjects = () => {

@@ -1,11 +1,13 @@
 import { useRouter } from 'next/navigation';
 import { useMainProject } from '../hooks/useMainProject';
-import { FormData } from '../upload/portfolios/page';
+import { UploadProjectsFormValuesType } from '../upload/projects/page';
 import { AllLogs } from '../hooks/useRecentLogs';
+import { FormData } from '../upload/portfolios/page';
 
 export interface MainListProps {
-    title: string;
+    title?: string;
     items?: FormData[];
+    projectItems?: UploadProjectsFormValuesType[];
     contentWithItem?: AllLogs[];
 }
 
@@ -28,10 +30,10 @@ export interface ApiResponse<T> {
 const MainList = ({ title }: MainListProps) => {
     const { isLoading, isError, error, data } = useMainProject();
     const router = useRouter();
+
     if (isLoading) {
         return (
             <div>
-                <p className="font-bold text-[20px]">{title}</p>
                 <p className="w-full h-[248px] rounded-[20px] items-center flex justify-center text-black text-[20px] font-bold">
                     데이터 로딩중...
                 </p>

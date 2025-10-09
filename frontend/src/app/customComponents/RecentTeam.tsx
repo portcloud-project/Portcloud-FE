@@ -1,87 +1,104 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { MainListProps } from './MainList';
-import { useRecentTeam } from '../hooks/useRecentTeam';
+// import { useRecentTeam } from '../hooks/useRecentTeam';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-const RecentTeam = ({ title, items }: MainListProps) => {
-    const { isLoading, isError, error } = useRecentTeam();
+type Item = {
+    id: number;
+    title: string | null;
+    writerName: string;
+    projectType: string | null;
+    createdAt: string;
+    recruitStatus?: string;
+    viewCount?: number;
+    likeCount?: number;
+    requiredRoles?: string[]; // 실제 스키마에 맞게 조정
+    recruitDeadline?: string | null;
+};
+
+const RecentTeam = () => {
+    const [items, setItems] = useState<Item[]>([]);
+    const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-    if (isLoading) {
-        return (
-            <div>
-                <p className="w-full h-[248px] rounded-[20px] items-center flex justify-center text-black text-[20px] font-bold">
-                    데이터 로딩중...
-                </p>
-            </div>
-        );
-    }
 
-    if (isError) {
-        return (
-            <div className="flex justify-center items-center">
-                <p className="text-red-500">오류:{error?.message || '알수없는 오류'}</p>
-            </div>
-        );
-    }
+    const fetchData = async () => {
+        try {
+            const res = await axios.get('/api/recentteam');
+            const data = res.data?.data?.content;
+            // 안전 가드
+            const list: Item[] = Array.isArray(data) ? data : [];
+            setItems(list);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (err: any) {
+            console.error(err);
+            setError(err?.message ?? 'fetch error');
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const postionArr = ['ALL', 'Front-end', 'Back-end', 'Full-stack', 'PM', 'Design'];
+
+    //   if (isLoading) {
+    //     return (
+    //       <div>
+    //         <p className="w-full h-[248px] rounded-[20px] items-center flex justify-center text-black text-[20px] font-bold">
+    //           데이터 로딩중...
+    //         </p>
+    //       </div>
+    //     );
+    //   }
+
+    //   if (isError) {
+    //     return (
+    //       <div className="flex justify-center items-center">
+    //         <p className="text-red-500">오류: {error?.message || '알 수 없는 오류'}</p>
+    //       </div>
+    //     );
+    //   }
+
+    if (error) return <div className="text-red-500">에러: {error}</div>;
 
     return (
-        <div className="w-full flex flex-col gap-[16px]">
-            <div></div>
-            <p className="font-bold text-[20px]">{title}</p>
-            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-start overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet: tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
-                {items?.map((item) => {
+        <div className="w-full flex flex-col gap-[48px]">
+            <div className="w-full grid grid-cols-3 grid-rows-2 border border-[var(--color-purple-500)] rounded-[20px] overflow-hidden">
+                {postionArr.map((a, i) => (
+                    <span
+                        key={i}
+                        className="w-[464px] h-[80px] flex font-bold text-[20px] text-black bg-white border border-[var(--color-purple-500)] hover:bg-[var(--color-purple-500)] hover:text-white transition duration-300 ease-in-out cursor-pointer place-items-center justify-items-center justify-center"
+                    >
+                        {a}
+                    </span>
+                ))}
+            </div>
+
+            <ul className="w-full grid grid-cols-4 gap-[24px]">
+                {items.map((a) => {
                     return (
                         <li
-                            onClick={() => router.push(`/output/portfolio/${item.id}`)}
-                            key={`${item.id}`}
-                            className="group flex-wrap min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer  tablet:shrink-0 tablet:w-full"
+                            key={a?.id}
+                            className="w-[330px] h-[284px] flex flex-col justify-start items-start gap-[12px] border-[2px] border-[var(--color-gray-300)] bg-white rounded-[20px] p-[24px] relative cursor-pointer transition duration-300 ease-in-out hover:bg-black/10"
+                            onClick={() => {
+                                router.push(`/output/teams/${a?.id}`);
+                            }}
                         >
-                            {/* 앞면 */}
-                            <div className="absolute inset-0 rounded-[20px] overflow-hidden duration-700 ease-in-out group-hover:opacity-0">
-                                <div
-                                    className="absolute inset-0 bg-cover bg-center"
-                                    style={{
-                                        backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
-                                    }}
-                                >
-                                    <div className="absolute bottom-0 left-0 right-0 h-[100px] bg-gradient-to-t from-black/60 to-transparent rounded-b-[20px] z-10 flex flex-col justify-end p-[24px] gap-[4px]">
-                                        <p className="font-bold text-white text-[18px]">
-                                            {item.title}
-                                        </p>
-                                        <p className="text-gray-100 text-[14px]">
-                                            {item.writeName}
-                                        </p>
-                                    </div>
-                                    <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
-                                        <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
-                                            {item.industry}
-                                        </p>
-                                    </div>
-                                </div>
+                            <div className="w-fit h-auto flex flex-row justify-center items-center gap-[4px]">
+                                <h3 className="font-semibold text-[14px] text-[var(--color-gray-500)]">
+                                    마감일
+                                </h3>
+                                <span className="text-[14px] text-[var(--color-gray-300)]">|</span>
+                                <p className="text-[14px] text-[var(--color-gray-500)] font-normal">
+                                    {a?.recruitDeadline}
+                                </p>
                             </div>
-
-                            {/* 뒷면 */}
-                            <div className="absolute inset-0 rounded-[20px] opacity-0 overflow-hidden duration-700 ease-in-out group-hover:opacity-100">
-                                {/* 뒷면 배경 */}
-                                <div
-                                    className="absolute inset-0 bg-cover bg-center"
-                                    style={{
-                                        backgroundImage: `url(https://port-cloud.com/img/${item.file})`,
-                                    }}
-                                ></div>
-                                {/* 오버레이 */}
-                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-                                <div className="absolute bottom-0 left-0 right-0 h-[100px]  rounded-b-[20px] z-10 flex flex-col justify-end p-[24px] gap-[4px]">
-                                    <p className="font-bold text-white text-[18px]">{item.title}</p>
-                                    <p className="text-gray-100 text-[14px]">{item.writeName}</p>
-                                </div>
-                                <div className="absolute inset-0 flex items-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
-                                    <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
-                                        {item.industry}
-                                    </p>
-                                </div>
-                                {/* 텍스트  */}
+                            <h3 className="font-bold text-[18px] text-black">{a?.title}</h3>
+                            <hr className='w-full h-[1px] text-[var(--color-gray-500)]'/>
+                            <div className=''>
+                                {a?.writerName}
                             </div>
                         </li>
                     );

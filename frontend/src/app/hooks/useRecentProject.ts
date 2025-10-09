@@ -1,7 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { FormData } from '../upload/portfolios/page';
-export interface RecentPortfolioType<T> {
+import { UploadProjectsFormValuesType } from '../upload/projects/page';
+export interface RecentProjectType<T> {
+    data:T[];
     content: T[];
     page: number;
     size: number;
@@ -13,16 +14,21 @@ export interface RecentPortfolioType<T> {
     hasPrevious: boolean;
     count: number;
     thumbnail: string;
+    id: number;
+    description: string;
+    title: string;
+    writeName: string;
+    thumbnailURL: string; 
 }
 const limit = 12;
 
 export const useRecentProject = () => {
-    return useInfiniteQuery<RecentPortfolioType<FormData>, Error>({
+    return useInfiniteQuery<RecentProjectType<UploadProjectsFormValuesType>, Error>({
         queryKey: ['recent_project'],
         initialPageParam: 0,
-        queryFn: async ({ pageParam = 0 }) => {
+        queryFn: async () => {
             const { data } = await axios.get('/api/recentproject', {
-                params: { page: pageParam, size: limit },
+                params: { page: 0, size: limit },
             });
             return data;
         },
