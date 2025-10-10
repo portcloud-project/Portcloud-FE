@@ -43,7 +43,7 @@ const OutputProjects = (props: { params: { id: string } }) => {
         try {
             await deleteMutation.mutateAsync(id);
             queryclient.invalidateQueries({
-                queryKey:['recent_project', 'mainlist'],
+                queryKey: ['recent_project', 'mainlist'],
             });
             router.push('/works/projects');
         } catch (err) {

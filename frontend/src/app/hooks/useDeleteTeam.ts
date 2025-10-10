@@ -9,7 +9,7 @@ export const useDeleteTeam = () => {
         mutationFn: async (id: string | number) => {
             const v = String(id);
             if (!v) throw new Error('id required');
-            
+
             return axios.delete(`/api/deleteteam/${encodeURIComponent(v)}`, {
                 validateStatus: () => true,
             });

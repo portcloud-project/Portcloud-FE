@@ -29,7 +29,7 @@ export interface UploadProjectsFormValuesType {
 
 const UploadProjects = () => {
     const isDeployArr = ['', '배포 중', '배포 완료'];
-    const projectPositionArr = ['', 'Front-end-개발', 'Back-end-개발', 'PM-기획', 'UI/UX-디자인']
+    const projectPositionArr = ['', 'Front-end-개발', 'Back-end-개발', 'PM-기획', 'UI/UX-디자인'];
     const peopleArr = [...Array.from({ length: 9 }, (_, i) => `${i + 1}명`), '10명 이상'];
 
     const methods = useForm<UploadProjectsFormValuesType>({
@@ -233,7 +233,7 @@ const UploadProjects = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="projectPosition"
-                            rules={{required: '담당 역할을 선택해주세요'}}
+                            rules={{ required: '담당 역할을 선택해주세요' }}
                             errors={errors.projectPosition}
                         />
                         {/* 스킬 section */}

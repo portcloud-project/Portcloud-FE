@@ -25,7 +25,7 @@ interface TeamDetailType {
     recruitDeadline: string;
     recruitRoles: string[];
     recruitStatus: string;
-    skills: string[]
+    skills: string[];
     viewCount: number;
     writerName: string;
     recruits: Recruit[];

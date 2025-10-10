@@ -25,7 +25,7 @@ const UserProject = () => {
             fetchNextPage();
         }
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
-    
+
     const allItems = data?.pages.flatMap((page) => page.content) ?? [];
     const filteredItems = allItems.filter((item) => {
         if (!searchTitle) return true;
@@ -37,7 +37,7 @@ const UserProject = () => {
     return (
         <section className="flex gap-[48px] flex-col justify-center items-center px-[24px]">
             <MainList title="추천 프로젝트" />
-            <RecentProject title="최신 프로젝트" projectItems={filteredItems}/>
+            <RecentProject title="최신 프로젝트" projectItems={filteredItems} />
             <div ref={ref}>{isFetchingNextPage && <p>데이터를 받아오는 중....</p>}</div>
         </section>
     );

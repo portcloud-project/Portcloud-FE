@@ -4,7 +4,7 @@ import { MainListProps } from './MainList';
 import { useRecentProject } from '../hooks/useRecentProject';
 
 const RecentProject = ({ title, projectItems }: MainListProps) => {
-    const { isLoading, isError, error} = useRecentProject();
+    const { isLoading, isError, error } = useRecentProject();
     const router = useRouter();
 
     if (isLoading) {
@@ -44,7 +44,7 @@ const RecentProject = ({ title, projectItems }: MainListProps) => {
                                 {a?.writeName}
                             </p>
                         </div>
-                        <div className='w-[76px] h-[40px] rounded-[20px] bg-[var(--color-purple-500)] text-white font-semibold text-[16px] absolute top-[24px] right-[20px] whitespace-nowrap'>
+                        <div className="w-[76px] h-[40px] rounded-[20px] bg-[var(--color-purple-500)] text-white font-semibold text-[16px] absolute top-[24px] right-[20px] whitespace-nowrap">
                             {a?.projectPosition}
                         </div>
                     </li>

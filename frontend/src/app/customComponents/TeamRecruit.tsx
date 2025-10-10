@@ -52,7 +52,7 @@ const TeamRecruit = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCreerPr
                 errors={errors.people}
             />
             {/* 스킬 section */}
-            <SearchSkill width="w-full" fieldName={`${fieldNamePrefix}.skills`}/>
+            <SearchSkill width="w-full" fieldName={`${fieldNamePrefix}.skills`} />
 
             {!isOnlyOneSection && (
                 <button

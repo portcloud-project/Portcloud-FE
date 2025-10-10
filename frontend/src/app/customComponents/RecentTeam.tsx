@@ -96,10 +96,8 @@ const RecentTeam = () => {
                                 </p>
                             </div>
                             <h3 className="font-bold text-[18px] text-black">{a?.title}</h3>
-                            <hr className='w-full h-[1px] text-[var(--color-gray-500)]'/>
-                            <div className=''>
-                                {a?.writerName}
-                            </div>
+                            <hr className="w-full h-[1px] text-[var(--color-gray-500)]" />
+                            <div className="">{a?.writerName}</div>
                         </li>
                     );
                 })}

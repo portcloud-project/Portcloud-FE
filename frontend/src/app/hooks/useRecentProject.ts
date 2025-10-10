@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { UploadProjectsFormValuesType } from '../upload/projects/page';
 export interface RecentProjectType<T> {
-    data:T[];
+    data: T[];
     content: T[];
     page: number;
     size: number;
@@ -19,7 +19,7 @@ export interface RecentProjectType<T> {
     description: string;
     title: string;
     writeName: string;
-    thumbnailURL: string; 
+    thumbnailURL: string;
 }
 const limit = 12;
 

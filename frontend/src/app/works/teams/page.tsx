@@ -37,7 +37,7 @@ const UserTeams = () => {
 
     return (
         <section className="flex gap-[48px] flex-col justify-center items-center px-[24px]">
-            <MainTeamList title={'최신 팀 프로젝트 구하기'}/>
+            <MainTeamList title={'최신 팀 프로젝트 구하기'} />
             <RecentTeam />
             {/* <div ref={ref}>{isFetchingNextPage && <p>데이터를 받아오는 중....</p>}</div> */}
         </section>
