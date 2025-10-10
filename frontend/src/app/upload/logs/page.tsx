@@ -62,7 +62,7 @@ const UploadLogs = () => {
             queryclient.invalidateQueries();
             return response.status;
         } catch (err) {
-            console.error(err);
+            console.log(err);
             throw err;
         }
     };

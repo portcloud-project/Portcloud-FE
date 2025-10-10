@@ -1,17 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+
 import Cookies from 'js-cookie';
 
-export const useUserProfile = () =>
+export const useEditPortfolio = (id: string | null | string[]) =>
     useMutation({
-        mutationKey: ['user-profile'],
-        mutationFn: async (formdata: FormData) => {
+        mutationKey: ['portfolio-edit'],
+        mutationFn: async (formData: FormData) => {
             const token = Cookies.get('accessToken');
-            const response = await axios.patch('/api/user-profile', formdata, {
+            const response = await axios.put('/api/edit-portfolio', formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
                 },
+                params: { id },
             });
             return response.data;
         },

@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { FaCheck } from 'react-icons/fa6';
 import axios from 'axios';
+import Image from 'next/image';
 
 interface NewPasswordFormValuesType {
     password: string;
@@ -167,7 +168,14 @@ const Mypage = () => {
                 <TabsList>
                     <div className="flex flex-col justify-center items-center gap-[24px] w-full h-[344px] py-[48px] border-b-[1px] border-[var(--color-gray-300)]">
                         {/* 프로필 사진 */}
-                        <div className="w-[92px] h-[92px] rounded-full border border-black"></div>
+                        <div className="relative w-[92px] h-[92px] rounded-full border border-black">
+                            <Image
+                                src={`https://port-cloud.com/img/${user.profileUrl}`}
+                                alt="profile"
+                                fill
+                                className="object-cover rounded-full"
+                            />
+                        </div>
                         {/* 닉네임, 이메일 */}
                         <div className="flex flex-col justify-center items-center gap-[4px]">
                             <h3 className="text-balck text-[28px] font-bold">

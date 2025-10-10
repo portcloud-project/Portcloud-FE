@@ -3,12 +3,13 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export async function PATCH(req: NextRequest) {
+export async function PUT(req: NextRequest) {
     try {
         const token = req.cookies.get('accessToken')?.value;
-        const form = await req.formData();
+        const body = await req.formData();
+        const id = req.nextUrl.searchParams.get('id');
 
-        const { data } = await axios.patch(`${BASE_URL}api/user/profile`, form, {
+        const { data } = await axios.put(`${BASE_URL}api/portfolio/${id}`, body, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

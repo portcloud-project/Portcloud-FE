@@ -19,6 +19,7 @@ interface MarkdownProps {
     labelText: string;
     labelFont: string;
     dropDownLabel: string; // 네이밍은 유지
+    defaultValue?: string;
 }
 
 const MarkdownEditor = ({
@@ -32,6 +33,7 @@ const MarkdownEditor = ({
     labelFont,
     labelText,
     dropDownLabel,
+    defaultValue,
 }: MarkdownProps) => {
     const autoId = useId();
     const inputId = id ?? autoId;
@@ -58,8 +60,10 @@ const MarkdownEditor = ({
                     onBlur={onBlur}
                     // UI
                     height={editorHeight}
+                    defaultValue={defaultValue}
                     preview="live"
                     className={`border rounded-[8px] overflow-hidden transition duration-300 ease-in-out
+                        
             ${
                 error
                     ? 'border-[var(--color-red-500)]'

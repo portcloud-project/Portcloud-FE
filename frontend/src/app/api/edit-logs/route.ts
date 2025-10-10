@@ -3,17 +3,17 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export async function PATCH(req: NextRequest) {
+export async function PUT(req: NextRequest) {
     try {
         const token = req.cookies.get('accessToken')?.value;
-        const form = await req.formData();
-
-        const { data } = await axios.patch(`${BASE_URL}api/user/profile`, form, {
+        const body = await req.formData();
+        const id = req.nextUrl.searchParams.get('id');
+        const response = await axios.put(`${BASE_URL}api/blogs/${id}`, body, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
-        return NextResponse.json(data, { status: data.status });
+        return NextResponse.json(response.data, { status: response.status });
     } catch (err: unknown) {
         console.error(err);
 

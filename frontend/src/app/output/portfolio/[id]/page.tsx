@@ -1,5 +1,5 @@
 'use client';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { usePortfolioDetail } from '@/app/hooks/usePortfolioDetail';
 import { userStore } from '@/app/stores/userStore';
 import dayjs from 'dayjs';
@@ -18,6 +18,7 @@ const PortfolioOutput = () => {
     const { data: portfolio, isLoading, isError, error } = usePortfolioDetail(id);
     const { data: like } = useLikePortfolio(id);
     const deleteMutation = useDeletePortfolio();
+    const router = useRouter();
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!portfolio?.id) return <p>포트폴리오가 삭제되었거나 찾을 수 없습니다.</p>;
@@ -33,6 +34,7 @@ const PortfolioOutput = () => {
             console.error(err);
         }
     };
+    console.log(portfolio);
 
     return (
         <main className="w-[768px]  flex  justify-start items-center ">
@@ -49,7 +51,12 @@ const PortfolioOutput = () => {
                         </div>
                         {user?.sub === portfolio.email && (
                             <div className="flex w-fit items-center gap-[12px]">
-                                <button>수정</button>
+                                <button
+                                    onClick={() => router.push(`/output/portfolio/${id}/edit`)}
+                                    className="cursor-pointer"
+                                >
+                                    수정
+                                </button>
                                 <div className="border-r h-[14px] border-gray-300" />
                                 <button onClick={handleDelete}>삭제</button>
                             </div>
@@ -84,7 +91,7 @@ const PortfolioOutput = () => {
                     <div className="border p-[24px] rounded-[8px]">{portfolio.introductions}</div>
                 </section>
                 {portfolio.educations.some((c) => c.school || c.schoolStatus) && (
-                    <section className="w-full flex items-center gap-[12px]">
+                    <section className="w-full flex items-start gap-[12px]">
                         <div className="flex items-center gap-[12px]">
                             <h2 className="text-[24px] font-bold ">학력</h2>
                             <div className="border-r h-[14px] border-gray-300" />
