@@ -93,12 +93,14 @@ const Mypage = () => {
     const user = userStore((state) => state.user);
 
     const onWithDrawSubmit = async (data: WithDrawFormValuesType) => {
-        const { verificationCode, password } = data;
+        const code = getValuesWd('emailVerify');
+        const { password } = data;
 
         try {
             const res = await axios.delete('/api/withdraw', {
-                data: { verificationCode, password },
+                data: { verificationCode: code, password },
             });
+
             if (res.status === 200) {
                 console.log('탈퇴 성공(내용 없음)');
                 alert('탈퇴 성공');

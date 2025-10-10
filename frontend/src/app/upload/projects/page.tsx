@@ -6,6 +6,7 @@ import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 import { Skills } from '@/app/stores/skillStore';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 export interface UploadProjectsFormValuesType {
     title: string;
@@ -56,6 +57,7 @@ const UploadProjects = () => {
     const errors = formErrors as FieldErrors<UploadProjectsFormValuesType>;
 
     const router = useRouter();
+    const queryclient = useQueryClient();
 
     const onUploadProjectsSubmit = async (data: UploadProjectsFormValuesType) => {
         try {
@@ -79,11 +81,10 @@ const UploadProjects = () => {
             }
 
             const res = await axios.post('/api/project', formData);
-
             console.log(res.status);
-
+            queryclient.invalidateQueries();
             alert('프로젝트가 업로드 되었습니다!');
-            router.push('/work/projects');
+            router.push('/works/projects');
         } catch (err) {
             if (err instanceof Error) {
                 console.log('업로드 에러내용:', err.message);
@@ -232,9 +233,10 @@ const UploadProjects = () => {
                             gap="gap-[12px]"
                             labelFont="font-bold"
                             labelText="text-[24px]"
-                            name="projectPosition"
+                            name="role"
+                            // role로 보낼지 이걸로 보낼지?
                             rules={{ required: '담당 역할을 선택해주세요' }}
-                            errors={errors.projectPosition}
+                            errors={errors.role}
                         />
                         {/* 스킬 section */}
                         <SearchSkill width="w-[376px]" />

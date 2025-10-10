@@ -19,6 +19,7 @@ const OutputProjects = (props: { params: { id: string } }) => {
     const router = useRouter();
     const queryclient = useQueryClient();
     const { data: like } = useLikeProejct(id);
+    console.log(project);
 
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;

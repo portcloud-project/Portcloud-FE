@@ -63,6 +63,23 @@ const Login = ({
         }
     };
 
+    const handleGoogleLogin = () => {
+        window.location.assign('/api/auth/google/url');
+    };
+
+    // const fetch = async() => {
+    //     try {
+    //         const res = axios.get('/api/auth/google')
+    //         console.log(res);
+    //     } catch(err) {
+    //         console.error(err);
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     fetch();
+    // }, [])
+
     return (
         <CardLayout setLoginModal={setLoginModal}>
             <Card
@@ -121,9 +138,9 @@ const Login = ({
                                         />
                                     )}
                                 </div>
-                                <a href="#" className="text-sm underline-offset-4 hover:underline">
+                                <Link href="/password-reset" className="text-sm underline-offset-4 hover:underline">
                                     Forgot your password? &gt;
-                                </a>
+                                </Link>
                             </div>
                         </div>
 
@@ -147,7 +164,11 @@ const Login = ({
                         <button className="w-full h-[48px] rounded-[8px] text-white text-[16px] font-semibold leading-[24px] border border-black bg-black px-[24px] py-[12px] hover:text-black hover:bg-white transition duration-300 ease-in-out flex flex-row justify-center items-center gap-[6px] cursor-pointer">
                             <FaGithub className="w-[24px] h-[24px]" /> Continue with GitHub
                         </button>
-                        <button className="w-full h-[48px] rounded-[8px] text-black text-[16px] font-semibold leading-[24px] border border-[var(--color-gray-400)] bg-white px-[24px] py-[12px] flex flex-row justify-center items-center gap-[6px] hover:bg-[var(--color-gray-400)] transition duration-300 ease-in-out cursor-pointer">
+                        <button
+                            className="w-full h-[48px] rounded-[8px] text-black text-[16px] font-semibold leading-[24px] border border-[var(--color-gray-400)] bg-white px-[24px] py-[12px] flex flex-row justify-center items-center gap-[6px] hover:bg-[var(--color-gray-400)] transition duration-300 ease-in-out cursor-pointer"
+                            onClick={handleGoogleLogin}
+                            type="button"
+                        >
                             <FcGoogle className="w-[24px] h-[24px]" />
                             Continue with Google
                         </button>
