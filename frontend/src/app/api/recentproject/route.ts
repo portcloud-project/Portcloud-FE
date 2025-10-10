@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
         const response = await axios.get(`${BASE_URL}api/projects`, {
             params: { page, size },
         });
-        return NextResponse.json(response.data);
+        return NextResponse.json(response?.data?.data ?? response?.data);
     } catch (error) {
         console.error('api 호출중 오류', error);
         throw error;
