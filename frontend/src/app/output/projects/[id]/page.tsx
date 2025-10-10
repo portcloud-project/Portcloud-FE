@@ -6,32 +6,23 @@ import TopBtn from '@/app/customComponents/TopBtn';
 import CommentView from '@/app/customComponents/CommentView';
 import CommentProject from '@/app/customComponents/CommentProject';
 import { useProjectDetail } from '@/app/hooks/useProjectDetatil';
-// import Image from 'next/image';
-
-// interface ProjectsCommentsType {
-//     projectsComments: string;
-// }
+import { useDeleteProject } from '@/app/hooks/useDeleteProject';
+import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import Like from '@/app/customComponents/Like';
+import { useLikeProejct } from '@/app/hooks/useLikeProject';
 
 const OutputProjects = (props: { params: { id: string } }) => {
     const id = props.params.id;
     const { data: project, isLoading, isError, error } = useProjectDetail(id);
+    const deleteMutation = useDeleteProject();
+    const router = useRouter();
+    const queryclient = useQueryClient();
+    const { data: like } = useLikeProejct(id);
+
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!project?.id) return <p>프로젝트가 삭제되었거나 찾을 수 없습니다.</p>;
-
-    // const {
-    //     watch,
-    //     register,
-    //     handleSubmit,
-    //     formState: { errors, isSubmitting },
-    // } = useForm<ProjectsCommentsType>({
-    //     mode: 'onChange',
-    //     reValidateMode: 'onChange',
-    // });
-
-    // const onCommentsSubmit = async () => {};
-
-    // const projectsComments = watch('projectsComments', '');
 
     const writeInfoArr = [
         {
@@ -44,6 +35,22 @@ const OutputProjects = (props: { params: { id: string } }) => {
         },
     ];
 
+    const handleDelete = async () => {
+        if (!confirm('정말 삭제하시겠습니까?')) return;
+        if (!project?.owner) {
+            return alert('사용자 정보가 일치하지 않습니다');
+        }
+        try {
+            await deleteMutation.mutateAsync(id);
+            queryclient.invalidateQueries({
+                queryKey: ['recent_project', 'mainlist'],
+            });
+            router.push('/works/projects');
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     return (
         <main className="flex flex-col justify-start itmes-start w-[768px] h-auto gap-[48px]">
             {/* 작성 정보 section */}
@@ -54,11 +61,12 @@ const OutputProjects = (props: { params: { id: string } }) => {
                         <h3 className="font-bold text-[40px] leading-[44px]">{project.title}</h3>
                     </span>
                     <span className="w-auto h-[104px]">
-                        {/* 분기처리 예정 */}
                         <div
-                            className={`w-[90px] h-[40px] border border-[var(--color-green-600)] text-[var(--color-green-600)] font-semibold text-[16px] flex justify-center items-center rounded-[20px]`}
+                            className={`w-[90px] h-[40px] border font-semibold text-[16px] flex justify-center items-center rounded-[20px]
+                                ${project?.distribution ? 'border-[var(--color-green-600)] text-[var(--color-green-600)]' : 'border-[var(--color-red-500)] text-[var(--color-red-500)]'}
+                                `}
                         >
-                            배포중
+                            {project?.distribution ? '배포중' : '배포 종료'}
                         </div>
                     </span>
                 </div>
@@ -82,12 +90,15 @@ const OutputProjects = (props: { params: { id: string } }) => {
                         })}
                         {/* 중간에 | 이거 넣어야함 예정 */}
                     </span>
-                    {/* 분기처리 예정 */}
-                    <span className="flex flex-row justify-start items-center gap-[8px] text-[16px] font-normal text-[var(--color-gray-500)]">
-                        <button className="cursor-pointer">수정</button>
-                        <span className="text[14px] text-[var(--color-gray-300)]">|</span>
-                        <button className="cursor-pointer">삭제</button>
-                    </span>
+                    {project?.owner && (
+                        <span className="flex flex-row justify-start items-center gap-[8px] text-[16px] font-normal text-[var(--color-gray-500)]">
+                            <button className="cursor-pointer">수정</button>
+                            <span className="text[14px] text-[var(--color-gray-300)]">|</span>
+                            <button className="cursor-pointer" onClick={handleDelete}>
+                                삭제
+                            </button>
+                        </span>
+                    )}
                 </div>
                 {/* 밑줄 */}
                 <hr className="w-full h-[1px] text-[var(--color-gray-300)]" />
@@ -105,7 +116,15 @@ const OutputProjects = (props: { params: { id: string } }) => {
             {/* 담당역할, 스킬 section */}
             <section className="flex flex-row gap-[12px] w-full h-auto text-[var(--color-gray-900)] justify-start items-center">
                 <h3 className="font-bold text-[24px]">담당 역할: {project.role}</h3>
-                <span>스킬들</span>
+                <ul className="w-fit flex flex-row gap-[12px]">
+                    {/* {
+                    project?.skill.map((a, i) => (
+                        <li className='w-[70px] h-[34px] rounded-[20px] flex justify-center items-center bg-[var(--color-purple-50)] text-[var(--color-purple-500)] font-bold text-[14px] whitespace-nowrap' key={i}>
+                            {a}
+                        </li>
+                    ))
+                } */}
+                </ul>
             </section>
 
             {/* 프로젝트 내용 section */}
@@ -184,6 +203,7 @@ const OutputProjects = (props: { params: { id: string } }) => {
                     </button>
                 </form>
             </section> */}
+            <Like likeData={like} />
             <section className="w-full flex ">
                 <CommentProject id={id} />
             </section>

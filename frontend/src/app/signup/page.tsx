@@ -33,7 +33,7 @@ const Signup = () => {
     const [useRuleModal, setUseRuleModal] = useState<boolean>(false);
 
     const methods = useForm<SignUpFormValuesType>({
-        mode: 'onChange',
+        mode: 'all',
         reValidateMode: 'onChange',
         defaultValues: {
             email: '',

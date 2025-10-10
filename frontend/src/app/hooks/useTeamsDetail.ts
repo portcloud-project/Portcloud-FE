@@ -2,10 +2,37 @@
 
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { UploadTeamsFormValuesType } from '../upload/teams/page';
+
+interface Recruit {
+    position: string;
+    people: string;
+    skills: string[];
+}
+
+interface TeamDetailType {
+    title: string;
+    bookmarkCount: number;
+    bookmarked: boolean;
+    comments: string[];
+    contactMethod: string;
+    content: string;
+    createdAt: string;
+    id: number;
+    likeCount: number;
+    liked: boolean;
+    owner: boolean;
+    projectType: string;
+    recruitDeadline: string;
+    recruitRoles: string[];
+    recruitStatus: string;
+    skills: string[];
+    viewCount: number;
+    writerName: string;
+    recruits: Recruit[];
+}
 
 export const useTeamDetail = (id: string | null | string[]) => {
-    return useQuery<UploadTeamsFormValuesType>({
+    return useQuery<TeamDetailType>({
         queryKey: ['teamDetail', id],
         queryFn: async () => {
             const res = await axios.get('/api/output-teams', {
