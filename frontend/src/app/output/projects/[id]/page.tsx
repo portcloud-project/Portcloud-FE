@@ -92,7 +92,12 @@ const OutputProjects = (props: { params: { id: string } }) => {
                     </span>
                     {project?.owner && (
                         <span className="flex flex-row justify-start items-center gap-[8px] text-[16px] font-normal text-[var(--color-gray-500)]">
-                            <button className="cursor-pointer">수정</button>
+                            <button
+                                className="cursor-pointer"
+                                onClick={() => router.push(`/output/projects/${id}/edit`)}
+                            >
+                                수정
+                            </button>
                             <span className="text[14px] text-[var(--color-gray-300)]">|</span>
                             <button className="cursor-pointer" onClick={handleDelete}>
                                 삭제
@@ -139,14 +144,14 @@ const OutputProjects = (props: { params: { id: string } }) => {
             <section className="flex flex-col gap-[12px] w-full h-auto text-[var(--color-gray-900)] justify-center items-start">
                 <h3 className="font-bold text-[24px]">영상</h3>
                 <div className="border border-[var(--color-gray-300)] w-full h-[312px] p-[24px] rounded-[8px] text-[16px] text-[var(--color-gray-900)] font-normal">
-                    {project.demonstrationVideo ? (
-                        project.demonstrationVideo.match(/\.(mp4|webm|ogg)$/i) ? (
+                    {project.demonstrationVideoUrl ? (
+                        project.demonstrationVideoUrl.match(/\.(mp4|webm|ogg)$/i) ? (
                             <video
-                                src={project.demonstrationVideo}
+                                src={`https://port-cloud.com/img/${project.demonstrationVideoUrl}`}
                                 controls
                                 className="w-full h-full object-contain rounded"
                             />
-                        ) : project.demonstrationVideo.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
+                        ) : project.demonstrationVideoUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
                             <div
                                 className="h-full w-auto"
                                 style={{
