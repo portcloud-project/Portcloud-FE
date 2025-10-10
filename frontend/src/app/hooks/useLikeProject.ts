@@ -19,7 +19,7 @@ const fetchLike = async (id: string | string[]): Promise<LikeData> => {
     }
 };
 
-export const useLikePortfolio = (id: string | string[]) => {
+export const useLikeProejct = (id: string | string[]) => {
     return useQuery<LikeData>({
         queryKey: ['like-project', id],
         queryFn: async () => {

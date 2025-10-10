@@ -9,6 +9,8 @@ import { useProjectDetail } from '@/app/hooks/useProjectDetatil';
 import { useDeleteProject } from '@/app/hooks/useDeleteProject';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+import Like from '@/app/customComponents/Like';
+import { useLikeProejct } from '@/app/hooks/useLikeProject';
 
 const OutputProjects = (props: { params: { id: string } }) => {
     const id = props.params.id;
@@ -16,6 +18,7 @@ const OutputProjects = (props: { params: { id: string } }) => {
     const deleteMutation = useDeleteProject();
     const router = useRouter();
     const queryclient = useQueryClient();
+    const { data: like } = useLikeProejct(id);
 
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
@@ -200,6 +203,7 @@ const OutputProjects = (props: { params: { id: string } }) => {
                     </button>
                 </form>
             </section> */}
+            <Like likeData={like} />
             <section className="w-full flex ">
                 <CommentProject id={id} />
             </section>
