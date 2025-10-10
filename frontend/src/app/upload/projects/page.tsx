@@ -16,7 +16,7 @@ export interface UploadProjectsFormValuesType {
     role: string;
     projectURL: string;
     description: string;
-    skills: Skills[];
+    skills: Skills[]; // 받아올때
     thumbnailImg: string | null;
     demonstrationVideo: string | null;
     id: string;
@@ -26,6 +26,7 @@ export interface UploadProjectsFormValuesType {
     owner: boolean;
     projectPosition: string;
     demonstrationVideoUrl: string;
+    skill: Skills[]; //보낼때
 }
 
 const UploadProjects = () => {
@@ -70,7 +71,7 @@ const UploadProjects = () => {
             formData.append('role', data.role);
             formData.append('people', data.people);
             formData.append('projectURL', data.projectURL);
-            data.skills.forEach((item, i) => {
+            data.skill.forEach((item, i) => {
                 if (item.name) {
                     formData.append(`skillIds[${i}]`, item.id);
                 }
@@ -196,7 +197,6 @@ const UploadProjects = () => {
                             labelText="text-[24px]"
                             name="people"
                             rules={{ required: '진행 인원을 선택해주세요' }}
-                            errors={errors.people}
                         />
                     </div>
 

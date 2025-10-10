@@ -122,13 +122,14 @@ const OutputProjects = (props: { params: { id: string } }) => {
             <section className="flex flex-row gap-[12px] w-full h-auto text-[var(--color-gray-900)] justify-start items-center">
                 <h3 className="font-bold text-[24px]">담당 역할: {project.role}</h3>
                 <ul className="w-fit flex flex-row gap-[12px]">
-                    {/* {
-                    project?.skill.map((a, i) => (
-                        <li className='w-[70px] h-[34px] rounded-[20px] flex justify-center items-center bg-[var(--color-purple-50)] text-[var(--color-purple-500)] font-bold text-[14px] whitespace-nowrap' key={i}>
-                            {a}
+                    {project?.skills.map((a, i) => (
+                        <li
+                            className="w-[70px] h-[34px] rounded-[20px] flex justify-center items-center bg-[var(--color-purple-50)] text-[var(--color-purple-500)] font-bold text-[14px] whitespace-nowrap"
+                            key={i}
+                        >
+                            {a.name}
                         </li>
-                    ))
-                } */}
+                    ))}
                 </ul>
             </section>
 
