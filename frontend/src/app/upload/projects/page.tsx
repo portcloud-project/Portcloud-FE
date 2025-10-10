@@ -12,11 +12,11 @@ export interface UploadProjectsFormValuesType {
     startDate: string;
     endDate: string;
     people: string;
-    distribution: boolean;
+    distribution: boolean | string;
     role: string;
     projectURL: string;
     description: string;
-    skill: Skills[];
+    skills: Skills[]; // 받아올때
     thumbnailImg: string | null;
     demonstrationVideo: string | null;
     id: string;
@@ -25,6 +25,8 @@ export interface UploadProjectsFormValuesType {
     thumbnailURL: string | null;
     owner: boolean;
     projectPosition: string;
+    demonstrationVideoUrl: string;
+    skill: Skills[]; //보낼때
 }
 
 const UploadProjects = () => {
@@ -42,7 +44,7 @@ const UploadProjects = () => {
             role: '',
             projectURL: '',
             description: '',
-            skill: [{ name: '' }],
+            skills: [{ name: '' }],
             thumbnailImg: '',
             demonstrationVideo: '',
         },
@@ -69,7 +71,11 @@ const UploadProjects = () => {
             formData.append('role', data.role);
             formData.append('people', data.people);
             formData.append('projectURL', data.projectURL);
-            formData.append('title', String(data.skill));
+            data.skill.forEach((item, i) => {
+                if (item.name) {
+                    formData.append(`skillIds[${i}]`, item.id);
+                }
+            });
 
             if (data.thumbnailImg?.[0]) {
                 formData.append('thumbnailImg', data.thumbnailImg[0]);
@@ -78,12 +84,14 @@ const UploadProjects = () => {
                 formData.append('demonstrationVideo', data.demonstrationVideo[0]);
             }
 
+            console.log(Array.from(formData.entries()));
+
             const res = await axios.post('/api/project', formData);
 
             console.log(res.status);
 
             alert('프로젝트가 업로드 되었습니다!');
-            router.push('/work/projects');
+            router.push('/works/projects');
         } catch (err) {
             if (err instanceof Error) {
                 console.log('업로드 에러내용:', err.message);
@@ -189,7 +197,6 @@ const UploadProjects = () => {
                             labelText="text-[24px]"
                             name="people"
                             rules={{ required: '진행 인원을 선택해주세요' }}
-                            errors={errors.people}
                         />
                     </div>
 
@@ -232,7 +239,7 @@ const UploadProjects = () => {
                             gap="gap-[12px]"
                             labelFont="font-bold"
                             labelText="text-[24px]"
-                            name="projectPosition"
+                            name="role"
                             rules={{ required: '담당 역할을 선택해주세요' }}
                             errors={errors.projectPosition}
                         />

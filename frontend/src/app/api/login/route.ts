@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
             path: '/',
             sameSite: 'lax',
         });
+        console.log(response);
         return response;
     } catch (err) {
         console.error(err);
