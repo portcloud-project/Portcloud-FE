@@ -2,14 +2,16 @@
 
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { Skills } from '../stores/skillStore';
 
 interface Recruit {
-    position: string;
+    role: string;
     people: string;
     skills: string[];
+    count: string;
 }
 
-interface TeamDetailType {
+export interface TeamDetailType {
     title: string;
     bookmarkCount: number;
     bookmarked: boolean;
@@ -23,12 +25,15 @@ interface TeamDetailType {
     owner: boolean;
     projectType: string;
     recruitDeadline: string;
-    recruitRoles: string[];
+    recruitRoles: Recruit[];
     recruitStatus: string;
     skills: string[];
     viewCount: number;
     writerName: string;
     recruits: Recruit[];
+    endDate: string;
+    contact: string;
+    skill: Skills[];
 }
 
 export const useTeamDetail = (id: string | null | string[]) => {

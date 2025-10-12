@@ -20,6 +20,7 @@ export interface Item {
     industry: string;
     thumbnailURL: string | null;
     projectPosition: string;
+    role: string;
 }
 
 export interface ApiResponse<T> {
@@ -71,8 +72,8 @@ const MainList = ({ title }: MainListProps) => {
                                         {a?.writeName}
                                     </p>
                                 </div>
-                                <div className="w-[76px] h-[40px] rounded-[20px] bg-[var(--color-purple-500)] text-white font-semibold text-[16px] absolute top-[24px] right-[20px] whitespace-nowrap">
-                                    {a?.projectPosition}
+                                <div className="w-fit px-[24px] py-[8px] rounded-[20px] bg-[var(--color-purple-500)] text-white font-semibold text-[16px] absolute top-[24px] right-[20px] whitespace-nowrap">
+                                    {a?.role}
                                 </div>
                             </li>
                         );
