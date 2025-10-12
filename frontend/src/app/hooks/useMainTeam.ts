@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { ApiResponse } from '../customComponents/MainList';
 
-interface TeamGetValueType {
+export interface TeamGetValueType {
     createdAt: string;
     id: number;
     likeCount: number;
@@ -13,10 +13,17 @@ interface TeamGetValueType {
     viewCount: string;
     writerName: string;
     recruitDeadline: string;
+    recruits: RolesType[];
 }
 
-const fetchMainTeam = async (): Promise<TeamGetValueType> => {
-    const response = await axios.get<ApiResponse<TeamGetValueType>>('/api/mainteam');
+interface RolesType {
+    role: string;
+    count: number;
+    people: number;
+}
+
+const fetchMainTeam = async (): Promise<TeamGetValueType[]> => {
+    const response = await axios.get<ApiResponse<TeamGetValueType[]>>('/api/mainteam');
 
     if (response.data && Array.isArray(response.data.data)) {
         return response.data.data;
@@ -26,7 +33,7 @@ const fetchMainTeam = async (): Promise<TeamGetValueType> => {
 };
 
 export const useMainTeam = () => {
-    return useQuery<TeamGetValueType, Error>({
+    return useQuery<TeamGetValueType[], Error>({
         queryKey: ['mainteam'],
         queryFn: async () => {
             const data = await fetchMainTeam();

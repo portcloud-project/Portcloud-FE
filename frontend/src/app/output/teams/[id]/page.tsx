@@ -8,9 +8,7 @@ import { useRouter } from 'next/navigation';
 const OutputTeams = (props: { params: { id: string } }) => {
     const id = props.params.id;
     const { data: teams, isLoading, isError, error } = useTeamDetail(id);
-
     const user = userStore((state) => state.user);
-
     const deleteMutation = useDeleteTeam();
     const router = useRouter();
 
@@ -46,8 +44,6 @@ const OutputTeams = (props: { params: { id: string } }) => {
             value: `${teams?.createdAt}`,
         },
     ];
-
-    console.log(typeof teams?.recruits);
 
     const contactArr = [
         {

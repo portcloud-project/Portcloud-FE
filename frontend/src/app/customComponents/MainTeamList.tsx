@@ -1,8 +1,7 @@
 'use client';
 
-import { useMainTeam } from '../hooks/useMainTeam';
+import { TeamGetValueType, useMainTeam } from '../hooks/useMainTeam';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { AiOutlineEye } from 'react-icons/ai';
 
 interface MainTeamListProps {
@@ -11,24 +10,24 @@ interface MainTeamListProps {
 
 const MainTeamList = ({ title }: MainTeamListProps) => {
     const { isLoading, isError, error, data } = useMainTeam();
-    const [deadline, setDeadline] = useState<string>('');
+    // const [deadline, setDeadline] = useState<string>('');
     const teamList = data as TeamGetValueType[];
     const router = useRouter();
 
     // 날짜 계산 함수
-    const getDeadlineText = (endDate: string) => {
-        const diff = Math.ceil(
-            (new Date(endDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
-        );
-        return `마감 ${diff}일 전`;
-    };
+    // const getDeadlineText = (endDate: string) => {
+    //     const diff = Math.ceil(
+    //         (new Date(endDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
+    //     );
+    //     return `마감 ${diff}일 전`;
+    // };
 
-    // 예: data 마감일이 들어왔을 때
-    useEffect(() => {
-        if (data?.recruitDeadline) {
-            setDeadline(getDeadlineText(data.recruitDeadline));
-        }
-    }, [data]);
+    // // 예: data 마감일이 들어왔을 때
+    // useEffect(() => {
+    //     if (data?.recruitDeadline) {
+    //         setDeadline(getDeadlineText(data?.recruitDeadline));
+    //     }
+    // }, [data]);
 
     if (isLoading) {
         return (
@@ -63,7 +62,7 @@ const MainTeamList = ({ title }: MainTeamListProps) => {
                                 }}
                             >
                                 <div className="w-[102px] h-[34px] rounded-[20px] border border-[var(--color-red-500)] flex items-center justify-center text-[var(--color-red-500)] text-[14px] font-semibold">
-                                    마감 {deadline}일 전
+                                    마감 12일 전
                                 </div>
                                 <div className="w-fit h-auto flex flex-row justify-center items-center gap-[4px]">
                                     <h3 className="font-semibold text-[14px] text-[var(--color-gray-500)]">
