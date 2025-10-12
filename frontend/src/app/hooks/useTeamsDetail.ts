@@ -4,8 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 interface Recruit {
-    position: string;
-    people: string;
+    role: string;
+    count: number;
+    people: number;
     skills: string[];
 }
 
@@ -23,12 +24,11 @@ interface TeamDetailType {
     owner: boolean;
     projectType: string;
     recruitDeadline: string;
-    recruitRoles: string[];
     recruitStatus: string;
     skills: string[];
     viewCount: number;
     writerName: string;
-    recruits: Recruit[];
+    recruitRoles: Recruit[];
 }
 
 export const useTeamDetail = (id: string | null | string[]) => {

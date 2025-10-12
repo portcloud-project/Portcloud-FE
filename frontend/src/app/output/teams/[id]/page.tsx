@@ -8,9 +8,7 @@ import { useRouter } from 'next/navigation';
 const OutputTeams = (props: { params: { id: string } }) => {
     const id = props.params.id;
     const { data: teams, isLoading, isError, error } = useTeamDetail(id);
-
     const user = userStore((state) => state.user);
-
     const deleteMutation = useDeleteTeam();
     const router = useRouter();
 
@@ -46,8 +44,6 @@ const OutputTeams = (props: { params: { id: string } }) => {
             value: `${teams?.createdAt}`,
         },
     ];
-
-    console.log(typeof teams?.recruits);
 
     const contactArr = [
         {
@@ -116,8 +112,8 @@ const OutputTeams = (props: { params: { id: string } }) => {
 
             {/* 포지션 별 내용 section */}
             <section className="flex flex-row gap-[16px] w-full h-auto justify-between items-center">
-                <span className="w-[376px] h-[128px] border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-col justify-center items-start relative">
-                    {/* {teams?.recruits.map((a, i) => (
+                <div className="w-full h-auto border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-row justify-center items-start">
+                    {teams?.recruitRoles.map((a, i) => (
                         <span
                             className="w-[376px] h-[128px] border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-col justify-center items-start relative"
                             key={i}
@@ -128,7 +124,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
                             >
                                 <h3 className="font-semibold whitespace-nowrap">포지션</h3>
                                 <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
-                                <p className="font-normal">{a.position}</p>
+                                <p className="font-normal">{a?.role}</p>
                             </div>
                             <div
                                 key={i}
@@ -136,7 +132,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
                             >
                                 <h3 className="font-semibold whitespace-nowrap">인원</h3>
                                 <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
-                                <p className="font-normal">{a.people}</p>
+                                <p className="font-normal">{a.count}</p>
                             </div>
                             <div
                                 key={i}
@@ -146,20 +142,20 @@ const OutputTeams = (props: { params: { id: string } }) => {
                                 <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
                                 <p className="font-normal">{a.skills.map((a) => ` ${a}`)}</p>
                             </div>
-                        </span>
-                    ))} */}
-                    <div
-                        className={`flex justify-center items-center w-[72px] h-[34px] border rounded-full absolute top-[18px] right-[20px] ${teams?.recruitStatus === 'RECRUITING' ? 'border-[var(--color-purple-500)] bg-[var(--color-purple-50)]' : 'border-[var(--color-gray-400)] bg-[var(--color-gray-100)]'}`}
-                    >
-                        <h3
-                            className={`text-[14px]  font-semibold
+                            <div
+                                className={`flex justify-center items-center w-[72px] h-[34px] border rounded-full absolute top-[18px] right-[20px] ${teams?.recruitStatus === 'RECRUITING' ? 'border-[var(--color-purple-500)] bg-[var(--color-purple-50)]' : 'border-[var(--color-gray-400)] bg-[var(--color-gray-100)]'}`}
+                            >
+                                <h3
+                                    className={`text-[14px]  font-semibold
                             ${teams?.recruitStatus === 'RECRUITING' ? 'text-[var(--color-purple-500)]' : 'text-[var(--color-gray-400)]'}
                             `}
-                        >
-                            {engToKo(teams?.recruitStatus)}
-                        </h3>
-                    </div>
-                </span>
+                                >
+                                    {engToKo(teams?.recruitStatus)}
+                                </h3>
+                            </div>
+                        </span>
+                    ))}
+                </div>
             </section>
 
             {/* 모집 마감일, 연락 방법 section */}
