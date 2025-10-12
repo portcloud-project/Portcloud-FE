@@ -74,12 +74,12 @@ const UploadDropDown = ({
                                     <FaAngleDown className="w-[15px] h-[15px] text-[var(--color-gray-400)]" />
                                 )}
                             </span>
-                            {errors && (
-                                <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[76px] whitespace-nowrap">
-                                    {errors.message}
-                                </p>
-                            )}
                         </DropdownMenuTrigger>
+                        {errors && (
+                            <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[76px] whitespace-nowrap">
+                                {errors.message}
+                            </p>
+                        )}
                         <DropdownMenuContent
                             className={`${width} flex flex-col gap-[4px] p-[6px]`}
                             side="bottom"

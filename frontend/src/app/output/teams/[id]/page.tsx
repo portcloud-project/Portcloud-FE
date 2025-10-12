@@ -8,9 +8,7 @@ import { useRouter } from 'next/navigation';
 const OutputTeams = (props: { params: { id: string } }) => {
     const id = props.params.id;
     const { data: teams, isLoading, isError, error } = useTeamDetail(id);
-    console.log(teams?.recruitRoles);
     const user = userStore((state) => state.user);
-
     const deleteMutation = useDeleteTeam();
     const router = useRouter();
 

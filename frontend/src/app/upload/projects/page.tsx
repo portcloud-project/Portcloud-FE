@@ -6,18 +6,17 @@ import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 import { Skills } from '@/app/stores/skillStore';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from '@tanstack/react-query';
 
 export interface UploadProjectsFormValuesType {
     title: string;
     startDate: string;
     endDate: string;
     people: string;
-    distribution: boolean;
+    distribution: boolean | string;
     role: string;
     projectURL: string;
     description: string;
-    skill: Skills[];
+    skills: Skills[]; // 받아올때
     thumbnailImg: string | null;
     demonstrationVideo: string | null;
     id: string;
@@ -26,6 +25,8 @@ export interface UploadProjectsFormValuesType {
     thumbnailURL: string | null;
     owner: boolean;
     projectPosition: string;
+    demonstrationVideoUrl: string;
+    skill: Skills[]; //보낼때
 }
 
 const UploadProjects = () => {
@@ -43,7 +44,7 @@ const UploadProjects = () => {
             role: '',
             projectURL: '',
             description: '',
-            skill: [{ name: '' }],
+            skills: [{ name: '' }],
             thumbnailImg: '',
             demonstrationVideo: '',
         },
@@ -57,7 +58,6 @@ const UploadProjects = () => {
     const errors = formErrors as FieldErrors<UploadProjectsFormValuesType>;
 
     const router = useRouter();
-    const queryclient = useQueryClient();
 
     const onUploadProjectsSubmit = async (data: UploadProjectsFormValuesType) => {
         try {
@@ -71,7 +71,11 @@ const UploadProjects = () => {
             formData.append('role', data.role);
             formData.append('people', data.people);
             formData.append('projectURL', data.projectURL);
-            formData.append('title', String(data.skill));
+            data.skill.forEach((item, i) => {
+                if (item.name) {
+                    formData.append(`skillIds[${i}]`, item.id);
+                }
+            });
 
             if (data.thumbnailImg?.[0]) {
                 formData.append('thumbnailImg', data.thumbnailImg[0]);
@@ -80,9 +84,12 @@ const UploadProjects = () => {
                 formData.append('demonstrationVideo', data.demonstrationVideo[0]);
             }
 
+            console.log(Array.from(formData.entries()));
+
             const res = await axios.post('/api/project', formData);
+
             console.log(res.status);
-            queryclient.invalidateQueries();
+
             alert('프로젝트가 업로드 되었습니다!');
             router.push('/works/projects');
         } catch (err) {
@@ -190,7 +197,6 @@ const UploadProjects = () => {
                             labelText="text-[24px]"
                             name="people"
                             rules={{ required: '진행 인원을 선택해주세요' }}
-                            errors={errors.people}
                         />
                     </div>
 
@@ -234,9 +240,8 @@ const UploadProjects = () => {
                             labelFont="font-bold"
                             labelText="text-[24px]"
                             name="role"
-                            // role로 보낼지 이걸로 보낼지?
                             rules={{ required: '담당 역할을 선택해주세요' }}
-                            errors={errors.role}
+                            errors={errors.projectPosition}
                         />
                         {/* 스킬 section */}
                         <SearchSkill width="w-[376px]" />

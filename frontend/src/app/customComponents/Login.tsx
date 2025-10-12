@@ -27,9 +27,10 @@ const Login = ({
     setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
     const [pwVisible, setPwVisible] = useState<boolean>(false);
+    const [isError, setIsError] = useState(false);
     const setUser = userStore((state) => state.setUser);
     // 모달 true 일때 DOM 조작 (스크롤 막기 + 스크롤 바 없애기)
-    const [isLoding, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         document.body.style.overflow = 'hidden';
         document.body.style.paddingRight = '0px';
@@ -58,8 +59,13 @@ const Login = ({
             console.log(res);
             queryClient.invalidateQueries();
             setUser(payload);
+            if (res.status === 510) {
+                setIsError(true);
+            }
         } catch (err) {
             console.error(err, 'next프록시 오류');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -188,11 +194,13 @@ const Login = ({
                     </Link>
                 </CardFooter>
             </Card>
-            {isLoding && (
+            {(isLoading || isError) && (
                 <CustomAlert
-                    isLoading={isLoding}
+                    isLoading={isLoading}
                     message="잠시 시간이 소요될 수 있습니다."
                     title="로그인 중..."
+                    isError={isError}
+                    errorMsg="로그인에 실패하였습니다."
                 />
             )}
         </CardLayout>
