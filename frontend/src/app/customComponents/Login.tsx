@@ -144,7 +144,10 @@ const Login = ({
                                         />
                                     )}
                                 </div>
-                                <Link href="/password-reset" className="text-sm underline-offset-4 hover:underline">
+                                <Link
+                                    href="/password-reset"
+                                    className="text-sm underline-offset-4 hover:underline"
+                                >
                                     Forgot your password? &gt;
                                 </Link>
                             </div>

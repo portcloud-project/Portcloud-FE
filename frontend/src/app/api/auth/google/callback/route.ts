@@ -10,7 +10,10 @@ export async function GET(req: NextRequest, { params }: { params: { provider: st
     const redirect = searchParams.get('redirect') || `${FRONTEND}/auth/callback/done`;
     const error = searchParams.get('error');
 
-    if (error) return NextResponse.redirect(`${FRONTEND}/login?error=${encodeURIComponent(error)}`, { status: 302 });
+    if (error)
+        return NextResponse.redirect(`${FRONTEND}/login?error=${encodeURIComponent(error)}`, {
+            status: 302,
+        });
     if (!code) return NextResponse.redirect(`${FRONTEND}/login`, { status: 302 });
 
     const be = new URL(`${BASE_URL}api/user/oauth/${provider}/callback`);
