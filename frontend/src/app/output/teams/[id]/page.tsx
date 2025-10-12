@@ -88,7 +88,12 @@ const OutputTeams = (props: { params: { id: string } }) => {
                     </span>
                     {/* 분기처리 예정 */}
                     <span className="flex flex-row justify-start items-center gap-[8px] text-[16px] font-normal text-[var(--color-gray-500)]">
-                        <button className="cursor-pointer">수정</button>
+                        <button
+                            className="cursor-pointer"
+                            onClick={() => router.push(`/output/teams/${id}/edit`)}
+                        >
+                            수정
+                        </button>
                         <span className="text[14px] text-[var(--color-gray-300)]">|</span>
                         <button className="cursor-pointer" onClick={handleDelete}>
                             삭제
@@ -112,50 +117,48 @@ const OutputTeams = (props: { params: { id: string } }) => {
 
             {/* 포지션 별 내용 section */}
             <section className="flex flex-row gap-[16px] w-full h-auto justify-between items-center">
-                <div className="w-full h-auto border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-row justify-center items-start">
-                    {teams?.recruitRoles.map((a, i) => (
-                        <span
-                            className="w-[376px] h-[128px] border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-col justify-center items-start relative"
-                            key={i}
+                {teams?.recruitRoles.map((a, i) => (
+                    <span
+                        className="w-full border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-col justify-center items-start relative"
+                        key={`${i}_field`}
+                    >
+                        <div
+                            key={`${i}_position`}
+                            className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]"
                         >
-                            <div
-                                key={i}
-                                className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]"
-                            >
-                                <h3 className="font-semibold whitespace-nowrap">포지션</h3>
-                                <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
-                                <p className="font-normal">{a?.role}</p>
-                            </div>
-                            <div
-                                key={i}
-                                className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]"
-                            >
-                                <h3 className="font-semibold whitespace-nowrap">인원</h3>
-                                <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
-                                <p className="font-normal">{a.count}</p>
-                            </div>
-                            <div
-                                key={i}
-                                className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]"
-                            >
-                                <h3 className="font-semibold whitespace-nowrap">필요 스킬</h3>
-                                <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
-                                <p className="font-normal">{a.skills.map((a) => ` ${a}`)}</p>
-                            </div>
-                            <div
-                                className={`flex justify-center items-center w-[72px] h-[34px] border rounded-full absolute top-[18px] right-[20px] ${teams?.recruitStatus === 'RECRUITING' ? 'border-[var(--color-purple-500)] bg-[var(--color-purple-50)]' : 'border-[var(--color-gray-400)] bg-[var(--color-gray-100)]'}`}
-                            >
-                                <h3
-                                    className={`text-[14px]  font-semibold
+                            <h3 className="font-semibold whitespace-nowrap">포지션</h3>
+                            <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
+                            <p className="font-normal">{a.role}</p>
+                        </div>
+                        <div
+                            key={`${i}_count`}
+                            className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]"
+                        >
+                            <h3 className="font-semibold whitespace-nowrap">인원</h3>
+                            <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
+                            <p className="font-normal">{a.count}</p>
+                        </div>
+                        <div
+                            key={i}
+                            className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]"
+                        >
+                            <h3 className="font-semibold whitespace-nowrap">필요 스킬</h3>
+                            <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
+                            <p className="font-normal">{a.skills.map((a) => ` ${a}`)}</p>
+                        </div>
+                        <div
+                            className={`flex justify-center  items-center w-[72px] h-[34px] border rounded-full absolute top-[18px] right-[20px] ${teams?.recruitStatus === 'RECRUITING' ? 'border-[var(--color-purple-500)] bg-[var(--color-purple-50)]' : 'border-[var(--color-gray-400)] bg-[var(--color-gray-100)]'}`}
+                        >
+                            <h3
+                                className={`text-[14px]  font-semibold
                             ${teams?.recruitStatus === 'RECRUITING' ? 'text-[var(--color-purple-500)]' : 'text-[var(--color-gray-400)]'}
                             `}
-                                >
-                                    {engToKo(teams?.recruitStatus)}
-                                </h3>
-                            </div>
-                        </span>
-                    ))}
-                </div>
+                            >
+                                {engToKo(teams?.recruitStatus)}
+                            </h3>
+                        </div>
+                    </span>
+                ))}
             </section>
 
             {/* 모집 마감일, 연락 방법 section */}

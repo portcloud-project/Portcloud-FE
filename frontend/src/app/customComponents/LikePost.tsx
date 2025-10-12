@@ -23,7 +23,8 @@ const LikePost = ({ id }: { id: string | string[] }) => {
             className="fixed right-[30%] top-[40%]     
                 s-mobile::right-[10%] s-mobile::top-[30%]
                 mobile:right-[20%] mobile:top-[35%]
-                tablet:right-[25%] tablet:top-[38%]tablet:"
+
+                tablet:right-[25%] tablet:top-[38%]"
         >
             <button
                 onClick={handleLike}

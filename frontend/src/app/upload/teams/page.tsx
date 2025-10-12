@@ -20,6 +20,7 @@ export interface UploadTeamsFormValuesType {
     writerName: string;
     createdAt: string;
     id: string;
+    skillIds: Skills[];
 }
 
 export interface TeamSectionData {
@@ -88,7 +89,7 @@ const UploadTeams = () => {
     }
 
     return (
-        <>
+        <div>
             <h3 className="font-bold text-[28px] text-black">
                 팀원 구하기{' '}
                 <span className="font-normal text-[16px] text-[var(--color-gray-600)]">
@@ -265,7 +266,7 @@ const UploadTeams = () => {
                     </button>
                 </form>
             </FormProvider>
-        </>
+        </div>
     );
 };
 

@@ -40,7 +40,6 @@ const PortfolioEdit = () => {
             certificates: [],
         },
     });
-
     const { handleSubmit, control, register, reset } = method;
 
     // ✅ useFieldArray 설정

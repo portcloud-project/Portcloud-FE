@@ -8,7 +8,15 @@ import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { IoCloseOutline } from 'react-icons/io5';
 import { Skills, skillsStore } from '../stores/skillStore';
 
-const SearchSkill = ({ width, fieldName }: { width?: string; fieldName?: string }) => {
+const SearchSkill = ({
+    width,
+    fieldName,
+    labelName,
+}: {
+    width?: string;
+    fieldName?: string;
+    labelName?: string;
+}) => {
     const [toggleDropdown, setToggleDropdown] = useState(false);
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
     const { categorizedSkills } = skillsStore();
@@ -102,7 +110,7 @@ const SearchSkill = ({ width, fieldName }: { width?: string; fieldName?: string 
                             htmlFor="skill"
                             className="font-bold text-[24px] text-[var(--color-gray-900)]"
                         >
-                            스킬
+                            {labelName ?? '스킬'}
                         </label>
                         <div className="relative w-full">
                             <input
