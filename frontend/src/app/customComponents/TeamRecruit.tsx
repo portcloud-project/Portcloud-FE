@@ -15,7 +15,7 @@ const TeamRecruit = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCreerPr
     const positionArr = ['Back-end', 'Front-end', 'Full-stack', 'PM', 'Designer'];
     const peopleArr = [...Array.from({ length: 5 }, (_, i) => `${i + 1}명`)];
 
-    const fieldNamePrefix = `recruits[${index}]`;
+    const fieldNamePrefix = `recruitRoles.${index}`;
 
     const {
         formState: { errors },
@@ -33,7 +33,7 @@ const TeamRecruit = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCreerPr
                 gap="gap-[12px]"
                 labelFont="font-bold"
                 labelText="text-[24px]"
-                name={`${fieldNamePrefix}.position`}
+                name={`${fieldNamePrefix}.role`}
                 rules={{ required: '모집 포지션을 선택해주세요' }}
                 errors={errors.position}
             />
@@ -47,7 +47,7 @@ const TeamRecruit = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCreerPr
                 gap="gap-[12px]"
                 labelFont="font-bold"
                 labelText="text-[24px]"
-                name={`${fieldNamePrefix}.people`}
+                name={`${fieldNamePrefix}.count`}
                 rules={{ required: '모집 인원을 선택해주세요' }}
                 errors={errors.people}
             />

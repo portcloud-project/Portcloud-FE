@@ -55,7 +55,14 @@ export default function Home() {
                     setApi={setApi}
                     className="w-full"
                 >
-                    <CarouselContent>
+                    <CarouselContent
+                        onClick={() =>
+                            window.location.assign(
+                                'https://www.notion.so/PortCloud-2757bf0e19ba80b9845edefc43389979',
+                            )
+                        }
+                        className="cursor-pointer"
+                    >
                         {Array.from({ length: 2 }).map((_, index) => (
                             <CarouselItem
                                 key={index}

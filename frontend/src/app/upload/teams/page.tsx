@@ -20,7 +20,12 @@ export interface UploadTeamsFormValuesType {
     writerName: string;
     createdAt: string;
     id: string;
-    skillIds: Skills[];
+
+    recruitRoles: {
+        role: string;
+        skills: Skills[];
+        count: string;
+    }[];
 }
 
 export interface TeamSectionData {
@@ -38,11 +43,11 @@ const UploadTeams = () => {
             const response = await axios.post('/api/teamupload', {
                 title: data.title,
                 content: data.content,
-                projectType: data.position,
                 recruitDeadline: data.endDate,
                 contactMethod: data.contact,
                 saveStatus: data.saveStatus,
                 skills: data.skill,
+                recruitRoles: data.recruitRoles,
             });
             router.push('/works/teams');
             return response.status;
@@ -55,8 +60,6 @@ const UploadTeams = () => {
         defaultValues: {
             title: '',
             content: '',
-            position: '',
-            people: '',
             skill: [{ name: '' }],
             endDate: '',
             contact: '',

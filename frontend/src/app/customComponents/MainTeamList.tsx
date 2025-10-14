@@ -1,5 +1,6 @@
 'use client';
 
+import dayjs from 'dayjs';
 import { TeamGetValueType, useMainTeam } from '../hooks/useMainTeam';
 import { useRouter } from 'next/navigation';
 import { AiOutlineEye } from 'react-icons/ai';
@@ -50,19 +51,21 @@ const MainTeamList = ({ title }: MainTeamListProps) => {
     return (
         <div className="w-full flex flex-col gap-[16px]">
             <p className="font-bold text-[20px]">{title}</p>
-            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-start overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
+            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap  justify-start overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
                 {teamList && teamList.length > 0 ? (
                     teamList?.map((item) => {
                         return (
                             <li
                                 key={item?.id}
-                                className="w-[330px] h-[224px] border-[2px] border-[var(--color-gray-300)] bg-white rounded-[20px] p-[24px] gap-[18px] flex flex-col justify-start items-start relative cursor-pointer transition duration-300 ease-in-out hover:bg-black/10"
+                                className="w-[330px] h-[224px] border-[2px] bg-gradient-to-t  border-[var(--color-gray-300)] bg-white rounded-[20px] p-[24px] gap-[18px] flex flex-col justify-start items-start relative cursor-pointer transition duration-700 ease-in-out hover:bg-black/10"
                                 onClick={() => {
                                     router.push(`/output/teams/${item?.id}`);
                                 }}
                             >
-                                <div className="w-[102px] h-[34px] rounded-[20px] border border-[var(--color-red-500)] flex items-center justify-center text-[var(--color-red-500)] text-[14px] font-semibold">
-                                    마감 12일 전
+                                <div className="w-[102px] h-[34px] rounded-[20px] border  border-[var(--color-red-500)] flex items-center justify-center text-[var(--color-red-500)] text-[14px] font-semibold">
+                                    {dayjs(item.recruitDeadline).diff(dayjs(), 'day') < 0
+                                        ? '마감'
+                                        : dayjs(item.recruitDeadline).diff(dayjs(), 'day') + '일'}
                                 </div>
                                 <div className="w-fit h-auto flex flex-row justify-center items-center gap-[4px]">
                                     <h3 className="font-semibold text-[14px] text-[var(--color-gray-500)]">

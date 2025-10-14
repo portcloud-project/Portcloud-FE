@@ -11,12 +11,14 @@ import { UploadProjectsFormValuesType } from '@/app/upload/projects/page';
 import { useEffect } from 'react';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 import { useEditProject } from '@/app/hooks/useEditProject';
+import { useRouter } from 'next/navigation';
 
 const ProjectsEdit = (props: { params: { id: string } }) => {
     const id = props.params.id;
     const { data: project, isLoading, isError, error } = useProjectDetail(id);
     const mutate = useEditProject(id);
     const { data: like } = useLikeProejct(id);
+    const router = useRouter();
     const method = useForm<UploadProjectsFormValuesType>({
         defaultValues: {
             title: '',
@@ -58,6 +60,7 @@ const ProjectsEdit = (props: { params: { id: string } }) => {
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!project?.id) return <p>프로젝트가 삭제되었거나 찾을 수 없습니다.</p>;
+    if (!project.owner) return router.push('/');
     const peopleArr = [...Array.from({ length: 9 }, (_, i) => `${i + 1}명`), '10명 이상'];
     const projectPositionArr = ['', 'Front-end-개발', 'Back-end-개발', 'PM-기획', 'UI/UX-디자인'];
     const isDeployArr = ['배포 중', '배포 완료'];

@@ -48,6 +48,7 @@ const LogsEdit = () => {
 
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!logs?.id) return <p>기록이 삭제되었거나 찾을 수 없습니다.</p>;
+    if (!logs.owner) return router.push('/');
 
     const onSubmit = async (data: AllLogs) => {
         try {
