@@ -15,7 +15,7 @@ const TeamRecruit = ({ index, onDelete, isOnlyOneSection, id }: PortfolioCreerPr
     const positionArr = ['Back-end', 'Front-end', 'Full-stack', 'PM', 'Designer'];
     const peopleArr = [...Array.from({ length: 5 }, (_, i) => `${i + 1}명`)];
 
-    const fieldNamePrefix = `recruitRoles.[${index}]`;
+    const fieldNamePrefix = `recruitRoles.${index}`;
 
     const {
         formState: { errors },

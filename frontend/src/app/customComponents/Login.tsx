@@ -48,20 +48,18 @@ const Login = ({
         setIsLoading(true);
         try {
             const res = await axios.post('/api/login', data);
-
-            const token = res.data.data.token;
-            if (!token) {
-                console.error('토큰이 존재하지 않음');
+            if (res.data.status === 401) {
+                console.error('401오류');
+                setIsError(true);
                 return;
             }
+
+            const token = res.data.data.token;
             Cookies.set('accessToken', token);
             const payload = parseJwt(token);
-            console.log(res);
+
             queryClient.invalidateQueries();
             setUser(payload);
-            if (res.status === 510) {
-                setIsError(true);
-            }
         } catch (err) {
             console.error(err, 'next프록시 오류');
         } finally {

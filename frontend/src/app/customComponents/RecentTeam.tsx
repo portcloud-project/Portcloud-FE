@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 // import { useRecentTeam } from '../hooks/useRecentTeam';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 
 type Item = {
     id: number;
@@ -77,15 +78,20 @@ const RecentTeam = () => {
             </div>
 
             <ul className="w-full grid grid-cols-4 gap-[24px]">
-                {items.map((a) => {
+                {items.map((a, idx) => {
                     return (
                         <li
-                            key={a?.id}
-                            className="w-[330px] h-[284px] flex flex-col justify-start items-start gap-[12px] border-[2px] border-[var(--color-gray-300)] bg-white rounded-[20px] p-[24px] relative cursor-pointer transition duration-300 ease-in-out hover:bg-black/10"
+                            key={`${a}_${idx}`}
+                            className="w-[330px] h-[284px] flex flex-col justify-start items-start gap-[12px] border-[2px] border-[var(--color-gray-300)] bg-white rounded-[20px] p-[24px] relative cursor-pointer transition duration-700 ease-in-out hover:bg-black/10"
                             onClick={() => {
                                 router.push(`/output/teams/${a?.id}`);
                             }}
                         >
+                            <div className="w-[102px] h-[34px] rounded-[20px] border  border-[var(--color-red-500)] flex items-center justify-center text-[var(--color-red-500)] text-[14px] font-semibold">
+                                {dayjs(a.recruitDeadline).diff(dayjs(), 'day') < 0
+                                    ? '마감'
+                                    : dayjs(a.recruitDeadline).diff(dayjs(), 'day') + '일'}
+                            </div>
                             <div className="w-fit h-auto flex flex-row justify-center items-center gap-[4px]">
                                 <h3 className="font-semibold text-[14px] text-[var(--color-gray-500)]">
                                     마감일

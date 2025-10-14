@@ -18,7 +18,7 @@ const EditTeams = (props: { params: { id: string } }) => {
     const { reset, control, handleSubmit } = method;
     const recuitRolesArray = useFieldArray({ control, name: 'recruitRoles' });
     const mutate = useEditTeams(id);
-    const router = useRouter();
+    // const router = useRouter();
 
     useEffect(() => {
         if (teams) {
@@ -41,11 +41,12 @@ const EditTeams = (props: { params: { id: string } }) => {
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!teams?.id) return <p>해당 팀이 삭제되었거나 찾을 수 없습니다.</p>;
-    if (!teams.owner) return router.push('/');
+    // if (!teams.owner) return router.push('/');
     const peopleArr = [...Array.from({ length: 5 }, (_, i) => `${i + 1}`)];
     const engToKo = (a: string): string => {
         return a === 'RECRUITING' ? '모집 중' : '모집 마감';
     };
+    const roleArr = ['Back-end', 'Front-end', 'Full-stack', 'PM', 'Designer'];
     console.log(teams.recruitRoles);
 
     const writeInfoArr = [
@@ -155,10 +156,17 @@ const EditTeams = (props: { params: { id: string } }) => {
                                             <span className="text-[var(--color-gray-300)] text-[14px]">
                                                 |
                                             </span>
-                                            <input
-                                                className="font-normal"
-                                                {...method.register(`recruitRoles.${i}.role`)}
-                                            ></input>
+                                            <UploadDropDown
+                                                arr={roleArr}
+                                                dropDownLabel=""
+                                                width="w-full "
+                                                height="max-h-[24px]"
+                                                name={`recruitRoles.${i}.role`}
+                                                labelText="text-[24px]"
+                                                labelFont="font-bold"
+                                                gap=""
+                                                dropDownPlaceholoder="모집 인원"
+                                            />
                                         </div>
                                         <div className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]">
                                             <h3 className="font-semibold whitespace-nowrap">

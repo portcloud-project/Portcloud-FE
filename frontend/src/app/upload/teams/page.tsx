@@ -22,9 +22,8 @@ export interface UploadTeamsFormValuesType {
     id: string;
 
     recruitRoles: {
-        position: string;
-        people: string;
-        skillIds: Skills[];
+        role: string;
+        skills: Skills[];
         count: string;
     }[];
 }
@@ -61,8 +60,6 @@ const UploadTeams = () => {
         defaultValues: {
             title: '',
             content: '',
-            position: '',
-            people: '',
             skill: [{ name: '' }],
             endDate: '',
             contact: '',

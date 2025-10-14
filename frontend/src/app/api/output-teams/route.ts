@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
     const BASE_URL = process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL;
     try {
         const id = request.nextUrl.searchParams.get('id');
-
+        const token = request.cookies.get('accessToken')?.value;
         if (!id) {
             return NextResponse.json(
                 { error: 'id 파라미터가 필요합니다.' },
@@ -17,7 +17,11 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const res = await axios.get(`${BASE_URL}api/teampost/${id}`);
+        const res = await axios.get(`${BASE_URL}api/teampost/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
         console.log(res.data);
         const data = res.data.data;
         return NextResponse.json(data, { status: 200 });
