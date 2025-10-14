@@ -56,10 +56,10 @@ const MainList = ({ title }: MainListProps) => {
             <p className="font-bold text-[20px]">{title}</p>
             <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-start overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
                 {data && data.length > 0 ? (
-                    data?.map((a) => {
+                    data?.map((a, idx) => {
                         return (
                             <li
-                                key={a?.id}
+                                key={`${a?.id}_${idx}`}
                                 className={`w-[330px] h-[248px] flex flex-col bg-blend-multiply bg-cover bg-center rounded-[20px] p-[24px] justify-end cursor-pointer hover:bg-black/60 transition duration-300 ease-in-out inset-0 relative`}
                                 style={{
                                     backgroundImage: `url(https://port-cloud.com/img/${a?.thumbnailURL})`,

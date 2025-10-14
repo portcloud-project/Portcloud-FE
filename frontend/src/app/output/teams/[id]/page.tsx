@@ -3,6 +3,7 @@
 import { useDeleteTeam } from '@/app/hooks/useDeleteTeam';
 import { useTeamDetail } from '@/app/hooks/useTeamsDetail';
 import { userStore } from '@/app/stores/userStore';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 
 const OutputTeams = (props: { params: { id: string } }) => {
@@ -41,7 +42,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
         },
         {
             title: '작성기간',
-            value: `${teams?.createdAt}`,
+            value: `${dayjs(teams?.createdAt).format('YYYY-MM-DD')}`,
         },
     ];
 
@@ -87,18 +88,20 @@ const OutputTeams = (props: { params: { id: string } }) => {
                         {/* 중간에 | 이거 넣어야함 예정 */}
                     </span>
                     {/* 분기처리 예정 */}
-                    <span className="flex flex-row justify-start items-center gap-[8px] text-[16px] font-normal text-[var(--color-gray-500)]">
-                        <button
-                            className="cursor-pointer"
-                            onClick={() => router.push(`/output/teams/${id}/edit`)}
-                        >
-                            수정
-                        </button>
-                        <span className="text[14px] text-[var(--color-gray-300)]">|</span>
-                        <button className="cursor-pointer" onClick={handleDelete}>
-                            삭제
-                        </button>
-                    </span>
+                    {teams.owner && (
+                        <span className="flex flex-row justify-start items-center gap-[8px] text-[16px] font-normal text-[var(--color-gray-500)]">
+                            <button
+                                className="cursor-pointer"
+                                onClick={() => router.push(`/output/teams/${id}/edit`)}
+                            >
+                                수정
+                            </button>
+                            <span className="text[14px] text-[var(--color-gray-300)]">|</span>
+                            <button className="cursor-pointer" onClick={handleDelete}>
+                                삭제
+                            </button>
+                        </span>
+                    )}
                 </div>
             </section>
 
@@ -119,7 +122,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
             <section className="flex flex-row gap-[16px] w-full h-auto justify-between items-center">
                 {teams?.recruitRoles.map((a, i) => (
                     <span
-                        className="w-full border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-col justify-center items-start relative"
+                        className="w-full border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-col justify-center items-start relative h-[160px] overflow-y-auto"
                         key={`${i}_field`}
                     >
                         <div

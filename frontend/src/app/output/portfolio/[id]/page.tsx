@@ -75,7 +75,7 @@ const PortfolioOutput = () => {
                     <p className="text-[24px]  font-bold">{portfolio.jobPosition}</p>
                 </section>
                 <section>
-                    <p className="flex gap-[8px] flex-wrap">
+                    <div className="flex gap-[8px] flex-wrap">
                         {portfolio.skill.map((s, idx) => (
                             <div
                                 className="flex text-purple-500 bg-purple-50 px-[16px] py-[6px] rounded-[20px] box-border text-[14px] font-semibold"
@@ -84,7 +84,7 @@ const PortfolioOutput = () => {
                                 {s.name}
                             </div>
                         ))}
-                    </p>
+                    </div>
                 </section>
                 <section className="flex w-full  gap-[12px] flex-col">
                     <h2 className="text-[24px] font-bold">본인소개</h2>

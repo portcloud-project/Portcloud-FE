@@ -14,6 +14,7 @@ import SearchSkill from '@/app/customComponents/SearchSkill';
 import { useEditPortfolio } from '@/app/hooks/useEditPortfolio';
 import { useQueryClient } from '@tanstack/react-query';
 import { AiOutlineClose } from 'react-icons/ai';
+import { userStore } from '@/app/stores/userStore';
 
 const PortfolioEdit = () => {
     const params = useParams();
@@ -23,6 +24,7 @@ const PortfolioEdit = () => {
     const queryclient = useQueryClient();
     const mutateEdit = useEditPortfolio(id);
     const { data: like } = useLikePortfolio(id);
+    const user = userStore((state) => state.user);
 
     // ✅ 기본값 정의
     const method = useForm<PortfolioFormData>({
@@ -153,6 +155,7 @@ const PortfolioEdit = () => {
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!portfolio?.id) return <p>포트폴리오가 삭제되었거나 찾을 수 없습니다.</p>;
+    if (user.sub !== portfolio?.email) return router.push('/');
 
     return (
         <FormProvider {...method}>
@@ -205,7 +208,7 @@ const PortfolioEdit = () => {
 
                         {/* 스킬 */}
                         <section className="gap-[12px] flex flex-col">
-                            <p className="flex gap-[8px] flex-wrap">
+                            <div className="flex gap-[8px] flex-wrap">
                                 {portfolio.skill.map((s, idx) => (
                                     <div
                                         className="flex text-purple-500 bg-purple-50 px-[16px] py-[6px] rounded-[20px] box-border text-[14px] font-semibold"
@@ -214,7 +217,7 @@ const PortfolioEdit = () => {
                                         {s.name}
                                     </div>
                                 ))}
-                            </p>
+                            </div>
                             <SearchSkill />
                         </section>
 
@@ -235,7 +238,7 @@ const PortfolioEdit = () => {
                                 <div className="text-[20px] flex-col gap-[12px] flex w-full ">
                                     {educationsArray.fields.map((item, idx) => (
                                         <div
-                                            key={item.id}
+                                            key={`${item.id}_education`}
                                             className="flex gap-[12px] items-center w-full relative"
                                         >
                                             <input
@@ -297,7 +300,7 @@ const PortfolioEdit = () => {
                                 <div className="flex flex-col gap-[12px] w-full">
                                     {careersArray.fields.map((item, idx) => (
                                         <div
-                                            key={item.id}
+                                            key={`${item.id}_career`}
                                             className="border p-[24px] flex flex-col gap-[12px] rounded-[8px] w-full"
                                         >
                                             <div className="flex gap-[12px] items-center text-[16px] font-semibold w-full">
@@ -381,7 +384,7 @@ const PortfolioEdit = () => {
                                 <h2 className="text-[24px] font-bold ">프로젝트</h2>
                                 {projectsArray.fields.map((item, idx) => (
                                     <div
-                                        key={item.id}
+                                        key={`${item.id}_project`}
                                         className="border p-[24px] rounded-[8px] relative"
                                     >
                                         <textarea
@@ -427,7 +430,7 @@ const PortfolioEdit = () => {
                                 <h2 className="text-[24px] font-bold">수상</h2>
                                 {awardsArray.fields.map((item, idx) => (
                                     <div
-                                        key={item.id}
+                                        key={`${item.id}_award`}
                                         className="border p-[24px] rounded-[8px] relative"
                                     >
                                         <textarea
@@ -473,7 +476,7 @@ const PortfolioEdit = () => {
                                 <h2 className="text-[24px] font-bold ">자격/어학</h2>
                                 {certificatesArray.fields.map((item, idx) => (
                                     <div
-                                        key={item.id}
+                                        key={`${item.id}_certificate`}
                                         className="flex items-center gap-[12px] w-full relative"
                                     >
                                         <input

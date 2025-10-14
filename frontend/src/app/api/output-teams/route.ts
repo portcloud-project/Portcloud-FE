@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
         }
 
         const res = await axios.get(`${BASE_URL}api/teampost/${id}`);
-        console.log(res.data.data);
+        console.log(res.data);
         const data = res.data.data;
         return NextResponse.json(data, { status: 200 });
     } catch (error) {

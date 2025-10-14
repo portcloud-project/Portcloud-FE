@@ -4,6 +4,8 @@ import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 import { useEditTeams } from '@/app/hooks/useEditTeams';
 import { TeamDetailType, useTeamDetail } from '@/app/hooks/useTeamsDetail';
+import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -16,6 +18,7 @@ const EditTeams = (props: { params: { id: string } }) => {
     const { reset, control, handleSubmit } = method;
     const recuitRolesArray = useFieldArray({ control, name: 'recruitRoles' });
     const mutate = useEditTeams(id);
+    const router = useRouter();
 
     useEffect(() => {
         if (teams) {
@@ -38,6 +41,7 @@ const EditTeams = (props: { params: { id: string } }) => {
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!teams?.id) return <p>해당 팀이 삭제되었거나 찾을 수 없습니다.</p>;
+    if (!teams.owner) return router.push('/');
     const peopleArr = [...Array.from({ length: 5 }, (_, i) => `${i + 1}`)];
     const engToKo = (a: string): string => {
         return a === 'RECRUITING' ? '모집 중' : '모집 마감';
@@ -51,7 +55,7 @@ const EditTeams = (props: { params: { id: string } }) => {
         },
         {
             title: '작성기간',
-            value: `${teams?.createdAt}`,
+            value: `${dayjs(teams?.createdAt).format('YYYY-MM-DD')}`,
         },
     ];
 
@@ -141,7 +145,7 @@ const EditTeams = (props: { params: { id: string } }) => {
                             <section className="flex flex-row gap-[16px] w-full h-auto justify-between items-center flex-wrap">
                                 {recuitRolesArray.fields.map((field, i) => (
                                     <span
-                                        className="w-[calc(50%-8px)] border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-col justify-center items-start relative"
+                                        className="w-[calc(50%-8px)] border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-col justify-center items-start relative h-[280px] overflow-y-auto"
                                         key={field.id ? field.id : `recruitRole_${i}`}
                                     >
                                         <div className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]">
@@ -175,8 +179,15 @@ const EditTeams = (props: { params: { id: string } }) => {
                                                 dropDownPlaceholoder="모집 인원"
                                             />
                                         </div>
-                                        <p className="flex text-purple-500 bg-purple-50 px-[16px] py-[6px] rounded-[20px] box-border text-[14px] font-semibold">
-                                            {field.skills.map((a) => ` ${a}`)}
+                                        <p className="flex flex-wrap gap-[8px]">
+                                            {field.skills.map((a, idx) => (
+                                                <div
+                                                    key={`${a}_skill_${idx}`}
+                                                    className="flex text-purple-500 bg-purple-50 px-[16px] py-[6px] rounded-[20px] box-border text-[14px] font-semibold"
+                                                >
+                                                    {a}
+                                                </div>
+                                            ))}
                                         </p>
                                         <div className="w-full h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]">
                                             <SearchSkill
@@ -199,7 +210,7 @@ const EditTeams = (props: { params: { id: string } }) => {
                                         {recuitRolesArray.fields.length > 1 && (
                                             <button
                                                 type="button"
-                                                className="absolute top-[-10px] right-[-8px]"
+                                                className="absolute top-[0px] right-[0px]"
                                                 onClick={() =>
                                                     recuitRolesArray.remove(
                                                         recuitRolesArray.fields.length - 1,
