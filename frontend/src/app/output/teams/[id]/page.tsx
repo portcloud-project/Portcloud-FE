@@ -2,14 +2,12 @@
 
 import { useDeleteTeam } from '@/app/hooks/useDeleteTeam';
 import { useTeamDetail } from '@/app/hooks/useTeamsDetail';
-import { userStore } from '@/app/stores/userStore';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 
 const OutputTeams = (props: { params: { id: string } }) => {
     const id = props.params.id;
     const { data: teams, isLoading, isError, error } = useTeamDetail(id);
-    const user = userStore((state) => state.user);
     const deleteMutation = useDeleteTeam();
     const router = useRouter();
 
@@ -19,7 +17,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
 
     const handleDelete = async () => {
         if (!confirm('정말 삭제하시겠습니까?')) return;
-        if (user.name !== teams?.writerName) {
+        if (!teams.owner) {
             return alert('사용자 정보가 일치하지 않습니다');
         }
         try {
