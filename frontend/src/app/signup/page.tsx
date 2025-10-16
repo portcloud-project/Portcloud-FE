@@ -71,19 +71,17 @@ const Signup = () => {
             alert('이메일 인증을 완료해 주세요');
             return;
         }
-        const { email, password, name, birthDate, nickname, job, agreeTerms, verificationCode } =
-            data;
 
         try {
             const res = await axios.post('/api/signup', {
-                email,
-                password,
-                name,
-                nickname,
-                birthDate,
-                job,
-                agreeTerms,
-                verificationCode,
+                email: data.email,
+                password: data.password,
+                name: data.name,
+                nickname: data.nickname,
+                birthDate: data.birthDate,
+                job: data.job,
+                agreeTerms: data.agreeTerms,
+                verificationCode: data.emailVerify,
             });
             console.log(res.status);
             alert('회원가입 성공!');

@@ -233,7 +233,6 @@ const Mypage = () => {
                                 {/* 현재 비밀번호 section */}
                                 <div className="w-full relative">
                                     <input
-                                        id="password"
                                         type={pwVisible ? 'text' : 'password'}
                                         placeholder="현재 비밀번호"
                                         maxLength={16}
@@ -272,7 +271,6 @@ const Mypage = () => {
 
                                 <div className="w-full relative">
                                     <input
-                                        id="new-password"
                                         type={pwVisible ? 'text' : 'password'}
                                         placeholder="새 비밀번호"
                                         maxLength={16}
