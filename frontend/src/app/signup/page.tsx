@@ -36,7 +36,7 @@ const Signup = () => {
     const router = useRouter();
 
     const methods = useForm<SignUpFormValuesType>({
-        mode: 'onChange',
+        mode: 'all',
         reValidateMode: 'onChange',
         defaultValues: {
             email: '',
@@ -75,19 +75,17 @@ const Signup = () => {
             setIsLoading(false);
             return;
         }
-        const { email, password, name, birthDate, nickname, job, agreeTerms, verificationCode } =
-            data;
 
         try {
             const res = await axios.post('/api/signup', {
-                email,
-                password,
-                name,
-                nickname,
-                birthDate,
-                job,
-                agreeTerms,
-                verificationCode,
+                email: data.email,
+                password: data.password,
+                name: data.name,
+                nickname: data.nickname,
+                birthDate: data.birthDate,
+                job: data.job,
+                agreeTerms: data.agreeTerms,
+                verificationCode: data.emailVerify,
             });
             console.log(res.status);
 

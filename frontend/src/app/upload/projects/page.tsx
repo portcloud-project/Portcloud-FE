@@ -5,26 +5,33 @@ import axios from 'axios';
 import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 import { Skills } from '@/app/stores/skillStore';
+import { useRouter } from 'next/navigation';
 
 export interface UploadProjectsFormValuesType {
     title: string;
     startDate: string;
     endDate: string;
     people: string;
-    distribution: boolean;
+    distribution: boolean | string;
     role: string;
     projectURL: string;
     description: string;
-    skill: Skills[];
+    skills: Skills[]; // 받아올때
     thumbnailImg: string | null;
     demonstrationVideo: string | null;
     id: string;
     writeName: string;
     createdAt: string;
+    thumbnailURL: string | null;
+    owner: boolean;
+    projectPosition: string;
+    demonstrationVideoUrl: string;
+    skill: Skills[]; //보낼때
 }
 
 const UploadProjects = () => {
     const isDeployArr = ['', '배포 중', '배포 완료'];
+    const projectPositionArr = ['', 'Front-end-개발', 'Back-end-개발', 'PM-기획', 'UI/UX-디자인'];
     const peopleArr = [...Array.from({ length: 9 }, (_, i) => `${i + 1}명`), '10명 이상'];
 
     const methods = useForm<UploadProjectsFormValuesType>({
@@ -37,7 +44,7 @@ const UploadProjects = () => {
             role: '',
             projectURL: '',
             description: '',
-            skill: [{ name: '' }],
+            skills: [{ name: '' }],
             thumbnailImg: '',
             demonstrationVideo: '',
         },
@@ -49,6 +56,8 @@ const UploadProjects = () => {
         handleSubmit,
     } = methods;
     const errors = formErrors as FieldErrors<UploadProjectsFormValuesType>;
+
+    const router = useRouter();
 
     const onUploadProjectsSubmit = async (data: UploadProjectsFormValuesType) => {
         try {
@@ -62,7 +71,11 @@ const UploadProjects = () => {
             formData.append('role', data.role);
             formData.append('people', data.people);
             formData.append('projectURL', data.projectURL);
-            formData.append('title', String(data.skill));
+            data.skill.forEach((item, i) => {
+                if (item.name) {
+                    formData.append(`skillIds[${i}]`, item.id);
+                }
+            });
 
             if (data.thumbnailImg?.[0]) {
                 formData.append('thumbnailImg', data.thumbnailImg[0]);
@@ -71,11 +84,14 @@ const UploadProjects = () => {
                 formData.append('demonstrationVideo', data.demonstrationVideo[0]);
             }
 
+            console.log(Array.from(formData.entries()));
+
             const res = await axios.post('/api/project', formData);
 
             console.log(res.status);
 
             alert('프로젝트가 업로드 되었습니다!');
+            router.push('/works/projects');
         } catch (err) {
             if (err instanceof Error) {
                 console.log('업로드 에러내용:', err.message);
@@ -131,9 +147,9 @@ const UploadProjects = () => {
                     </div>
 
                     {/* 프로젝트 기간, 진행인원 section */}
-                    <div className="w-full flex flex-row justify-between items-center gap-[6px]">
+                    <div className="w-full flex flex-row justify-between items-center gap-[12px]">
                         {/* 프로젝트 기간 section */}
-                        <div className="w-[236px] flex flex-col justify-center items-start gap-[12px]">
+                        <div className="w-fit flex flex-col justify-center items-start gap-[12px]">
                             <label
                                 htmlFor="startDate-endDate"
                                 className="text-[24px] font-bold text-[var(--color-gray-900)]"
@@ -141,7 +157,8 @@ const UploadProjects = () => {
                                 프로젝트 기간 *
                             </label>
 
-                            <div className="w-auto flex flex-row justify-center items-center gap-[16px]">
+                            <div className="w-fit flex flex-row justify-center items-center gap-[12px]">
+                                {/* 시작일 */}
                                 <div className="relative w-auto">
                                     <input
                                         type="date"
@@ -153,7 +170,7 @@ const UploadProjects = () => {
                                         })}
                                     />
                                 </div>
-
+                                {/* 종료일 */}
                                 <div className="relative w-auto">
                                     <input
                                         type="date"
@@ -180,7 +197,6 @@ const UploadProjects = () => {
                             labelText="text-[24px]"
                             name="people"
                             rules={{ required: '진행 인원을 선택해주세요' }}
-                            errors={errors.people}
                         />
                     </div>
 
@@ -214,33 +230,19 @@ const UploadProjects = () => {
                     {/* 담당 역할, 스킬 section */}
                     <div className="w-full flex flex-row justify-between items-center gap-[16px]">
                         {/* 담당 역할 section */}
-                        <div className="w-fit flex flex-col justify-center items-start gap-[12px] relative">
-                            <label
-                                htmlFor="role"
-                                className="text-[24px] font-bold text-[var(--color-gray-900)]"
-                            >
-                                담당 역할 *
-                            </label>
-                            <input
-                                type="text"
-                                id="role"
-                                placeholder="담당 역할을 입력해주세요"
-                                className={`w-[376px] h-[64px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px]  focus:outline-none transition duration-300 ease-in-out ${
-                                    errors.role
-                                        ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
-                                        : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
-                                }`}
-                                {...register('role', {
-                                    required: '담당 역할을 입력해 주세요',
-                                })}
-                            />
-                            {/* 담당 역할 error section */}
-                            {errors.role && (
-                                <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[120px]">
-                                    {errors.role.message}
-                                </p>
-                            )}
-                        </div>
+                        <UploadDropDown
+                            arr={projectPositionArr}
+                            dropDownLabel={'담당 역할 *'}
+                            dropDownPlaceholoder={''}
+                            width="w-[376px]"
+                            height="h-[64px]"
+                            gap="gap-[12px]"
+                            labelFont="font-bold"
+                            labelText="text-[24px]"
+                            name="role"
+                            rules={{ required: '담당 역할을 선택해주세요' }}
+                            errors={errors.projectPosition}
+                        />
                         {/* 스킬 section */}
                         <SearchSkill width="w-[376px]" />
                     </div>

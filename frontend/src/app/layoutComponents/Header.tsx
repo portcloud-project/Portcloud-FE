@@ -41,13 +41,16 @@ const Header = () => {
         setLoginModal(false);
     };
     const pathname = usePathname() || '/';
-    const isActive = (href: string) => {
-        if (href === '/') {
-            return pathname === '/';
+    const pathnameSplit = pathname.split('/')[2];
+    const isActive = (activeLinkSplit: string) => {
+        if (activeLinkSplit === '') {
+            return pathnameSplit === undefined;
         }
-        return pathname === href || pathname.startsWith(href + '/');
+        return pathnameSplit === activeLinkSplit;
     };
+
     if (isLoading) return null;
+
     return (
         <header className="top-0 left-0 w-full h-auto flex justify-center items-center z-45 bg-white border-b border-[var(--color-gray-300)]">
             <div className="w-full h-[60px] mx-auto laptop:max-w-[1440px] tablet:w-full flex flex-row justify-between items-center text-[var(--color-gray-900)] font-semibold text-[16px] px-[24px] py-[12px]">
@@ -65,7 +68,8 @@ const Header = () => {
                                 <SheetTitle className="px-[24px] py-[12px] h-[60px] flex flex-row justify-between items-center"></SheetTitle>
                                 <SheetDescription className="flex flex-col justify-center items-start gap-[24px] px-[24px] py-[12px]">
                                     {navArr.map((a, i) => {
-                                        const active = isActive(a.link);
+                                        const linkSplit = a.link.split('/')[2];
+                                        const active = isActive(linkSplit);
                                         return (
                                             <Link
                                                 key={i}
@@ -95,7 +99,8 @@ const Header = () => {
                 {/* nav section */}
                 <nav className="w-[286px] h-[36px] flex flex-row justify-between items-center xs-mobile:hidden tablet:flex">
                     {navArr.map((a, i) => {
-                        const active = isActive(a.link);
+                        const activeLinkSplit = a.link.split('/')[2];
+                        const active = isActive(activeLinkSplit);
                         return (
                             <Link
                                 key={i}

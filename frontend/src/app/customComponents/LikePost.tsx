@@ -19,7 +19,13 @@ const LikePost = ({ id }: { id: string | string[] }) => {
     };
 
     return (
-        <div className="fixed right-[30%] top-[40%]">
+        <div
+            className="fixed right-[30%] top-[40%]     
+                s-mobile::right-[10%] s-mobile::top-[30%]
+                mobile:right-[20%] mobile:top-[35%]
+
+                tablet:right-[25%] tablet:top-[38%]"
+        >
             <button
                 onClick={handleLike}
                 className="cursor-pointer bg-gray-100 p-[10px]  rounded-full border border-gray-200"

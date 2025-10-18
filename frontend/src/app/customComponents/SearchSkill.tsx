@@ -8,7 +8,15 @@ import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { IoCloseOutline } from 'react-icons/io5';
 import { Skills, skillsStore } from '../stores/skillStore';
 
-const SearchSkill = ({ width }: { width?: string }) => {
+const SearchSkill = ({
+    width,
+    fieldName,
+    labelName,
+}: {
+    width?: string;
+    fieldName?: string;
+    labelName?: string;
+}) => {
     const [toggleDropdown, setToggleDropdown] = useState(false);
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
     const { categorizedSkills } = skillsStore();
@@ -72,9 +80,9 @@ const SearchSkill = ({ width }: { width?: string }) => {
     return (
         <Controller
             control={control}
-            name="skill"
+            name={`${fieldName ? fieldName : 'skill'}`}
             rules={{
-                validate: (value) => value.length > 1 || '* 기술을 하나 이상 선택해주세요.',
+                validate: (value) => value.length > 0 || '* 기술을 하나 이상 선택해주세요.',
             }}
             defaultValue={[]}
             render={({ field: { value, onChange }, fieldState: { error } }) => {
@@ -102,7 +110,7 @@ const SearchSkill = ({ width }: { width?: string }) => {
                             htmlFor="skill"
                             className="font-bold text-[24px] text-[var(--color-gray-900)]"
                         >
-                            스킬
+                            {labelName ?? '스킬'}
                         </label>
                         <div className="relative w-full">
                             <input

@@ -1,62 +1,97 @@
-import { useEffect, useState } from 'react';
+'use client';
 
-interface TeamItem {
-    title: string;
-    author: string;
-    tag: string;
-    date: string;
-}
+import dayjs from 'dayjs';
+import { TeamGetValueType, useMainTeam } from '../hooks/useMainTeam';
+import { useRouter } from 'next/navigation';
+import { AiOutlineEye } from 'react-icons/ai';
 
 interface MainTeamListProps {
     title: string;
 }
 
 const MainTeamList = ({ title }: MainTeamListProps) => {
-    const [item, setItem] = useState<TeamItem[]>([]);
+    const { isLoading, isError, error, data } = useMainTeam();
+    // const [deadline, setDeadline] = useState<string>('');
+    const teamList = data as TeamGetValueType[];
+    const router = useRouter();
 
-    useEffect(() => {
-        const fetchItem = async () => {
-            try {
-                // const fetchData = await getTeamItem();
-                // setItem(fetchData);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        fetchItem();
-    }, [setItem]);
+    // 날짜 계산 함수
+    // const getDeadlineText = (endDate: string) => {
+    //     const diff = Math.ceil(
+    //         (new Date(endDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
+    //     );
+    //     return `마감 ${diff}일 전`;
+    // };
+
+    // // 예: data 마감일이 들어왔을 때
+    // useEffect(() => {
+    //     if (data?.recruitDeadline) {
+    //         setDeadline(getDeadlineText(data?.recruitDeadline));
+    //     }
+    // }, [data]);
+
+    if (isLoading) {
+        return (
+            <div>
+                <p className="w-full h-[248px] rounded-[20px] items-center flex justify-center text-black text-[20px] font-bold">
+                    데이터 로딩중...
+                </p>
+            </div>
+        );
+    }
+
+    if (isError) {
+        return (
+            <div className="flex justify-center items-center">
+                <p className="text-red-500">오류:{error?.message || '알수없는 오류'}</p>
+            </div>
+        );
+    }
 
     return (
-        <div className="flex flex-col gap-[24px]">
+        <div className="w-full flex flex-col gap-[16px]">
             <p className="font-bold text-[20px]">{title}</p>
-            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-center overflow-x-auto gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start">
-                {item.length > 0 ? (
-                    item.map((teamItem, index) => {
+            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap  justify-start overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
+                {teamList && teamList.length > 0 ? (
+                    teamList?.map((item) => {
                         return (
                             <li
-                                key={`${teamItem}-${index}`}
-                                className="min-w-[220px] min-h-[100px] aspect-[4/3] bg-white border-[2px] border-gray-300 rounded-[20px] p-[24px] flex-1 cursor-pointer      tablet:shrink-0 tablet:min-w-[330px]"
+                                key={item?.id}
+                                className="w-[330px] h-[224px] border-[2px] bg-gradient-to-t  border-[var(--color-gray-300)] bg-white rounded-[20px] p-[24px] gap-[18px] flex flex-col justify-start items-start relative cursor-pointer transition duration-700 ease-in-out hover:bg-black/10"
+                                onClick={() => {
+                                    router.push(`/output/teams/${item?.id}`);
+                                }}
                             >
-                                <div className="flex gap-[4px] items-center">
-                                    <p className="text-gray-500 text-[14px] font-medium">마감일</p>
-                                    <div className="border-l h-[14px] border-gray-300 "></div>
-                                    <p className="text-gray-500 text-[14px] font-medium">
-                                        {new Date(teamItem.date).toLocaleDateString()}
+                                <div className="w-[102px] h-[34px] rounded-[20px] border  border-[var(--color-red-500)] flex items-center justify-center text-[var(--color-red-500)] text-[14px] font-semibold">
+                                    {dayjs(item.recruitDeadline).diff(dayjs(), 'day') < 0
+                                        ? '마감'
+                                        : dayjs(item.recruitDeadline).diff(dayjs(), 'day') + '일'}
+                                </div>
+                                <div className="w-fit h-auto flex flex-row justify-center items-center gap-[4px]">
+                                    <h3 className="font-semibold text-[14px] text-[var(--color-gray-500)]">
+                                        마감일
+                                    </h3>
+                                    <span className="text-[14px] text-[var(--color-gray-300)]">
+                                        |
+                                    </span>
+                                    <p className="text-[14px] text-[var(--color-gray-500)] font-normal">
+                                        {item?.recruitDeadline}
                                     </p>
                                 </div>
-                                <h2 className="text-[1em] font-bold my-[4px]">{teamItem.title}</h2>
-                                <p className="w-fit rounded-[20px] bg-purple-50 px-[16px] py-[6px] box-border text-center font-semibold text-purple-500 text-[14px] my-[12px]">
-                                    {teamItem.tag}
-                                </p>
-                                <hr />
-                                <p className="mt-[18px] text-[14px] font-bold">{teamItem.author}</p>
+                                <h3 className="font-bold text-[18px] text-black">{item?.title}</h3>
+                                <div className="absolute bottom-[24px] right-[24px] flex flex-row w-fit h-auto justify-center items-center gap-[12px]">
+                                    <AiOutlineEye className="w-[20px] h-[20px]" />
+                                    <p className="font-semibold text-[14px] text-[var(--color-gray-500)]">
+                                        {item?.viewCount}
+                                    </p>
+                                </div>
                             </li>
                         );
                     })
                 ) : (
-                    <p className="w-[1392px] h-[248px] bg-gray-300 rounded-[20px] items-center flex justify-center text-white text-[20px] font-bold">
+                    <li className="w-[1392px] h-[248px] bg-gray-300 rounded-[20px] items-center flex justify-center text-white text-[20px] font-bold px-[24px]">
                         목록이 없습니다
-                    </p>
+                    </li>
                 )}
             </ul>
         </div>

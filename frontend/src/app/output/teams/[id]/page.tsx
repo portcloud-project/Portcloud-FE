@@ -1,14 +1,38 @@
 'use client';
 
+import { useDeleteTeam } from '@/app/hooks/useDeleteTeam';
 import { useTeamDetail } from '@/app/hooks/useTeamsDetail';
+
+import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 
 const OutputTeams = (props: { params: { id: string } }) => {
     const id = props.params.id;
     const { data: teams, isLoading, isError, error } = useTeamDetail(id);
+    const deleteMutation = useDeleteTeam();
+    const router = useRouter();
 
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!teams?.id) return <p>해당 팀이 삭제되었거나 찾을 수 없습니다.</p>;
+
+    const handleDelete = async () => {
+        if (!confirm('정말 삭제하시겠습니까?')) return;
+        if (!teams.owner) {
+            return alert('사용자 정보가 일치하지 않습니다');
+        }
+        try {
+            await deleteMutation.mutateAsync(id);
+            alert('해당 팀 구하기가 삭제되었습니다.');
+            router.push('/works/teams');
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const engToKo = (a: string): string => {
+        return a === 'RECRUITING' ? '모집 중' : '모집 마감';
+    };
 
     const writeInfoArr = [
         {
@@ -17,33 +41,18 @@ const OutputTeams = (props: { params: { id: string } }) => {
         },
         {
             title: '작성기간',
-            value: `${teams?.createdAt}`,
-        },
-    ];
-
-    const positionArr = [
-        {
-            title: '포지션',
-            value: `${teams?.position}`,
-        },
-        {
-            title: '인원',
-            value: `2명`, // 값 넣어야함
-        },
-        {
-            title: '필요 스킬',
-            value: `${teams?.skill}`,
+            value: `${dayjs(teams?.createdAt).format('YYYY-MM-DD')}`,
         },
     ];
 
     const contactArr = [
         {
             title: '모집 마감일',
-            value: `${teams?.endDate}`,
+            value: `${teams?.recruitDeadline}`,
         },
         {
             title: '연락 방법',
-            value: `${teams?.contact}`,
+            value: `${teams?.contactMethod}`,
         },
     ];
 
@@ -78,11 +87,20 @@ const OutputTeams = (props: { params: { id: string } }) => {
                         {/* 중간에 | 이거 넣어야함 예정 */}
                     </span>
                     {/* 분기처리 예정 */}
-                    <span className="flex flex-row justify-start items-center gap-[8px] text-[16px] font-normal text-[var(--color-gray-500)]">
-                        <button className="cursor-pointer">수정</button>
-                        <span className="text[14px] text-[var(--color-gray-300)]">|</span>
-                        <button className="cursor-pointer">삭제</button>
-                    </span>
+                    {teams.owner && (
+                        <span className="flex flex-row justify-start items-center gap-[8px] text-[16px] font-normal text-[var(--color-gray-500)]">
+                            <button
+                                className="cursor-pointer"
+                                onClick={() => router.push(`/output/teams/${id}/edit`)}
+                            >
+                                수정
+                            </button>
+                            <span className="text[14px] text-[var(--color-gray-300)]">|</span>
+                            <button className="cursor-pointer" onClick={handleDelete}>
+                                삭제
+                            </button>
+                        </span>
+                    )}
                 </div>
             </section>
 
@@ -101,23 +119,48 @@ const OutputTeams = (props: { params: { id: string } }) => {
 
             {/* 포지션 별 내용 section */}
             <section className="flex flex-row gap-[16px] w-full h-auto justify-between items-center">
-                <span className="w-[376px] h-[128px] border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-col justify-center items-start relative">
-                    {positionArr.map((a, i) => (
+                {teams?.recruitRoles.map((a, i) => (
+                    <span
+                        className="w-full border border-[var(--color-gray-300)] p-[20px] rounded-[8px] gap-[8px] flex flex-col justify-center items-start relative h-[160px] overflow-y-auto"
+                        key={`${i}_field`}
+                    >
+                        <div
+                            key={`${i}_position`}
+                            className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]"
+                        >
+                            <h3 className="font-semibold whitespace-nowrap">포지션</h3>
+                            <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
+                            <p className="font-normal">{a.role}</p>
+                        </div>
+                        <div
+                            key={`${i}_count`}
+                            className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]"
+                        >
+                            <h3 className="font-semibold whitespace-nowrap">인원</h3>
+                            <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
+                            <p className="font-normal">{a.count}</p>
+                        </div>
                         <div
                             key={i}
                             className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]"
                         >
-                            <h3 className="font-semibold">{a.title}</h3>
+                            <h3 className="font-semibold whitespace-nowrap">필요 스킬</h3>
                             <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
-                            <p className="font-normal">{a.value}</p>
+                            <p className="font-normal">{a.skills.map((a) => ` ${a}`)}</p>
                         </div>
-                    ))}
-                    <div className="flex justify-center items-center w-[72px] h-[34px] border border-[var(--color-purple-500)] bg-[var(--color-purple-50)] rounded-full absolute top-[18px] right-[20px]">
-                        <h3 className="text-[14px] text-[var(--color-purple-500)] font-semibold">
-                            {teams?.saveStatus}
-                        </h3>
-                    </div>
-                </span>
+                        <div
+                            className={`flex justify-center  items-center w-[72px] h-[34px] border rounded-full absolute top-[18px] right-[20px] ${teams?.recruitStatus === 'RECRUITING' ? 'border-[var(--color-purple-500)] bg-[var(--color-purple-50)]' : 'border-[var(--color-gray-400)] bg-[var(--color-gray-100)]'}`}
+                        >
+                            <h3
+                                className={`text-[14px]  font-semibold
+                            ${teams?.recruitStatus === 'RECRUITING' ? 'text-[var(--color-purple-500)]' : 'text-[var(--color-gray-400)]'}
+                            `}
+                            >
+                                {engToKo(teams?.recruitStatus)}
+                            </h3>
+                        </div>
+                    </span>
+                ))}
             </section>
 
             {/* 모집 마감일, 연락 방법 section */}
