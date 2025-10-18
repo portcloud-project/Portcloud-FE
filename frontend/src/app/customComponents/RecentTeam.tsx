@@ -22,20 +22,9 @@ type RecentTeamProps = {
 
 const RecentTeam = ({ teamItems }: RecentTeamProps) => {
     const router = useRouter();
-    const positionArr = ['ALL', 'Front-end', 'Back-end', 'Full-stack', 'PM', 'Design'];
 
     return (
-        <div className="w-full flex flex-col gap-[48px]">
-            <div className="w-full grid grid-cols-3 grid-rows-2 border border-[var(--color-purple-500)] rounded-[20px] overflow-hidden">
-                {positionArr.map((label, i) => (
-                    <span
-                        key={i}
-                        className="w-[464px] h-[80px] flex font-bold text-[20px] text-black bg-white border border-[var(--color-purple-500)] hover:bg-[var(--color-purple-500)] hover:text-white transition duration-300 ease-in-out cursor-pointer place-items-center justify-items-center justify-center"
-                    >
-                        {label}
-                    </span>
-                ))}
-            </div>
+        <div className="w-full flex flex-col">
 
             <ul className="w-full grid grid-cols-4 gap-[24px]">
                 {teamItems.map((item) => {

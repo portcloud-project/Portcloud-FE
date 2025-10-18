@@ -7,14 +7,13 @@ export async function GET(request: NextRequest) {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
     const page = request.nextUrl.searchParams.get('page') ?? '0';
     const size = request.nextUrl.searchParams.get('size') ?? '12';
+    const category = request.nextUrl.searchParams.get('category') ?? '';
 
     try {
-        const { data } = await axios.get(`${BASE_URL}api/teamposts`, { params: { page, size } });
+        const { data } = await axios.get(`${BASE_URL}api/teamposts`, { params: { page, size, category } });
 
-        // 외부 응답이 { data: { data: { content, page, last, ... }}} 라면:
         const pageObj = data?.data?.data ?? data?.data ?? data;
 
-        // 프론트가 쓰는 필드만 "항상 같은 키"로 내려줌
         const normalized = {
             page: Number(pageObj.page ?? 0),
             size: Number(pageObj.size ?? Number(size)),

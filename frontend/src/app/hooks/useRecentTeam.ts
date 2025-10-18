@@ -25,13 +25,13 @@ export interface Page<T> {
 
 const limit = 12;
 
-export const useRecentTeam = () => {
+export const useRecentTeam = (category: string = '') => {
     return useInfiniteQuery<Page<TeamItem>, Error>({
-        queryKey: ['recent_team'],
+        queryKey: ['recent_team', category],
         initialPageParam: 0,
         queryFn: async ({ pageParam = 0 }) => {
             const { data } = await axios.get('/api/recentteam', {
-                params: { page: pageParam, size: limit },
+                params: { page: pageParam, size: limit, category },
             });
             // 라우트가 이미 정규화해서 주므로 그대로 반환
             return data as Page<TeamItem>;
