@@ -6,6 +6,9 @@ import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 import { Skills } from '@/app/stores/skillStore';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import CustomAlert from '@/app/customComponents/CustomAlert';
+import { useQueryClient } from '@tanstack/react-query';
 
 export interface UploadProjectsFormValuesType {
     title: string;
@@ -34,6 +37,7 @@ const UploadProjects = () => {
     const isDeployArr = ['', '배포 중', '배포 완료'];
     const projectPositionArr = ['', 'Front-end-개발', 'Back-end-개발', 'PM-기획', 'UI/UX-디자인'];
     const peopleArr = [...Array.from({ length: 9 }, (_, i) => `${i + 1}명`), '10명 이상'];
+    const queryclient = useQueryClient();
 
     const methods = useForm<UploadProjectsFormValuesType>({
         defaultValues: {
@@ -59,9 +63,11 @@ const UploadProjects = () => {
     const errors = formErrors as FieldErrors<UploadProjectsFormValuesType>;
 
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
 
     const onUploadProjectsSubmit = async (data: UploadProjectsFormValuesType) => {
         try {
+            setIsLoading(true);
             const formData = new FormData();
 
             formData.append('title', String(data.title));
@@ -87,11 +93,8 @@ const UploadProjects = () => {
 
             console.log(Array.from(formData.entries()));
 
-            const res = await axios.post('/api/project', formData);
-
-            console.log(res.status);
-
-            alert('프로젝트가 업로드 되었습니다!');
+            await axios.post('/api/project', formData);
+            queryclient.invalidateQueries();
             router.push('/works/projects');
         } catch (err) {
             if (err instanceof Error) {
@@ -99,7 +102,8 @@ const UploadProjects = () => {
             } else {
                 console.error('알 수 없는 에러:', err);
             }
-            alert('프로젝트 업로드 실패');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -330,9 +334,7 @@ const UploadProjects = () => {
                         <button className="w-[131px] h-[48px] rounded-[8px] text-[var(--color-gray-700)] text-[16px] font-semibold leading-[24px] border border-[var(--color-gray-300)] bg-white px-[24px] py-[12px] hover:text-white hover:bg-[var(--color-purple-500)] transition duration-300 ease-in-out cursor-pointer flex justify-center items-center gap-[6px] group whitespace-nowrap">
                             임시저장{' '}
                             <span className="text-[var(--color-gray-300)] font-light">|</span>{' '}
-                            <span className="text-[var(--color-purple-500)] group-hover:text-white transition duration-300 ease-in-out">
-                                2
-                            </span>
+                            <span className="text-[var(--color-purple-500)] group-hover:text-white transition duration-300 ease-in-out"></span>
                         </button>
                         <button
                             className="w-[248px] h-[48px] rounded-[8px] text-white text-[16px] font-semibold leading-[24px] border border-[var(--color-purple-500)] bg-[var(--color-purple-500)] px-[24px] py-[12px] hover:text-[var(--color-purple-500)] hover:bg-white transition duration-300 ease-in-out cursor-pointer"
@@ -341,6 +343,13 @@ const UploadProjects = () => {
                         >
                             등록하기
                         </button>
+                        {isLoading && (
+                            <CustomAlert
+                                isLoading={isLoading}
+                                title="프로젝트 업로드 중 ..."
+                                message="잠시 시간이 소요될 수 있습니다."
+                            />
+                        )}
                     </div>
                 </form>
             </FormProvider>

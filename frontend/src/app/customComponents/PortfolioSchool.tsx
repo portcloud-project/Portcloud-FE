@@ -25,7 +25,14 @@ const PortfolioSchool = ({ id, isOnlyOneSection, onDelete, index }: PortfolioSch
                         type="text"
                         className="border w-[70%] rounded-[8px] p-[16px]"
                         placeholder="학교/학과"
-                        {...register(`${fieldNamePrefix}.school`)}
+                        {...register(`${fieldNamePrefix}.school`, {
+                            // validate: (value, formValues) => {
+                            //     const school = formValues.educations[index].school;
+                            //     if (value && !school) return '학교상태을 입력해 주세요';
+                            //     if (!value && school) return '학교명를 입력해 주세요';
+                            //     return true
+                            // },
+                        })}
                     />
 
                     <UploadDropDown

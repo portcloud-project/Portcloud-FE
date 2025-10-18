@@ -92,9 +92,10 @@ const Signup = () => {
             alert('회원가입 성공!');
             router.push('/');
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (err: any) {
+            setIsLoading(false);
+        } catch (err) {
             alert('회원가입 실패');
-            console.error('회원가입 에러내용:', err?.message ?? err);
+            console.error('회원가입 에러내용:', err);
         } finally {
             setIsLoading(false);
         }

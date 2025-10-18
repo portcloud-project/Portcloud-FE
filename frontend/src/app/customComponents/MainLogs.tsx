@@ -5,6 +5,8 @@ import { useMainLogs } from '../hooks/useMainLogs';
 const MainPortfolio = ({ title }: MainListProps) => {
     const { isLoading, isError, error, data } = useMainLogs();
     const router = useRouter();
+    const maxLength = 16;
+    const displayData = data ? data.slice(0, maxLength) : [];
     if (isLoading) {
         return (
             <div>
@@ -22,13 +24,14 @@ const MainPortfolio = ({ title }: MainListProps) => {
             </div>
         );
     }
-
+    console.log(data);
+    // mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden
     return (
-        <div className="w-full flex flex-col gap-[16px]">
+        <div className="w-full flex flex-col ">
             <p className="font-bold text-[20px]">{title}</p>
-            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-start overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
-                {data && data.length > 0 ? (
-                    data?.map((item) => {
+            <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-start overflow-hidden gap-x-[20px]">
+                {displayData && displayData.length > 0 ? (
+                    displayData?.map((item) => {
                         return (
                             <li
                                 onClick={() => router.push(`/output/logs/${item.id}`)}
