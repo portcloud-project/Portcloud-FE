@@ -12,12 +12,16 @@ import { useQueryClient } from '@tanstack/react-query';
 import Like from '@/app/customComponents/Like';
 import { useLikeProejct } from '@/app/hooks/useLikeProject';
 import BookMarkProject from '@/app/customComponents/BookMarkProject';
+import dayjs from 'dayjs';
+import { useState } from 'react';
+import CustomConfirm from '@/app/customComponents/CustomConfirm';
 
 const OutputProjects = (props: { params: { id: string } }) => {
     const id = props.params.id;
     const { data: project, isLoading, isError, error } = useProjectDetail(id);
     const deleteMutation = useDeleteProject();
     const router = useRouter();
+    const [isOpenConfirm, setIsOpenConfirm] = useState(false);
     const queryclient = useQueryClient();
     const { data: like } = useLikeProejct(id);
 
@@ -32,12 +36,11 @@ const OutputProjects = (props: { params: { id: string } }) => {
         },
         {
             title: '작성기간',
-            value: `${project.createdAt}`,
+            value: `${dayjs(project.createdAt).format('YYYY-MM-DD')}`,
         },
     ];
 
     const handleDelete = async () => {
-        if (!confirm('정말 삭제하시겠습니까?')) return;
         if (!project?.owner) {
             return alert('사용자 정보가 일치하지 않습니다');
         }
@@ -100,7 +103,10 @@ const OutputProjects = (props: { params: { id: string } }) => {
                                 수정
                             </button>
                             <span className="text[14px] text-[var(--color-gray-300)]">|</span>
-                            <button className="cursor-pointer" onClick={handleDelete}>
+                            <button
+                                className="cursor-pointer"
+                                onClick={() => setIsOpenConfirm(true)}
+                            >
                                 삭제
                             </button>
                         </span>
@@ -220,6 +226,14 @@ const OutputProjects = (props: { params: { id: string } }) => {
             <LikePost id={id} />
             <BookMarkProject id={id} />
             <TopBtn />
+            {isOpenConfirm && (
+                <CustomConfirm
+                    onAccept={handleDelete}
+                    onCancel={() => setIsOpenConfirm(false)}
+                    title="프로젝트 삭제"
+                    message="정말로 프로젝트를 삭제하시겠습니까 ? "
+                />
+            )}
         </main>
     );
 };

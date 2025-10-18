@@ -25,7 +25,7 @@ const RecentLogs = ({ title, contentWithItem }: MainListProps) => {
     }
 
     return (
-        <div className="w-full flex flex-col gap-[16px]">
+        <div className="w-full flex flex-col ">
             <p className="font-bold text-[20px]">{title}</p>
             <ul className="gap-y-[16px] w-full flex flex-row flex-wrap justify-start overflow-hidden gap-x-[20px] mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet: tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden">
                 {contentWithItem?.map((item) => {
@@ -52,7 +52,7 @@ const RecentLogs = ({ title, contentWithItem }: MainListProps) => {
                                         </p>
                                     </div>
 
-                                    <div className="absolute inset-0 flex contentWithItem-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
+                                    <div className="absolute inset-0 flex contentWithItem-end justify-start items-end z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
                                         <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
                                             {item.category}
                                         </p>
@@ -75,7 +75,7 @@ const RecentLogs = ({ title, contentWithItem }: MainListProps) => {
                                     <p className="font-bold text-white text-[18px]">{item.title}</p>
                                     <p className="text-gray-100 text-[14px]">{item.writeName}</p>
                                 </div>
-                                <div className="absolute inset-0 flex contentWithItem-end justify-start z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
+                                <div className="absolute inset-0 flex contentWithItem-end justify-start items-end z-10 text-white font-bold text-[18px] p-[24px] flex-col ">
                                     <p className="bg-purple-500 px-[24px] py-[8px] rounded-[20px] w-fit">
                                         {item.category}
                                     </p>

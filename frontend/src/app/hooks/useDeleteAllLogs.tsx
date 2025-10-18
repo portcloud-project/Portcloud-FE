@@ -10,6 +10,8 @@ export const useDeleteLogs = () => {
         },
         onSuccess: (_data, id) => {
             queryClient.invalidateQueries({ queryKey: ['logsDetail', id] });
+            queryClient.invalidateQueries({ queryKey: ['recentlogs'] });
+            queryClient.invalidateQueries({ queryKey: ['mainlogs'] });
         },
         onError: (err: unknown) => {
             console.error('삭제 실패', err);

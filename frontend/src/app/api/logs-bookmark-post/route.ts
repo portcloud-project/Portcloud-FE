@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     const token = request.cookies.get('accessToken')?.value;
     try {
         const response = await axios.post(
-            `${BASE_URL}api/blogs/${id}/bookmark`,
+            `${BASE_URL}api/blogs/${id}/bookmarks`,
             {},
             {
                 headers: {

@@ -11,6 +11,8 @@ import Comment from '@/app/customComponents/Comment';
 import CommentView from '@/app/customComponents/CommentView';
 import TopBtn from '@/app/customComponents/TopBtn';
 import BookMarkPortfolio from '@/app/customComponents/BookMarkPortfolio';
+import CustomConfirm from '@/app/customComponents/CustomConfirm';
+import { useState } from 'react';
 
 const PortfolioOutput = () => {
     const params = useParams();
@@ -19,18 +21,19 @@ const PortfolioOutput = () => {
     const { data: portfolio, isLoading, isError, error } = usePortfolioDetail(id);
     const { data: like } = useLikePortfolio(id);
     const deleteMutation = useDeletePortfolio();
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
     const router = useRouter();
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!portfolio?.id) return <p>포트폴리오가 삭제되었거나 찾을 수 없습니다.</p>;
 
     const handleDelete = async () => {
-        if (!confirm('정말 삭제하시겠습니까?')) return;
         if (user.sub !== portfolio.email) {
             return alert('사용자 정보가 일치하지 않습니다');
         }
         try {
             await deleteMutation.mutateAsync(id);
+            router.push('/works/portfolios');
         } catch (err) {
             console.error(err);
         }
@@ -59,7 +62,12 @@ const PortfolioOutput = () => {
                                     수정
                                 </button>
                                 <div className="border-r h-[14px] border-gray-300" />
-                                <button onClick={handleDelete}>삭제</button>
+                                <button
+                                    onClick={() => setIsConfirmOpen(true)}
+                                    className="cursor-pointer"
+                                >
+                                    삭제
+                                </button>
                             </div>
                         )}
                     </div>
@@ -204,6 +212,14 @@ const PortfolioOutput = () => {
             <LikePost id={id} />
             <BookMarkPortfolio id={id} />
             <TopBtn />
+            {isConfirmOpen && (
+                <CustomConfirm
+                    onAccept={handleDelete}
+                    onCancel={() => setIsConfirmOpen(false)}
+                    message="정말로 포트폴리오를 삭제하시겠습니까 ?"
+                    title="포트폴리오 삭제"
+                />
+            )}
         </main>
     );
 };

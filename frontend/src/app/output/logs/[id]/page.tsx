@@ -2,6 +2,7 @@
 import BookMarkLogs from '@/app/customComponents/BookMarkLogs';
 import CommentLogs from '@/app/customComponents/CommentLogs';
 import CommentViewLogs from '@/app/customComponents/CommentViewLogs';
+import CustomConfirm from '@/app/customComponents/CustomConfirm';
 import Like from '@/app/customComponents/Like';
 import LikePostLogs from '@/app/customComponents/LikePostLogs';
 import TopBtn from '@/app/customComponents/TopBtn';
@@ -10,6 +11,7 @@ import { useLikeLogs } from '@/app/hooks/useLikeLogs';
 import { useLogsDetail } from '@/app/hooks/useLogsDetail';
 import dayjs from 'dayjs';
 import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -18,6 +20,7 @@ const LogsOutput = () => {
     const router = useRouter();
     const id = params.id;
     const { data: logs, isLoading, isError, error } = useLogsDetail(id);
+    const [isOpenConfirm, setIsOpenConfirm] = useState(false);
     const { data: like } = useLikeLogs(id);
     console.log(logs?.id);
     const deleteMutation = useDeleteLogs();
@@ -26,9 +29,9 @@ const LogsOutput = () => {
     if (!logs?.id) return <p>기록이 삭제되었거나 찾을 수 없습니다.</p>;
 
     const handleDelete = async () => {
-        if (!confirm('정말 삭제하시겠습니까?')) return;
         try {
             await deleteMutation.mutateAsync(id);
+            router.push('/works/logs');
         } catch (err) {
             console.error(err);
         }
@@ -55,11 +58,19 @@ const LogsOutput = () => {
                         </div>
                         {logs?.owner && (
                             <div className="flex w-fit items-center gap-[12px]">
-                                <button onClick={() => router.push(`/output/logs/${id}/edit`)}>
+                                <button
+                                    onClick={() => router.push(`/output/logs/${id}/edit`)}
+                                    className="cursor-pointer"
+                                >
                                     수정
                                 </button>
                                 <div className="border-r h-[14px] border-gray-300" />
-                                <button onClick={handleDelete}>삭제</button>
+                                <button
+                                    onClick={() => setIsOpenConfirm(true)}
+                                    className="cursor-pointer"
+                                >
+                                    삭제
+                                </button>
                             </div>
                         )}
                     </div>
@@ -76,6 +87,14 @@ const LogsOutput = () => {
             <LikePostLogs id={id} />
             <BookMarkLogs id={id} />
             <TopBtn />
+            {isOpenConfirm && (
+                <CustomConfirm
+                    onAccept={handleDelete}
+                    onCancel={() => setIsOpenConfirm(false)}
+                    title="기록 삭제"
+                    message="정말로 기록을 삭제하시겠습니까 ?"
+                />
+            )}
         </main>
     );
 };
