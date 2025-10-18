@@ -12,6 +12,7 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { FaCheck } from 'react-icons/fa6';
 import axios from 'axios';
 import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface NewPasswordFormValuesType {
     password: string;
@@ -33,6 +34,7 @@ const Mypage = () => {
     const [verifying, setVerifying] = useState<boolean>(false);
     const [sending, setSending] = useState<boolean>(false);
     const [verified, setVerified] = useState<boolean>(false);
+    const queryclient = useQueryClient();
 
     const methods = useForm<NewPasswordFormValuesType>({
         mode: 'all',
@@ -104,6 +106,7 @@ const Mypage = () => {
             if (res.status === 200) {
                 console.log('탈퇴 성공(내용 없음)');
                 alert('탈퇴 성공');
+                queryclient.invalidateQueries();
             } else {
                 console.log(res.status, res.data);
                 alert('탈퇴 실패');

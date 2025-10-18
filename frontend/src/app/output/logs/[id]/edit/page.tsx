@@ -23,7 +23,7 @@ const LogsEdit = () => {
             title: '',
             content: '',
             category: '',
-            blogStatus: 1,
+            blogStatus: '',
         },
     });
 
@@ -40,7 +40,7 @@ const LogsEdit = () => {
                 title: logs.title,
                 content: logs.content,
                 category: logs.category,
-                blogStatus: logs.blogStatus,
+                blogStatus: logs.blogStatus === 1 ? '공개' : '비공개',
             });
         }
     }, [logs, reset]);

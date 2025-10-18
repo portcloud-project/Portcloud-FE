@@ -1,4 +1,5 @@
 'use client';
+import BookMarkLogs from '@/app/customComponents/BookMarkLogs';
 import CommentLogs from '@/app/customComponents/CommentLogs';
 import CommentViewLogs from '@/app/customComponents/CommentViewLogs';
 import Like from '@/app/customComponents/Like';
@@ -73,6 +74,7 @@ const LogsOutput = () => {
                 <CommentViewLogs id={id} />
             </div>
             <LikePostLogs id={id} />
+            <BookMarkLogs id={id} />
             <TopBtn />
         </main>
     );

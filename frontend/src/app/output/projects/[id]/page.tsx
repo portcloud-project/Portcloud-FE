@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import Like from '@/app/customComponents/Like';
 import { useLikeProejct } from '@/app/hooks/useLikeProject';
+import BookMarkProject from '@/app/customComponents/BookMarkProject';
 
 const OutputProjects = (props: { params: { id: string } }) => {
     const id = props.params.id;
@@ -217,6 +218,7 @@ const OutputProjects = (props: { params: { id: string } }) => {
                 <CommentView id={id} />
             </section>
             <LikePost id={id} />
+            <BookMarkProject id={id} />
             <TopBtn />
         </main>
     );

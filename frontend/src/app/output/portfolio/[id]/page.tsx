@@ -10,6 +10,7 @@ import LikePost from '@/app/customComponents/LikePost';
 import Comment from '@/app/customComponents/Comment';
 import CommentView from '@/app/customComponents/CommentView';
 import TopBtn from '@/app/customComponents/TopBtn';
+import BookMarkPortfolio from '@/app/customComponents/BookMarkPortfolio';
 
 const PortfolioOutput = () => {
     const params = useParams();
@@ -201,6 +202,7 @@ const PortfolioOutput = () => {
             </div>
 
             <LikePost id={id} />
+            <BookMarkPortfolio id={id} />
             <TopBtn />
         </main>
     );
