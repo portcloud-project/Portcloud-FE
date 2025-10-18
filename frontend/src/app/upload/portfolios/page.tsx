@@ -91,7 +91,7 @@ const UploadPortfolios = () => {
             email: '',
             industry: '',
             jobPosition: '',
-            skill: [{ name: '' }],
+            skill: [],
             introductions: '',
             saveStatus: true,
             projectDescriptions: [{ description: '' }],
