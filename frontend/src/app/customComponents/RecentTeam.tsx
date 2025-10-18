@@ -25,7 +25,6 @@ const RecentTeam = ({ teamItems }: RecentTeamProps) => {
 
     return (
         <div className="w-full flex flex-col">
-
             <ul className="w-full grid grid-cols-4 gap-[24px]">
                 {teamItems.map((item) => {
                     const dday = item.recruitDeadline

@@ -10,7 +10,9 @@ export async function GET(request: NextRequest) {
     const category = request.nextUrl.searchParams.get('category') ?? '';
 
     try {
-        const { data } = await axios.get(`${BASE_URL}api/teamposts`, { params: { page, size, category } });
+        const { data } = await axios.get(`${BASE_URL}api/teamposts`, {
+            params: { page, size, category },
+        });
 
         const pageObj = data?.data?.data ?? data?.data ?? data;
 

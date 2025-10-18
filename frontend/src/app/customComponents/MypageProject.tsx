@@ -7,13 +7,13 @@ import { FaTrashCan } from 'react-icons/fa6';
 import LoadingSpinner from './LoadingSpinner';
 import { useRouter } from 'next/navigation';
 
-const MypageProject= () => {
+const MypageProject = () => {
     const { isError, error, isLoading, data } = useAllProject();
     // const deleteMutation = useDeleteProject();
     // const queryClient = useQueryClient();
     const router = useRouter();
 
-    if(data?.length === 0) {
+    if (data?.length === 0) {
         return <div>프로젝트가 존재하지 않습니다</div>;
     }
 

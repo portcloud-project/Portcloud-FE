@@ -4,7 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { UploadProjectsFormValuesType } from '../upload/projects/page';
 
 const fetchAllProject = async (): Promise<UploadProjectsFormValuesType[]> => {
-    const response = await axios.get<ApiResponse<{ content: UploadProjectsFormValuesType[] }>>('/api/');
+    const response =
+        await axios.get<ApiResponse<{ content: UploadProjectsFormValuesType[] }>>('/api/');
     const content = response.data?.data?.content;
     if (Array.isArray(content)) return content;
     throw new Error('API 응답 형식이 올바르지 않습니다.');
