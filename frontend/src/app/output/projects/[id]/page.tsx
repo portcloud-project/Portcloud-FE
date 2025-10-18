@@ -3,7 +3,6 @@
 // import { useForm } from 'react-hook-form';
 import LikePost from '@/app/customComponents/LikePost';
 import TopBtn from '@/app/customComponents/TopBtn';
-import CommentView from '@/app/customComponents/CommentView';
 import CommentProject from '@/app/customComponents/CommentProject';
 import { useProjectDetail } from '@/app/hooks/useProjectDetatil';
 import { useDeleteProject } from '@/app/hooks/useDeleteProject';
@@ -11,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import Like from '@/app/customComponents/Like';
 import { useLikeProejct } from '@/app/hooks/useLikeProject';
+import CommentProjectView from '@/app/customComponents/CommentViewProject';
 import BookMarkProject from '@/app/customComponents/BookMarkProject';
 import dayjs from 'dayjs';
 import { useState } from 'react';
@@ -178,50 +178,12 @@ const OutputProjects = (props: { params: { id: string } }) => {
             {/* 밑줄 */}
             <hr className="w-full h-[1px] text-[var(--color-gray-300)]" />
 
-            {/* 댓글 section */}
-            {/* <section className="w-full h-auto">
-                <form
-                    onSubmit={handleSubmit(onCommentsSubmit)}
-                    className="w-full flex flex-col gap-[12px] justify-center items-start text-[var(--color-gray-900)] relative"
-                >
-                    <label className="font-bold text-[24px]">3개의 댓글</label>
-                    <textarea
-                        className={`border w-full h-[120px] p-[12px] rounded-[8px] text-[16px] text-[var(--color-gray-900)] font-normal resize-none transition duration-300 ease-in-out focus:outline-none focus:border-[var(--color-purple-500)] ${
-                            errors.projectsComments
-                                ? 'border-[var(--color-red-500)]'
-                                : 'border-[var(--color-gray-300)]'
-                        }`}
-                        maxLength={1000}
-                        {...register('projectsComments', {
-                            pattern: {
-                                value: /^(?!.*<[^>]*>)(?!.*https?:\/\/).+$/,
-                                message: '유효하지 않은 입력입니다. 태그와 외부 링크는 금지됩니다.',
-                            },
-                        })}
-                    />
-                    <div className="absolute left-0 top-[178px] text-[var(--color-gray-500)]">
-                        {projectsComments.length} / 1000
-                    </div>
-                    {errors.projectsComments && (
-                        <p className="text-sm text-[var(--color-red-500)] absolute right-[120px] top-[178px]">
-                            {errors.projectsComments.message}
-                        </p>
-                    )}
-                    <button
-                        className={`w-[108px] h-[48px] rounded-[8px] text-[16px] font-semibold transition duration-300 ease-in-out self-end ${projectsComments ? 'text-white border border-[var(--color-purple-500)] bg-[var(--color-purple-500)] hover:text-[var(--color-purple-500)] hover:bg-white cursor-pointer' : 'text-[var(--color-gray-400)] border border-[var(--color-gray-200)] bg-[var(--color-gray-100)] cursor-not-allowed'}`}
-                        type="submit"
-                        disabled={isSubmitting}
-                    >
-                        댓글 작성
-                    </button>
-                </form>
-            </section> */}
             <Like likeData={like} />
             <section className="w-full flex ">
                 <CommentProject id={id} />
             </section>
             <section className="w-full flex ">
-                <CommentView id={id} />
+                <CommentProjectView id={id} />
             </section>
             <LikePost id={id} />
             <BookMarkProject id={id} />

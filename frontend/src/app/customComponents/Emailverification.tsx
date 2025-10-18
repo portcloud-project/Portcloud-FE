@@ -23,7 +23,7 @@ const EmailVerification = ({ onVerified, verified: verifiedProp = false, setNext
         clearErrors,
     } = useFormContext<{
         email: string;
-        emailVerify: string;
+        verificationCode: string;
     }>();
 
     const [verifyStep, setVerifyStep] = useState<boolean>(false);
@@ -56,13 +56,13 @@ const EmailVerification = ({ onVerified, verified: verifiedProp = false, setNext
 
     const verifyEmail = async () => {
         const email = getValues('email');
-        const code = getValues('emailVerify');
+        const code = getValues('verificationCode');
 
         if (!code || code.length !== 6) {
-            setError('emailVerify', { type: 'manual', message: '인증번호는 6자리입니다' });
+            setError('verificationCode', { type: 'manual', message: '인증번호는 6자리입니다' });
             return;
         }
-        clearErrors('emailVerify');
+        clearErrors('verificationCode');
 
         try {
             setVerifying(true);
@@ -149,11 +149,11 @@ const EmailVerification = ({ onVerified, verified: verifiedProp = false, setNext
                             id="email-verify"
                             placeholder="6자리 인증번호"
                             className={`w-[398px] h-[44px] border border-[var(--color-gray-400)] rounded-[8px] py-[10px] px-[12px] focus:outline-none transition duration-300 ease-in-out ${
-                                errors.emailVerify
+                                errors.verificationCode
                                     ? 'focus:bg-[var(--color-red-50)] focus:border-[var(--color-red-500)]'
                                     : 'focus:bg-[var(--color-green-50)] focus:border-[var(--color-green-600)]'
                             }`}
-                            {...register('emailVerify', {
+                            {...register('verificationCode', {
                                 required: '인증번호를 입력해주세요',
                                 minLength: { value: 6, message: '인증번호는 6자리 입니다.' },
                                 maxLength: { value: 6, message: '인증번호는 6자리 입니다.' },
@@ -181,9 +181,9 @@ const EmailVerification = ({ onVerified, verified: verifiedProp = false, setNext
                         )}
                     </div>
 
-                    {errors.emailVerify && (
+                    {errors.verificationCode && (
                         <p className="text-sm text-[var(--color-red-500)]">
-                            {errors.emailVerify.message}
+                            {errors.verificationCode.message}
                         </p>
                     )}
                 </div>

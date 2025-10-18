@@ -12,6 +12,8 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { FaCheck } from 'react-icons/fa6';
 import axios from 'axios';
 import Image from 'next/image';
+import MypageProject from '../customComponents/MypageProject';
+import MypageTeam from '../customComponents/MypageTeam';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface NewPasswordFormValuesType {
@@ -218,10 +220,12 @@ const Mypage = () => {
                     <MyPagePortfolio />
                 </TabsContent>
                 <TabsContent value="projects">
-                    여긴 프로젝트 <MypageAdd title="프로젝트 업로드" route="/upload/projects" />
+                    <MypageProject />
+                    <MypageAdd title="프로젝트 업로드" route="/upload/projects" />
                 </TabsContent>
                 <TabsContent value="teams">
-                    여긴 팀관리 <MypageAdd title="팀 구하기 업로드" route="/upload/teams" />
+                    <MypageTeam />
+                    <MypageAdd title="팀 구하기 업로드" route="/upload/teams" />
                 </TabsContent>
                 <TabsContent value="myActivity">여긴 내 활동</TabsContent>
                 <TabsContent value="settings" className="overflow-y-auto p-[32px]">

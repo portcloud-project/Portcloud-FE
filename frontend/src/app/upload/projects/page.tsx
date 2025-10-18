@@ -30,6 +30,7 @@ export interface UploadProjectsFormValuesType {
     projectPosition: string;
     demonstrationVideoUrl: string;
     skill: Skills[]; //보낼때
+    content?: UploadProjectsFormValuesType[];
 }
 
 const UploadProjects = () => {
