@@ -33,7 +33,7 @@ const MainPortfolio = ({ title }: MainListProps) => {
                             <li
                                 onClick={() => router.push(`/output/portfolio/${item.id}`)}
                                 key={`${item.id}`}
-                                className="group min-w-[220px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer tablet:shrink-0 tablet:w-full"
+                                className="group w-[330px] max-w-[330px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer tablet:shrink-0 tablet:w-full"
                             >
                                 {/* 앞면 */}
                                 <div className="absolute inset-0 rounded-[20px] overflow-hidden duration-700 ease-in-out group-hover:opacity-0">

@@ -10,6 +10,8 @@ export const useDeleteProject = () => {
         },
         onSuccess: (_data, id) => {
             queryClient.invalidateQueries({ queryKey: ['projectDetail', id] });
+            queryClient.invalidateQueries({ queryKey: ['recent_project'] });
+            queryClient.invalidateQueries({ queryKey: ['mainlist'] });
         },
         onError: (err: unknown) => {
             console.error('삭제 실패', err);

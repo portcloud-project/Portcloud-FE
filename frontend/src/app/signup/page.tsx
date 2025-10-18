@@ -86,9 +86,10 @@ const Signup = () => {
             console.log(res.status);
             alert('회원가입 성공!');
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (err: any) {
+            setIsLoading(false);
+        } catch (err) {
             alert('회원가입 실패');
-            console.error('회원가입 에러내용:', err?.message ?? err);
+            console.error('회원가입 에러내용:', err);
         }
     };
 
