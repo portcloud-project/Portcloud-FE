@@ -1,27 +1,47 @@
 'use client';
+
 import { useAllProject } from '../hooks/useAllProject';
 import { FaTrashCan } from 'react-icons/fa6';
+// import { useDeleteProject } from '../hooks/useDeleteProject';
+// import { useQueryClient } from '@tanstack/react-query';
+import LoadingSpinner from './LoadingSpinner';
+import { useRouter } from 'next/navigation';
 
 const MypageProject= () => {
     const { isError, error, isLoading, data } = useAllProject();
+    // const deleteMutation = useDeleteProject();
+    // const queryClient = useQueryClient();
+    const router = useRouter();
+
+    if(data?.length === 0) {
+        return <div>프로젝트가 존재하지 않습니다</div>;
+    }
 
     if (isLoading) {
         return (
-            <div>
-                <p className="w-full h-[248px] rounded-[20px] items-center flex justify-center text-black text-[20px] font-bold">
-                    데이터 로딩중...
-                </p>
+            <div className="flex items-center justify-center w-full h-[50vh]">
+                <LoadingSpinner />
             </div>
         );
     }
 
     if (isError) {
         return (
-            <div className="flex justify-center items-center">
-                <p className="text-red-500">오류:{error?.message || '알수없는 오류'}</p>
-            </div>
+            <p className="text-red-500 flex items-center justify-center w-full h-[50vh]">
+                {error instanceof Error ? error.message : '데이터를 불러오지 못했습니다.'}
+            </p>
         );
     }
+
+    // const handleDelete = async (id:string) => {
+    //     if(!confirm('정말 삭제하시겠습니까?')) return;
+    //     try {
+    //         await deleteMutation.mutateAsync(id);
+    //         await queryClient.invalidateQueries();
+    //     } catch(err) {
+    //         console.error(err);
+    //     }
+    // }
 
     return (
         <div className="w-full flex flex-col gap-[16px]">
@@ -32,6 +52,7 @@ const MypageProject= () => {
                             <li
                                 key={`${item.id}`}
                                 className="group min-w-[220px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:w-full"
+                                onClick={() => router.push(`/output/projects/${item.id}`)}
                             >
                                 {/* 앞면 */}
                                 <div className="absolute inset-0 rounded-[20px] overflow-hidden duration-700 ease-in-out group-hover:opacity-0">
