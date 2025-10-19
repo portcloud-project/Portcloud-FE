@@ -43,7 +43,6 @@ const UploadLogs = () => {
 
     const onLogsSubmit = async (data: UploadLogsFormValuesType) => {
         setIsLoading(true);
-        console.log(data);
         try {
             const formdata = new FormData();
             const newbolgStatus = data.blogStatus === '공개' ? '1' : '2';
@@ -52,7 +51,6 @@ const UploadLogs = () => {
             formdata.append('thumbnail', data.thumbnail[0]);
             formdata.append('category', data.category);
             formdata.append('blogStatus', newbolgStatus);
-            console.log('FormData:', Array.from(formdata.entries()));
             const response = await axios.post('/api/logs-post', formdata, {
                 headers: {
                     'Content-Type': 'multipart/form-data',

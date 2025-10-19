@@ -44,7 +44,7 @@ const UploadDropDown = ({
     const { control } = useFormContext();
 
     return (
-        <div className={`w-full flex flex-col justify-between items-start ${gap}`}>
+        <div className={`w-fit flex flex-col justify-between items-start ${gap}`}>
             <label
                 htmlFor="isDeploy"
                 className={`text-[var(--color-gray-900)] ${labelText} ${labelFont}`}
@@ -74,12 +74,12 @@ const UploadDropDown = ({
                                     <FaAngleDown className="w-[15px] h-[15px] text-[var(--color-gray-400)]" />
                                 )}
                             </span>
-                            {errors && (
-                                <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[76px] whitespace-nowrap">
-                                    {errors.message}
-                                </p>
-                            )}
                         </DropdownMenuTrigger>
+                        {errors && (
+                            <p className="font-normal text-[14px] text-[var(--color-red-500)] absolute left-0 top-[76px] whitespace-nowrap">
+                                {errors.message}
+                            </p>
+                        )}
                         <DropdownMenuContent
                             className={`${width} flex flex-col gap-[4px] p-[6px]`}
                             side="bottom"
@@ -90,7 +90,7 @@ const UploadDropDown = ({
                             {arr.map((a, i) => (
                                 <DropdownMenuItem
                                     key={i}
-                                    className="text-[16px] text-[var(--color-gray-700)] data-[highlighted]:text-white bg-[white] data-[highlighted]:bg-[var(--color-purple-500)] transition duration-300 ease-in-out w-[364px] h-[48px]"
+                                    className="text-[16px] text-[var(--color-gray-700)] data-[highlighted]:text-white bg-[white] data-[highlighted]:bg-[var(--color-purple-500)] transition duration-300 ease-in-out w-full h-[48px]"
                                     onSelect={() => field.onChange?.(a)}
                                 >
                                     <FaCheck className="text-white" />

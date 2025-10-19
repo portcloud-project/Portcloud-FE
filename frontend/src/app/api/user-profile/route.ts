@@ -6,9 +6,9 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 export async function PATCH(req: NextRequest) {
     try {
         const token = req.cookies.get('accessToken')?.value;
-        const body = await req.json();
+        const form = await req.formData();
 
-        const { data } = await axios.patch(`${BASE_URL}api/user/profile`, body, {
+        const { data } = await axios.patch(`${BASE_URL}api/user/profile`, form, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

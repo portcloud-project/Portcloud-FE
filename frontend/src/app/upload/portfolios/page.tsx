@@ -91,7 +91,7 @@ const UploadPortfolios = () => {
             email: '',
             industry: '',
             jobPosition: '',
-            skill: [{ name: '' }],
+            skill: [],
             introductions: '',
             saveStatus: true,
             projectDescriptions: [{ description: '' }],
@@ -131,7 +131,6 @@ const UploadPortfolios = () => {
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
         try {
-            console.log(data);
             const token = Cookies.get('accessToken');
             const formData = new FormData();
 
@@ -539,7 +538,7 @@ const UploadPortfolios = () => {
             </FormProvider>
             {isLoading && (
                 <CustomAlert
-                    title="프로젝트 업로드 중 ..."
+                    title="포트폴리오 업로드 중 ..."
                     isLoading={isLoading}
                     message="잠시 시간이 소요될 수 있습니다."
                 />

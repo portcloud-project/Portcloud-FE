@@ -4,25 +4,15 @@ import { NextRequest, NextResponse } from 'next/server';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function POST(req: NextRequest) {
+    const body = await req.json();
+    console.log('[signup body]', body);
+
     try {
         const body = await req.json();
 
-        const { data } = await axios.post(`${BASE_URL}api/user/register`, body);
-        return NextResponse.json(data, { status: data.status });
+        const response = await axios.post(`${BASE_URL}api/user/register`, body);
+        return NextResponse.json(response.data);
     } catch (err: unknown) {
         console.error(err);
-
-        // 에러 안전하게 사용하기 위해 타입 가드를 활용
-        let message = 'An unknown error occurred.';
-
-        if (axios.isAxiosError(err)) {
-            // Axios 에러인 경우
-            message = err.response?.data?.message || err.message;
-        } else if (err instanceof Error) {
-            // 기본 JavaScript Error인 경우
-            message = err.message;
-        }
-
-        return NextResponse.json({ success: false, message: message }, { status: 500 });
     }
 }

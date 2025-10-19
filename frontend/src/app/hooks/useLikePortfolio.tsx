@@ -11,7 +11,6 @@ const fetchLike = async (id: string | string[]): Promise<LikeData> => {
                 id,
             },
         });
-        console.log(response.data.data);
         return response.data.data;
     } catch (error) {
         console.error(error);
