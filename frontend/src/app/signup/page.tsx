@@ -85,7 +85,7 @@ const Signup = () => {
                 birthDate: data.birthDate,
                 job: data.job,
                 agreeTerms: data.agreeTerms,
-                verificationCode: data.emailVerify,
+                verificationCode: data.verificationCode,
             });
             if (res.status === 200) alert('회원가입 성공!');
             router.push('/');
