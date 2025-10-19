@@ -30,11 +30,7 @@ const LikePostTeam = ({ id }: { id: string | string[] }) => {
                 onClick={handleLike}
                 className="cursor-pointer bg-gray-100 p-[10px]  rounded-full border border-gray-200"
             >
-                {likeCheck ? (
-                    <AiFillHeart size={24} color="red" />
-                ) : (
-                    <AiOutlineHeart size={24} />
-                )}
+                {likeCheck ? <AiFillHeart size={24} color="red" /> : <AiOutlineHeart size={24} />}
             </button>
         </div>
     );

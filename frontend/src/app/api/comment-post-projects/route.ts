@@ -9,10 +9,7 @@ export async function POST(request: NextRequest) {
 
     // 1) 입력 검증(빠르게 400을 주기)
     if (!id) {
-        return NextResponse.json(
-            { message: 'Missing required query param: id' },
-            { status: 400 }
-        );
+        return NextResponse.json({ message: 'Missing required query param: id' }, { status: 400 });
     }
 
     let body: unknown;
@@ -20,16 +17,13 @@ export async function POST(request: NextRequest) {
         // 2) JSON 파싱 실패도 400으로 명확히
         body = await request.json();
     } catch {
-        return NextResponse.json(
-            { message: 'Invalid JSON body' },
-            { status: 400 }
-        );
+        return NextResponse.json({ message: 'Invalid JSON body' }, { status: 400 });
     }
 
     try {
         // 3) 백엔드 호출
         // BASE_URL 끝에 슬래시 유무에 상관없이 안전하게 합치기
-        const base = BASE_URL?.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL ?? '';
+        const base = BASE_URL?.endsWith('/') ? BASE_URL.slice(0, -1) : (BASE_URL ?? '');
         const url = `${base}/api/project/${encodeURIComponent(id)}/comments`;
 
         const response = await axios.post(url, body, {
@@ -49,9 +43,9 @@ export async function POST(request: NextRequest) {
         const status = axErr.response?.status ?? 500;
 
         // 백엔드 에러 페이로드를 최대한 보존해서 프론트가 분기하기 쉽게
-        const payload =
-            axErr.response?.data ??
-            { message: axErr.message || 'Upstream request failed' };
+        const payload = axErr.response?.data ?? {
+            message: axErr.message || 'Upstream request failed',
+        };
 
         // 서버 로그는 자세히 남기고
         console.error('[comment-post-projects] error:', {

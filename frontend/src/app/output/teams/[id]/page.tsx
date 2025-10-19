@@ -183,10 +183,10 @@ const OutputTeams = (props: { params: { id: string } }) => {
 
             {/* 밑줄 */}
             <hr className="w-full h-[1px] text-[var(--color-gray-300)]" />
-            
+
             {/* 좋아요 section */}
             <Like likeData={teams.liked} />
-            <LikePostTeam id = {id} />
+            <LikePostTeam id={id} />
 
             {/* 댓글 section */}
             <section className="w-full flex ">
