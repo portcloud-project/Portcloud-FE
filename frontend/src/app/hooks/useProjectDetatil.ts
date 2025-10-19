@@ -11,7 +11,6 @@ export const useProjectDetail = (id: string | null | string[]) => {
             const res = await axios.get('/api/output-project', {
                 params: { id },
             });
-            console.log(res.data);
             return res.data;
         },
         enabled: !!id,

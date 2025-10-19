@@ -131,7 +131,6 @@ const UploadPortfolios = () => {
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
         try {
-            console.log(data);
             const token = Cookies.get('accessToken');
             const formData = new FormData();
 

@@ -6,9 +6,6 @@ export async function DELETE(request: NextRequest) {
         const token = request.cookies.get('accessToken')?.value;
         const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
         const id = request.nextUrl.searchParams.get('id');
-        console.log('언라이크 api 호출');
-        console.log(id);
-        console.log(token);
         const response = await axios.delete(`${BASE_URL}api/project/${id}/like`, {
             headers: {
                 Authorization: `Bearer ${token}`,

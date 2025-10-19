@@ -91,14 +91,12 @@ const UploadProjects = () => {
                 formData.append('demonstrationVideo', data.demonstrationVideo[0]);
             }
 
-            console.log(Array.from(formData.entries()));
-
             await axios.post('/api/project', formData);
             queryclient.invalidateQueries();
             router.push('/works/projects');
         } catch (err) {
             if (err instanceof Error) {
-                console.log('업로드 에러내용:', err.message);
+                console.error('업로드 에러내용:', err.message);
             } else {
                 console.error('알 수 없는 에러:', err);
             }

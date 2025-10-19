@@ -34,7 +34,6 @@ const MypageUserProfile = () => {
 
     const onBlurDuplicate = async () => {
         const nickname = (getValues('nickname') || '').trim();
-        console.log('onBlurDuplicate 호출, nickname:', nickname);
 
         if (!nickname) {
             setCheckedNickname('');
@@ -49,7 +48,6 @@ const MypageUserProfile = () => {
             setChecking(true);
 
             const data = await mutateDuplicate.mutateAsync(nickname);
-            console.log('중복 체크 결과:', data);
 
             const usable = typeof data === 'string' ? data.includes('사용 가능') : !!data?.usable;
 
@@ -84,15 +82,6 @@ const MypageUserProfile = () => {
         const hasNickname = !!trimmedNickname;
         const hasCategory = !!data.category?.trim();
 
-        console.log(
-            'submit called. checkedNickname:',
-            checkedNickname,
-            'input nickname:',
-            trimmedNickname,
-            'checking:',
-            checking,
-        );
-
         if (checking) {
             setError('nickname', {
                 type: 'pending',
@@ -124,7 +113,6 @@ const MypageUserProfile = () => {
             if (data.profile?.[0]) formdata.append('profile', data.profile[0]);
             if (hasNickname) formdata.append('nickname', trimmedNickname);
             if (hasCategory) formdata.append('job', data.category);
-            console.log(Array.from(formdata.entries()));
 
             await mutateUser.mutateAsync(formdata);
 

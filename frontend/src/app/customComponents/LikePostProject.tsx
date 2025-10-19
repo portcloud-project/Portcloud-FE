@@ -10,7 +10,6 @@ const LikePost = ({ id }: { id: string | string[] }) => {
 
     const handleLike = () => {
         if (!id) return;
-        console.log('likeCheck', data?.likeCheck);
         if (data?.likeCheck) {
             unlike(id, { onSuccess: () => refetch() });
         } else {

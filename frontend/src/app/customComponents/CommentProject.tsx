@@ -11,12 +11,17 @@ export interface CommentProps {
 }
 
 const Comment = ({ id }: CommentProps) => {
-    const { control, handleSubmit, setValue } = useForm<CommentForm>();
+    const { control, handleSubmit, setValue } = useForm<CommentForm>({
+        defaultValues: {
+            comment: '',
+            parentId: '',
+        },
+    });
     const { mutate } = useCommentProjectPost();
 
     const onSubmit = (data: CommentForm) => {
-        mutate({ id, comment: data.comment, parentCommentId: data.parentId });
-        console.log(data.parentId);
+        const parentCommentId = data.parentId?.trim() ? data.parentId : null;
+        mutate({ id, comment: data.comment, parentCommentId });
         setValue('comment', '');
     };
     return (
@@ -25,6 +30,7 @@ const Comment = ({ id }: CommentProps) => {
                 <Controller
                     control={control}
                     name="comment"
+                    defaultValue=""
                     render={({ field }) => (
                         <input {...field} className="w-full flex-1 border p-[24px] rounded-[8px]" />
                     )}

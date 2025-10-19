@@ -38,7 +38,6 @@ const PortfolioOutput = () => {
             console.error(err);
         }
     };
-    console.log(portfolio);
 
     return (
         <main className="w-[768px]  flex  justify-start items-center ">

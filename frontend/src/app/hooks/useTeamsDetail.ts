@@ -43,7 +43,6 @@ export const useTeamDetail = (id: string | null | string[]) => {
             const res = await axios.get('/api/output-teams', {
                 params: { id },
             });
-            console.log(res.data);
             return res.data;
         },
         enabled: !!id,

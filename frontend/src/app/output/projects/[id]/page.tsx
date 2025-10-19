@@ -1,7 +1,6 @@
 'use client';
 
 // import { useForm } from 'react-hook-form';
-import LikePost from '@/app/customComponents/LikePost';
 import TopBtn from '@/app/customComponents/TopBtn';
 import CommentProject from '@/app/customComponents/CommentProject';
 import { useProjectDetail } from '@/app/hooks/useProjectDetatil';
@@ -15,6 +14,7 @@ import BookMarkProject from '@/app/customComponents/BookMarkProject';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import CustomConfirm from '@/app/customComponents/CustomConfirm';
+import LikePost from '@/app/customComponents/LikePostProject';
 
 const OutputProjects = (props: { params: { id: string } }) => {
     const id = props.params.id;

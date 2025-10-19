@@ -106,11 +106,9 @@ const Mypage = () => {
             });
 
             if (res.status === 200) {
-                console.log('탈퇴 성공(내용 없음)');
                 alert('탈퇴 성공');
                 queryclient.invalidateQueries();
             } else {
-                console.log(res.status, res.data);
                 alert('탈퇴 실패');
             }
         } catch (err) {
