@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const FRONTEND = process.env.NEXT_PUBLIC_FRONTEND_URL!;
-
+export const dynamic = 'force-dynamic';
 export async function GET(req: NextRequest, { params }: { params: { provider: string } }) {
     const provider = (params.provider ?? 'google').toLowerCase();
     const { searchParams } = new URL(req.url);
