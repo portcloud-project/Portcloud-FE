@@ -1,5 +1,7 @@
 'use client';
 
+import CommentTeam from '@/app/customComponents/CommentTeam';
+import CommentViewTeam from '@/app/customComponents/CommentViewTeam';
 import { useDeleteTeam } from '@/app/hooks/useDeleteTeam';
 import { useTeamDetail } from '@/app/hooks/useTeamsDetail';
 
@@ -179,6 +181,13 @@ const OutputTeams = (props: { params: { id: string } }) => {
 
             {/* 밑줄 */}
             <hr className="w-full h-[1px] text-[var(--color-gray-300)]" />
+
+            <section className="w-full flex ">
+                <CommentTeam id={id} />
+            </section>
+            <section className="w-full flex ">
+                <CommentViewTeam id={id} />
+            </section>
         </main>
     );
 };
