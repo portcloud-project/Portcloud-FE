@@ -2,6 +2,8 @@
 
 import CommentTeam from '@/app/customComponents/CommentTeam';
 import CommentViewTeam from '@/app/customComponents/CommentViewTeam';
+import Like from '@/app/customComponents/Like';
+import LikePostTeam from '@/app/customComponents/LikePostTeam';
 import { useDeleteTeam } from '@/app/hooks/useDeleteTeam';
 import { useTeamDetail } from '@/app/hooks/useTeamsDetail';
 
@@ -181,7 +183,12 @@ const OutputTeams = (props: { params: { id: string } }) => {
 
             {/* 밑줄 */}
             <hr className="w-full h-[1px] text-[var(--color-gray-300)]" />
+            
+            {/* 좋아요 section */}
+            <Like likeData={teams.liked} />
+            <LikePostTeam id = {id} />
 
+            {/* 댓글 section */}
             <section className="w-full flex ">
                 <CommentTeam id={id} />
             </section>

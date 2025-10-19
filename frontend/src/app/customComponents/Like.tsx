@@ -7,14 +7,14 @@ export interface LikeData {
 }
 
 export interface LikeProps {
-    likeData?: LikeData;
+    likeData?: LikeData | boolean;
 }
 const Like = ({ likeData }: LikeProps) => {
     return (
         <div className="flex ">
             <p className="flex items-center gap-[12px]">
                 <FaHeart color="red" />
-                {likeData?.likeCount}
+                {likeData && typeof likeData !== 'boolean' ? likeData.likeCount : null}
             </p>
         </div>
     );
