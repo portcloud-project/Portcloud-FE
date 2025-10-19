@@ -20,6 +20,7 @@ export const useCommentTeamPost = () => {
                     },
                 },
             );
+            console.log(comment);
             return response.status;
         },
         onSuccess: (_, variables: CommentPayload) => {
