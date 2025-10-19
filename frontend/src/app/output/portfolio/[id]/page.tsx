@@ -1,5 +1,5 @@
 'use client';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { usePortfolioDetail } from '@/app/hooks/usePortfolioDetail';
 import { userStore } from '@/app/stores/userStore';
 import dayjs from 'dayjs';
@@ -10,6 +10,9 @@ import LikePost from '@/app/customComponents/LikePost';
 import Comment from '@/app/customComponents/Comment';
 import CommentView from '@/app/customComponents/CommentView';
 import TopBtn from '@/app/customComponents/TopBtn';
+import BookMarkPortfolio from '@/app/customComponents/BookMarkPortfolio';
+import CustomConfirm from '@/app/customComponents/CustomConfirm';
+import { useState } from 'react';
 
 const PortfolioOutput = () => {
     const params = useParams();
@@ -18,17 +21,19 @@ const PortfolioOutput = () => {
     const { data: portfolio, isLoading, isError, error } = usePortfolioDetail(id);
     const { data: like } = useLikePortfolio(id);
     const deleteMutation = useDeletePortfolio();
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+    const router = useRouter();
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!portfolio?.id) return <p>포트폴리오가 삭제되었거나 찾을 수 없습니다.</p>;
 
     const handleDelete = async () => {
-        if (!confirm('정말 삭제하시겠습니까?')) return;
         if (user.sub !== portfolio.email) {
             return alert('사용자 정보가 일치하지 않습니다');
         }
         try {
             await deleteMutation.mutateAsync(id);
+            router.push('/works/portfolios');
         } catch (err) {
             console.error(err);
         }
@@ -49,9 +54,19 @@ const PortfolioOutput = () => {
                         </div>
                         {user?.sub === portfolio.email && (
                             <div className="flex w-fit items-center gap-[12px]">
-                                <button>수정</button>
+                                <button
+                                    onClick={() => router.push(`/output/portfolio/${id}/edit`)}
+                                    className="cursor-pointer"
+                                >
+                                    수정
+                                </button>
                                 <div className="border-r h-[14px] border-gray-300" />
-                                <button onClick={handleDelete}>삭제</button>
+                                <button
+                                    onClick={() => setIsConfirmOpen(true)}
+                                    className="cursor-pointer"
+                                >
+                                    삭제
+                                </button>
                             </div>
                         )}
                     </div>
@@ -68,7 +83,7 @@ const PortfolioOutput = () => {
                     <p className="text-[24px]  font-bold">{portfolio.jobPosition}</p>
                 </section>
                 <section>
-                    <p className="flex gap-[8px] flex-wrap">
+                    <div className="flex gap-[8px] flex-wrap">
                         {portfolio.skill.map((s, idx) => (
                             <div
                                 className="flex text-purple-500 bg-purple-50 px-[16px] py-[6px] rounded-[20px] box-border text-[14px] font-semibold"
@@ -77,14 +92,14 @@ const PortfolioOutput = () => {
                                 {s.name}
                             </div>
                         ))}
-                    </p>
+                    </div>
                 </section>
                 <section className="flex w-full  gap-[12px] flex-col">
                     <h2 className="text-[24px] font-bold">본인소개</h2>
                     <div className="border p-[24px] rounded-[8px]">{portfolio.introductions}</div>
                 </section>
                 {portfolio.educations.some((c) => c.school || c.schoolStatus) && (
-                    <section className="w-full flex items-center gap-[12px]">
+                    <section className="w-full flex items-start gap-[12px]">
                         <div className="flex items-center gap-[12px]">
                             <h2 className="text-[24px] font-bold ">학력</h2>
                             <div className="border-r h-[14px] border-gray-300" />
@@ -194,7 +209,16 @@ const PortfolioOutput = () => {
             </div>
 
             <LikePost id={id} />
+            <BookMarkPortfolio id={id} />
             <TopBtn />
+            {isConfirmOpen && (
+                <CustomConfirm
+                    onAccept={handleDelete}
+                    onCancel={() => setIsConfirmOpen(false)}
+                    message="정말로 포트폴리오를 삭제하시겠습니까 ?"
+                    title="포트폴리오 삭제"
+                />
+            )}
         </main>
     );
 };

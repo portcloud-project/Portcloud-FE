@@ -8,12 +8,16 @@ import { FaTrashCan } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
 import { useDeletePortfolio } from '../hooks/useDeleteAllPortfolio';
 import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import CustomConfirm from './CustomConfirm';
 
 const MyPagePortfolio = () => {
     const { data, isLoading, isError, error } = useAllPortfolio();
     const deleteMutation = useDeletePortfolio();
     const router = useRouter();
     const queryClient = useQueryClient();
+    const [isOpenConfirm, setIsConfirm] = useState(false);
+    const [deleteId, setDeleteId] = useState('');
     if (data?.length === 0) {
         return <div>포트폴리오가 존재하지 않습니다</div>;
     }
@@ -32,7 +36,6 @@ const MyPagePortfolio = () => {
         );
     }
     const handleDelete = async (id: string) => {
-        if (!confirm('정말 삭제하시겠습니까?')) return;
         try {
             await deleteMutation.mutateAsync(id);
             await queryClient.invalidateQueries({ queryKey: ['allportfolio'] });
@@ -58,11 +61,11 @@ const MyPagePortfolio = () => {
                         ></div>
 
                         <div className="absolute bottom-0 left-0 right-0 h-[100px] bg-gradient-to-t from-black/60 to-transparent rounded-b-[20px] z-10 flex flex-col justify-end p-[24px] gap-[4px]">
-                            <p className="font-bold text-white text-[18px]">
+                            <div className="font-bold text-white text-[18px]">
                                 {portfolio.title}
                                 <p className="text-gray-100 text-[14px]">{portfolio.jopPosition}</p>
                                 <p>{dayjs(portfolio.createAt).format('YYYY-MM-DD')}</p>
-                            </p>
+                            </div>
                         </div>
                     </div>
 
@@ -79,17 +82,18 @@ const MyPagePortfolio = () => {
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
 
                         <div className="absolute bottom-0 left-0 right-0 h-[100px] rounded-b-[20px] z-10 flex flex-col justify-end p-[24px] gap-[4px]">
-                            <p className="font-bold text-white text-[18px]">
+                            <div className="font-bold text-white text-[18px]">
                                 {portfolio.title}
                                 <p className="text-gray-100 text-[14px]">{portfolio.jopPosition}</p>
                                 <p>{dayjs(portfolio.createAt).format('YYYY-MM-DD')}</p>
-                            </p>
+                            </div>
                         </div>
                         <div className="absolute inset-0 flex items-center justify-center z-10 text-white font-bold text-[18px] p-[24px] flex-col  ">
                             <p
                                 className="bg-purple-500  rounded-[100px] min-w-[72px] min-h-[72px] flex justify-center items-center"
                                 onClick={(e) => {
-                                    handleDelete(portfolio.id);
+                                    setIsConfirm(true);
+                                    setDeleteId(portfolio.id);
                                     e.stopPropagation();
                                 }}
                             >
@@ -101,6 +105,21 @@ const MyPagePortfolio = () => {
             ))}
             {data?.length && data?.length > 0 && !isLoading && !isError && (
                 <MypageAdd title="포트폴리오 업로드" route="/upload/portfolios" />
+            )}
+            {isOpenConfirm && deleteId && (
+                <CustomConfirm
+                    onAccept={() => {
+                        handleDelete(deleteId);
+                        setIsConfirm(false);
+                        setDeleteId('');
+                    }}
+                    onCancel={() => {
+                        setIsConfirm(false);
+                        setDeleteId('');
+                    }}
+                    title="포트폴리오 삭제"
+                    message="포트폴리오를 삭제하시겠습니까 ?"
+                />
             )}
         </div>
     );

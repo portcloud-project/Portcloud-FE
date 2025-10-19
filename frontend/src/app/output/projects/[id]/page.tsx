@@ -1,37 +1,33 @@
 'use client';
 
 // import { useForm } from 'react-hook-form';
-import LikePost from '@/app/customComponents/LikePost';
 import TopBtn from '@/app/customComponents/TopBtn';
-import CommentView from '@/app/customComponents/CommentView';
 import CommentProject from '@/app/customComponents/CommentProject';
 import { useProjectDetail } from '@/app/hooks/useProjectDetatil';
-// import Image from 'next/image';
-
-// interface ProjectsCommentsType {
-//     projectsComments: string;
-// }
+import { useDeleteProject } from '@/app/hooks/useDeleteProject';
+import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import Like from '@/app/customComponents/Like';
+import { useLikeProejct } from '@/app/hooks/useLikeProject';
+import CommentProjectView from '@/app/customComponents/CommentViewProject';
+import BookMarkProject from '@/app/customComponents/BookMarkProject';
+import dayjs from 'dayjs';
+import { useState } from 'react';
+import CustomConfirm from '@/app/customComponents/CustomConfirm';
+import LikePost from '@/app/customComponents/LikePostProject';
 
 const OutputProjects = (props: { params: { id: string } }) => {
     const id = props.params.id;
     const { data: project, isLoading, isError, error } = useProjectDetail(id);
+    const deleteMutation = useDeleteProject();
+    const router = useRouter();
+    const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+    const queryclient = useQueryClient();
+    const { data: like } = useLikeProejct(id);
+
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!project?.id) return <p>프로젝트가 삭제되었거나 찾을 수 없습니다.</p>;
-
-    // const {
-    //     watch,
-    //     register,
-    //     handleSubmit,
-    //     formState: { errors, isSubmitting },
-    // } = useForm<ProjectsCommentsType>({
-    //     mode: 'onChange',
-    //     reValidateMode: 'onChange',
-    // });
-
-    // const onCommentsSubmit = async () => {};
-
-    // const projectsComments = watch('projectsComments', '');
 
     const writeInfoArr = [
         {
@@ -40,9 +36,24 @@ const OutputProjects = (props: { params: { id: string } }) => {
         },
         {
             title: '작성기간',
-            value: `${project.createdAt}`,
+            value: `${dayjs(project.createdAt).format('YYYY-MM-DD')}`,
         },
     ];
+
+    const handleDelete = async () => {
+        if (!project?.owner) {
+            return alert('사용자 정보가 일치하지 않습니다');
+        }
+        try {
+            await deleteMutation.mutateAsync(id);
+            queryclient.invalidateQueries({
+                queryKey: ['recent_project', 'mainlist'],
+            });
+            router.push('/works/projects');
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     return (
         <main className="flex flex-col justify-start itmes-start w-[768px] h-auto gap-[48px]">
@@ -54,11 +65,12 @@ const OutputProjects = (props: { params: { id: string } }) => {
                         <h3 className="font-bold text-[40px] leading-[44px]">{project.title}</h3>
                     </span>
                     <span className="w-auto h-[104px]">
-                        {/* 분기처리 예정 */}
                         <div
-                            className={`w-[90px] h-[40px] border border-[var(--color-green-600)] text-[var(--color-green-600)] font-semibold text-[16px] flex justify-center items-center rounded-[20px]`}
+                            className={`w-[90px] h-[40px] border font-semibold text-[16px] flex justify-center items-center rounded-[20px]
+                                ${project?.distribution ? 'border-[var(--color-green-600)] text-[var(--color-green-600)]' : 'border-[var(--color-red-500)] text-[var(--color-red-500)]'}
+                                `}
                         >
-                            배포중
+                            {project?.distribution ? '배포중' : '배포 종료'}
                         </div>
                     </span>
                 </div>
@@ -82,12 +94,23 @@ const OutputProjects = (props: { params: { id: string } }) => {
                         })}
                         {/* 중간에 | 이거 넣어야함 예정 */}
                     </span>
-                    {/* 분기처리 예정 */}
-                    <span className="flex flex-row justify-start items-center gap-[8px] text-[16px] font-normal text-[var(--color-gray-500)]">
-                        <button className="cursor-pointer">수정</button>
-                        <span className="text[14px] text-[var(--color-gray-300)]">|</span>
-                        <button className="cursor-pointer">삭제</button>
-                    </span>
+                    {project?.owner && (
+                        <span className="flex flex-row justify-start items-center gap-[8px] text-[16px] font-normal text-[var(--color-gray-500)]">
+                            <button
+                                className="cursor-pointer"
+                                onClick={() => router.push(`/output/projects/${id}/edit`)}
+                            >
+                                수정
+                            </button>
+                            <span className="text[14px] text-[var(--color-gray-300)]">|</span>
+                            <button
+                                className="cursor-pointer"
+                                onClick={() => setIsOpenConfirm(true)}
+                            >
+                                삭제
+                            </button>
+                        </span>
+                    )}
                 </div>
                 {/* 밑줄 */}
                 <hr className="w-full h-[1px] text-[var(--color-gray-300)]" />
@@ -105,7 +128,16 @@ const OutputProjects = (props: { params: { id: string } }) => {
             {/* 담당역할, 스킬 section */}
             <section className="flex flex-row gap-[12px] w-full h-auto text-[var(--color-gray-900)] justify-start items-center">
                 <h3 className="font-bold text-[24px]">담당 역할: {project.role}</h3>
-                <span>스킬들</span>
+                <ul className="w-fit flex flex-row gap-[12px]">
+                    {project?.skills.map((a, i) => (
+                        <li
+                            className="w-[70px] h-[34px] rounded-[20px] flex justify-center items-center bg-[var(--color-purple-50)] text-[var(--color-purple-500)] font-bold text-[14px] whitespace-nowrap"
+                            key={i}
+                        >
+                            {a.name}
+                        </li>
+                    ))}
+                </ul>
             </section>
 
             {/* 프로젝트 내용 section */}
@@ -120,14 +152,14 @@ const OutputProjects = (props: { params: { id: string } }) => {
             <section className="flex flex-col gap-[12px] w-full h-auto text-[var(--color-gray-900)] justify-center items-start">
                 <h3 className="font-bold text-[24px]">영상</h3>
                 <div className="border border-[var(--color-gray-300)] w-full h-[312px] p-[24px] rounded-[8px] text-[16px] text-[var(--color-gray-900)] font-normal">
-                    {project.demonstrationVideo ? (
-                        project.demonstrationVideo.match(/\.(mp4|webm|ogg)$/i) ? (
+                    {project.demonstrationVideoUrl ? (
+                        project.demonstrationVideoUrl.match(/\.(mp4|webm|ogg)$/i) ? (
                             <video
-                                src={project.demonstrationVideo}
+                                src={`https://port-cloud.com/img/${project.demonstrationVideoUrl}`}
                                 controls
                                 className="w-full h-full object-contain rounded"
                             />
-                        ) : project.demonstrationVideo.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
+                        ) : project.demonstrationVideoUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
                             <div
                                 className="h-full w-auto"
                                 style={{
@@ -146,52 +178,24 @@ const OutputProjects = (props: { params: { id: string } }) => {
             {/* 밑줄 */}
             <hr className="w-full h-[1px] text-[var(--color-gray-300)]" />
 
-            {/* 댓글 section */}
-            {/* <section className="w-full h-auto">
-                <form
-                    onSubmit={handleSubmit(onCommentsSubmit)}
-                    className="w-full flex flex-col gap-[12px] justify-center items-start text-[var(--color-gray-900)] relative"
-                >
-                    <label className="font-bold text-[24px]">3개의 댓글</label>
-                    <textarea
-                        className={`border w-full h-[120px] p-[12px] rounded-[8px] text-[16px] text-[var(--color-gray-900)] font-normal resize-none transition duration-300 ease-in-out focus:outline-none focus:border-[var(--color-purple-500)] ${
-                            errors.projectsComments
-                                ? 'border-[var(--color-red-500)]'
-                                : 'border-[var(--color-gray-300)]'
-                        }`}
-                        maxLength={1000}
-                        {...register('projectsComments', {
-                            pattern: {
-                                value: /^(?!.*<[^>]*>)(?!.*https?:\/\/).+$/,
-                                message: '유효하지 않은 입력입니다. 태그와 외부 링크는 금지됩니다.',
-                            },
-                        })}
-                    />
-                    <div className="absolute left-0 top-[178px] text-[var(--color-gray-500)]">
-                        {projectsComments.length} / 1000
-                    </div>
-                    {errors.projectsComments && (
-                        <p className="text-sm text-[var(--color-red-500)] absolute right-[120px] top-[178px]">
-                            {errors.projectsComments.message}
-                        </p>
-                    )}
-                    <button
-                        className={`w-[108px] h-[48px] rounded-[8px] text-[16px] font-semibold transition duration-300 ease-in-out self-end ${projectsComments ? 'text-white border border-[var(--color-purple-500)] bg-[var(--color-purple-500)] hover:text-[var(--color-purple-500)] hover:bg-white cursor-pointer' : 'text-[var(--color-gray-400)] border border-[var(--color-gray-200)] bg-[var(--color-gray-100)] cursor-not-allowed'}`}
-                        type="submit"
-                        disabled={isSubmitting}
-                    >
-                        댓글 작성
-                    </button>
-                </form>
-            </section> */}
+            <Like likeData={like} />
             <section className="w-full flex ">
                 <CommentProject id={id} />
             </section>
             <section className="w-full flex ">
-                <CommentView id={id} />
+                <CommentProjectView id={id} />
             </section>
             <LikePost id={id} />
+            <BookMarkProject id={id} />
             <TopBtn />
+            {isOpenConfirm && (
+                <CustomConfirm
+                    onAccept={handleDelete}
+                    onCancel={() => setIsOpenConfirm(false)}
+                    title="프로젝트 삭제"
+                    message="정말로 프로젝트를 삭제하시겠습니까 ? "
+                />
+            )}
         </main>
     );
 };

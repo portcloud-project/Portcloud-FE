@@ -13,7 +13,6 @@ export async function DELETE(request: NextRequest) {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response.data);
         return NextResponse.json(response.data);
     } catch (error) {
         console.error('api 호출중 오류', error);

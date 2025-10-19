@@ -14,21 +14,22 @@ export async function POST(request: NextRequest) {
 
         const body = await request.json();
 
-        const payload = {
-            title: body.title,
-            content: body.content,
-            projectType: body.projectType ?? body.position,
-            recruitDeadline: body.recruitDeadline ?? body.endDate,
-            contactMethod: body.contactMethod ?? body.contact,
-            saveStatus: body.saveStatus,
-            skills: (body.skills ?? body.skill ?? [])
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                .filter((s: any) => s?.name?.trim())
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                .map((s: any) => s.name.trim()),
-        };
+        // const payload = {
+        //     title: body.title,
+        //     content: body.content,
+        //     recruitRoles: body.recruitRoles ?? body.recruitRoles,
+        //     projectType: body.projectType ?? body.position,
+        //     recruitDeadline: body.recruitDeadline ?? body.endDate,
+        //     contactMethod: body.contactMethod ?? body.contact,
+        //     saveStatus: body.saveStatus,
+        //     skills: (body.skills ?? body.skill ?? [])
+        //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        //         .filter((s: any) => s?.name?.trim())
+        //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        //         .map((s: any) => s.name.trim()),
+        // };
 
-        const response = await axios.post(`${BASE_URL}api/teampost`, payload, {
+        const response = await axios.post(`${BASE_URL}api/teampost`, body, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,

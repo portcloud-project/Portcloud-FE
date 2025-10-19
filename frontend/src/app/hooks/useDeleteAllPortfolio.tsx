@@ -10,6 +10,8 @@ export const useDeletePortfolio = () => {
         },
         onSuccess: (_data, id) => {
             queryClient.invalidateQueries({ queryKey: ['portfolioDetail', id] });
+            queryClient.invalidateQueries({ queryKey: ['mainportfolio'] });
+            queryClient.invalidateQueries({ queryKey: ['recent_portfolio'] });
         },
         onError: (err: unknown) => {
             console.error('삭제 실패', err);

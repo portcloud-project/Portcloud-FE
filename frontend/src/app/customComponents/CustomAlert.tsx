@@ -13,9 +13,9 @@ const CustomAlert: React.FC<CustomAlertProps> = ({
     message,
     title,
 
-    // errorMsg,
+    errorMsg,
     isLoading,
-    // isError,
+    isError,
     // onSucces,
 }) => {
     return (
@@ -23,10 +23,13 @@ const CustomAlert: React.FC<CustomAlertProps> = ({
             <div className="opacity-50 absolute inset-0 bg-black"></div>
             <div className="fixed z-50 top-[1/2] right-[1/2]  justify-center  flex gap-[24px] bg-white min-w-[400px] min-h-[200px] rounded-[8px] flex-col  items-center">
                 <div>{isLoading && <LoadingSpinner />}</div>
+                <div>{isError && <div>{errorMsg}</div>}</div>
                 <div className="flex gap-[8px] flex-col  items-center">
-                    <div className="text-[20px] font-bold">{title}</div>
+                    <div className="text-[20px] font-bold">{isLoading && <div>{title}</div>}</div>
 
-                    <div className="text-gray-500 text-[16px]">{message}</div>
+                    <div className="text-gray-500 text-[16px]">
+                        {isLoading ? message : '로그인을 다시 시도해 주십시오'}
+                    </div>
                 </div>
             </div>
         </main>
