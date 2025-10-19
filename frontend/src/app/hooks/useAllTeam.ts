@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { TeamDetailType } from './useTeamsDetail';
 
 const fetchAllTeam = async (): Promise<TeamDetailType[]> => {
-    const response = await axios.get<ApiResponse<TeamDetailType[]>>('/api/recentteam');
+    const response = await axios.get<ApiResponse<TeamDetailType[]>>('/api/allteam');
     if (response.data && Array.isArray(response.data.data)) {
         return response.data.data;
     } else {
