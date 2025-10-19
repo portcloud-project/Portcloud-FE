@@ -10,6 +10,7 @@ import EmailVerification from '../customComponents/Emailverification';
 import PrivateAccept from '../customComponents/PrivateAccept';
 import UseRule from '../customComponents/useRule';
 import CustomAlert from '../customComponents/CustomAlert';
+import { useRouter } from 'next/navigation';
 
 interface SignUpFormValuesType {
     email: string;
@@ -32,12 +33,14 @@ const Signup = () => {
     const [privateModal, setPrivateModal] = useState<boolean>(false);
     const [useRuleModal, setUseRuleModal] = useState<boolean>(false);
 
+    const router = useRouter();
+
     const methods = useForm<SignUpFormValuesType>({
         mode: 'all',
         reValidateMode: 'onChange',
         defaultValues: {
             email: '',
-            emailVerify: '',
+            verificationCode: '',
             password: '',
             passwordConfirm: '',
             name: '',
@@ -69,6 +72,7 @@ const Signup = () => {
         setIsLoading(true);
         if (!isVerified) {
             alert('이메일 인증을 완료해 주세요');
+            setIsLoading(false);
             return;
         }
 
@@ -84,12 +88,16 @@ const Signup = () => {
                 verificationCode: data.emailVerify,
             });
             console.log(res.status);
+
             alert('회원가입 성공!');
+            router.push('/');
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             setIsLoading(false);
         } catch (err) {
             alert('회원가입 실패');
             console.error('회원가입 에러내용:', err);
+        } finally {
+            setIsLoading(false);
         }
     };
 
