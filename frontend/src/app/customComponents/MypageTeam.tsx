@@ -1,5 +1,7 @@
 'use client';
 
+// TODO) api 올라와있는지 확인 후 다시 작업
+
 // import dayjs from 'dayjs';
 // import LoadingSpinner from './LoadingSpinner';
 // // import MypageAdd from './MypageAdd';
