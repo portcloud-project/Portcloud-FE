@@ -87,9 +87,7 @@ const Signup = () => {
                 agreeTerms: data.agreeTerms,
                 verificationCode: data.emailVerify,
             });
-            console.log(res.status);
-
-            alert('회원가입 성공!');
+            if(res.status === 200) alert('회원가입 성공!');
             router.push('/');
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             setIsLoading(false);

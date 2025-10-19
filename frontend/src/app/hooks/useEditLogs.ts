@@ -8,7 +8,6 @@ export const useLogsEdit = (id: string | null | string[]) =>
         mutationKey: ['logs-edit'],
         mutationFn: async (data: FormData) => {
             const token = Cookies.get('accessToken');
-            console.log(id);
             const response = await axios.put('/api/edit-logs', data, {
                 headers: {
                     Authorization: `Bearer ${token}`,

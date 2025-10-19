@@ -47,7 +47,6 @@ const EditTeams = (props: { params: { id: string } }) => {
         return a === 'RECRUITING' ? '모집 중' : '모집 마감';
     };
     const roleArr = ['Back-end', 'Front-end', 'Full-stack', 'PM', 'Designer'];
-    console.log(teams.recruitRoles);
 
     const writeInfoArr = [
         {
@@ -59,8 +58,6 @@ const EditTeams = (props: { params: { id: string } }) => {
             value: `${dayjs(teams?.createdAt).format('YYYY-MM-DD')}`,
         },
     ];
-
-    console.log(typeof teams?.recruits);
 
     const contactArr = [
         {
@@ -74,7 +71,6 @@ const EditTeams = (props: { params: { id: string } }) => {
     ];
 
     const handleEditSubmit = async (data: TeamDetailType) => {
-        console.log(data);
         try {
             mutate.mutateAsync(data);
         } catch (err) {

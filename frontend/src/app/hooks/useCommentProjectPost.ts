@@ -24,7 +24,7 @@ export const useCommentProjectPost = () => {
         },
         onSuccess: (_, variables: CommentPayload) => {
             queryclient.invalidateQueries({
-                queryKey: ['comment-view', variables.id],
+                queryKey: ['comment-view-project', variables.id],
             });
         },
     });

@@ -57,7 +57,6 @@ const LogsEdit = () => {
             formdata.append('content', data.content);
             formdata.append('category', data.category);
             formdata.append('blogStatus', data.blogStatus === '공개' ? '1' : '2');
-            console.log(Array.from(formdata.entries()));
             await mutate.mutateAsync(formdata);
             queryclient.invalidateQueries();
             router.push(`/output/logs/${id}`);

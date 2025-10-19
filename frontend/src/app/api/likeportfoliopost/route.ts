@@ -6,9 +6,6 @@ export async function POST(request: NextRequest) {
         const token = request.cookies.get('accessToken')?.value;
         const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
         const id = request.nextUrl.searchParams.get('id');
-
-        console.log(id);
-        console.log(token);
         const response = await axios.post(
             `${BASE_URL}api/portfolio/${id}/like`,
             {},

@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
     const id = request.nextUrl.searchParams.get('id');
     try {
         const token = request.cookies.get('accessToken')?.value;
-        const response = await axios.get(`${BASE_URL}api/teampost/${id}/comments`, {
+        const response = await axios.get(`${BASE_URL}api/project/${id}/comment`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

@@ -71,19 +71,6 @@ const Login = ({
         window.location.assign('/api/auth/google/url');
     };
 
-    // const fetch = async() => {
-    //     try {
-    //         const res = axios.get('/api/auth/google')
-    //         console.log(res);
-    //     } catch(err) {
-    //         console.error(err);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     fetch();
-    // }, [])
-
     return (
         <CardLayout setLoginModal={setLoginModal}>
             <Card

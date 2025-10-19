@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import { Control, Controller, useForm } from 'react-hook-form';
-import { useCommentPost } from '../hooks/useCommentPost';
-import { useCommentDelete } from '../hooks/useCommentDelete';
 import { useState } from 'react';
 import { CommentProps } from './Comment';
-import { useCommentView } from '../hooks/useCommentView';
+import { useCommentViewProject } from '../hooks/useCommentProjectView';
+import { useCommentProjectPost } from '../hooks/useCommentProjectPost';
+import { useCommentProjectDelete } from '../hooks/useCommentProjectDelete';
 
 interface CommentItem {
     id: string; // 객체 자체의 id
@@ -126,9 +126,9 @@ const CommentNode = ({
 };
 
 const CommentProjectView = ({ id }: CommentProps) => {
-    const { data } = useCommentView(id);
-    const { mutate } = useCommentPost();
-    const { mutate: deleteMutate } = useCommentDelete();
+    const { data } = useCommentViewProject(id);
+    const { mutate } = useCommentProjectPost();
+    const { mutate: deleteMutate } = useCommentProjectDelete();
     const { control, setValue } = useForm();
     const [repliesToggle, setRepliesToggle] = useState<Record<string, boolean>>({});
 

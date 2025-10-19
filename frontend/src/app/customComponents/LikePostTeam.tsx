@@ -11,7 +11,6 @@ const LikePostTeam = ({ id }: { id: string | string[] }) => {
 
     const handleLike = () => {
         if (!id) return;
-        console.log('likeCheck', likeCheck);
         if (likeCheck) {
             unlike(id, { onSuccess: () => refetch() });
         } else {

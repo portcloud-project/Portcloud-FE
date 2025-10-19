@@ -14,7 +14,6 @@ export async function PUT(req: NextRequest) {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response.data);
         return NextResponse.json(response.data, { status: response.status });
     } catch (err: unknown) {
         console.error(err);

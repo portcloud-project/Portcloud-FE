@@ -1,7 +1,7 @@
 'use client';
 
 // import { useForm } from 'react-hook-form';
-import LikePost from '@/app/customComponents/LikePost';
+// import LikePost from '@/app/customComponents/LikePost';
 import TopBtn from '@/app/customComponents/TopBtn';
 import CommentProject from '@/app/customComponents/CommentProject';
 import { useProjectDetail } from '@/app/hooks/useProjectDetatil';
@@ -185,7 +185,7 @@ const OutputProjects = (props: { params: { id: string } }) => {
             <section className="w-full flex ">
                 <CommentProjectView id={id} />
             </section>
-            <LikePost id={id} />
+            {/* <LikePost id={id} /> */}
             <BookMarkProject id={id} />
             <TopBtn />
             {isOpenConfirm && (

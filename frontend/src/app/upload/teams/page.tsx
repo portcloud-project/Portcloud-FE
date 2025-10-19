@@ -37,7 +37,6 @@ const UploadTeams = () => {
     const router = useRouter();
 
     const onSubmit = async (data: UploadTeamsFormValuesType) => {
-        console.log(data);
 
         try {
             const response = await axios.post('/api/teamupload', {

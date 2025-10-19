@@ -7,7 +7,6 @@ export async function POST(request: NextRequest) {
     const id = request.nextUrl.searchParams.get('id');
     try {
         const body = await request.json();
-        console.log(body);
         const response = await axios.post(`${BASE_URL}api/blogs/${id}/comments`, body, {
             headers: {
                 Authorization: `Bearer ${token}`,

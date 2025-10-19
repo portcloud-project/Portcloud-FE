@@ -24,7 +24,6 @@ const MainPortfolio = ({ title }: MainListProps) => {
             </div>
         );
     }
-    console.log(data);
     // mobile:grid mobile:grid-cols-2 mobile:grid-rows-2 tablet:flex tablet:flex-row tablet:gap-x-[24px] tablet:flex-nowrap tablet:justify-start tablet:overflow-x-auto laptop:overflow-hidden
     return (
         <div className="w-full flex flex-col ">

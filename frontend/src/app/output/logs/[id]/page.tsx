@@ -22,7 +22,6 @@ const LogsOutput = () => {
     const { data: logs, isLoading, isError, error } = useLogsDetail(id);
     const [isOpenConfirm, setIsOpenConfirm] = useState(false);
     const { data: like } = useLikeLogs(id);
-    console.log(logs?.id);
     const deleteMutation = useDeleteLogs();
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;

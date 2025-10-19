@@ -22,7 +22,6 @@ export async function GET(request: NextRequest) {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(res.data);
         const data = res.data.data;
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
