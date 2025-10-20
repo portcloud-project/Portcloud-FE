@@ -315,3 +315,120 @@ input[type='date']::-webkit-calendar-picker-indicator {
 @theme {
     --font-sans: 'Pretendard', system-ui, sans-serif;
 }
+.w-md-editor-toolbar {
+    background-color: var(--color-purple-50);
+}
+.w-md-editor {
+    height: 500px !important;
+    resize: none !important;
+}
+.w-md-editor-text-input {
+    height: 450px;
+    resize: none;
+}
+.w-md-editor-preview {
+    height: 450px;
+    resize: none;
+}
+
+.w-md-editor-text,
+.w-md-editor-preview,
+.w-md-editor-text-input,
+.markdown-body {
+    padding: 12px;
+}
+
+.w-md-editor-preview h1 {
+    font-size: 2rem; /* 32px */
+    font-weight: 700;
+    line-height: 1.3;
+}
+.w-md-editor-preview h2 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 600;
+    line-height: 1.35;
+}
+.w-md-editor-preview h3 {
+    font-size: 1.25rem; /* 20px */
+    font-weight: 600;
+    line-height: 1.4;
+}
+.w-md-editor-preview h4 {
+    font-size: 1rem; /* 16px */
+    font-weight: 500;
+    line-height: 1.5;
+}
+.wmde-markdown li,
+.wmde-markdown ol,
+.wmde-markdown ul {
+    font-size: 1rem; /* 16px */
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 0.5em; /* 아이템 간 간격 */
+    text-indent: 0.5rem;
+    list-style-position: inside;
+}
+
+.wmde-markdown ul li::marker {
+    content: '•'; /* 기본 disc */
+    font-size: 1rem; /* 크기 조절 */
+    font-weight: bold; /* 굵기 */
+}
+.wmde-markdown ol li {
+    counter-increment: li; /* 숫자 증가 */
+    position: relative; /* ::marker 위치 조절용 */
+}
+.wmde-markdown ol li::marker {
+    content: counter(li) '.'; /* 자동 숫자 */
+    font-size: 1rem;
+    font-weight: bold;
+}
+/* 출력 */
+.markdown-output li,
+.markdown-output ol,
+.markdown-output ul {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.5em;
+    padding-left: 0.5rem;
+}
+/* li ul ol */
+.markdown-output ol {
+    list-style: decimal;
+    padding-left: 1.5rem;
+}
+.markdown-output li {
+    counter-increment: li; /* 숫자 증가 */
+    position: relative; /* ::marker 위치 조절용 */
+}
+/* li ol ul marker */
+.markdown-output ol li::marker {
+    content: counter(li) '. ';
+    font-weight: bold;
+}
+.markdown-output ul li::marker {
+    content: '•';
+    font-weight: bold;
+}
+/* h1  ~ h4 */
+.markdown-output h1 {
+    font-size: 2rem; /* 32px */
+    font-weight: 700;
+    line-height: 1.3;
+}
+.markdown-output h2 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 600;
+    line-height: 1.35;
+}
+.markdown-output h3 {
+    font-size: 1.25rem; /* 20px */
+    font-weight: 600;
+    line-height: 1.4;
+}
+.markdown-output h4 {
+    font-size: 1rem; /* 16px */
+    font-weight: 500;
+    line-height: 1.5;
+}
+/* checkbox */

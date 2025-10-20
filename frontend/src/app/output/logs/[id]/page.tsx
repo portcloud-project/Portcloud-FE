@@ -75,7 +75,7 @@ const LogsOutput = () => {
                     </div>
                     <hr />
                 </section>
-                <section>
+                <section className="markdown-output">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{logs.content}</ReactMarkdown>
                 </section>
                 <hr />
