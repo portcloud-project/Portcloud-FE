@@ -70,7 +70,7 @@ const OutputProjects = (props: { params: { id: string } }) => {
                                 ${project?.distribution ? 'border-[var(--color-green-600)] text-[var(--color-green-600)]' : 'border-[var(--color-red-500)] text-[var(--color-red-500)]'}
                                 `}
                         >
-                            {project?.distribution ? '배포중' : '배포 종료'}
+                            {project?.distribution ? '배포 중' : '배포 종료'}
                         </div>
                     </span>
                 </div>

@@ -1,9 +1,11 @@
 'use client';
 
+import BookMarkTeam from '@/app/customComponents/BookMarkTeam';
 import CommentTeam from '@/app/customComponents/CommentTeam';
 import CommentViewTeam from '@/app/customComponents/CommentViewTeam';
 import Like from '@/app/customComponents/Like';
 import LikePostTeam from '@/app/customComponents/LikePostTeam';
+import TopBtn from '@/app/customComponents/TopBtn';
 import { useDeleteTeam } from '@/app/hooks/useDeleteTeam';
 import { useTeamDetail } from '@/app/hooks/useTeamsDetail';
 import { useQueryClient } from '@tanstack/react-query';
@@ -198,7 +200,8 @@ const OutputTeams = (props: { params: { id: string } }) => {
             {/* 좋아요 section */}
             <Like likeData={teams.likeCount} />
             <LikePostTeam id={id} />
-
+            <TopBtn />
+            <BookMarkTeam id={id} />
             {/* 댓글 section */}
             <section className="w-full flex ">
                 <CommentTeam id={id} />

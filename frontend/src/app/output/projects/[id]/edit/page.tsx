@@ -88,7 +88,7 @@ const ProjectsEdit = (props: { params: { id: string } }) => {
             formdata.append('description', data.description);
             formdata.append('role', data.role);
             formdata.append('projectURL', data.projectURL);
-            formdata.append('distribution', data.distribution ? 'true' : 'false');
+            formdata.append('distribution', data.distribution === '배포 중' ? 'true' : 'false');
             data.skills.forEach((item, i) => {
                 if (item.name) formdata.append(`skillIds[${i}]`, item.id);
             });
@@ -119,11 +119,21 @@ const ProjectsEdit = (props: { params: { id: string } }) => {
                             </span>
                             <span className="w-auto h-[104px]">
                                 <div
-                                    className={`w-[90px] h-[40px] border font-semibold text-[16px] flex justify-center items-center rounded-[20px]
-                                ${project?.distribution ? 'border-[var(--color-green-600)] text-[var(--color-green-600)]' : 'border-[var(--color-red-500)] text-[var(--color-red-500)]'}
+                                    className={`w-fit h-[40px] font-semibold text-[16px] flex justify-center items-center rounded-[20px]
+                                ${project?.distribution ? ' text-[var(--color-green-600)]' : ' text-[var(--color-red-500)]'}
                                 `}
                                 >
-                                    {project?.distribution ? '배포중' : '배포 종료'}
+                                    <UploadDropDown
+                                        arr={['배포 중', '배포 완료']}
+                                        width="w-full"
+                                        dropDownLabel=""
+                                        dropDownPlaceholoder=""
+                                        gap=""
+                                        height="h-[50px]"
+                                        name="distribution"
+                                        labelFont=""
+                                        labelText=""
+                                    />
                                 </div>
                             </span>
                         </div>

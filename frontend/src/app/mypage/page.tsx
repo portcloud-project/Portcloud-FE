@@ -202,6 +202,7 @@ const Mypage = () => {
                             <Image
                                 src={`https://port-cloud.com/img/${user.profileUrl}`}
                                 alt="profile"
+                                unoptimized
                                 fill
                                 className="object-cover rounded-full"
                             />
