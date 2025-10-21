@@ -100,6 +100,7 @@ const SearchSkill = ({
                     if (isChecked) onChange([...value, skill]);
                     else onChange(value.filter((s: Skills) => s.id !== skill.id));
                 };
+                console.log(value);
 
                 return (
                     <div
@@ -145,7 +146,6 @@ const SearchSkill = ({
                                         ))}
                                     </div>
                                 )}
-
                                 <div className="flex flex-wrap gap-2 mb-[16px]">
                                     {categories.map((cat) => (
                                         <button
@@ -167,7 +167,6 @@ const SearchSkill = ({
                                         </button>
                                     ))}
                                 </div>
-
                                 <ul
                                     id="skill-search-results"
                                     role="listbox"

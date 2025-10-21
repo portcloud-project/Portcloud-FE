@@ -48,7 +48,7 @@ const CommentNode = ({
     const handleToggleReplies = (id: string) => {
         setRepliesToggle((prev) => ({ ...prev, [id]: !prev[id] }));
     };
-
+    console.log(parentId);
     return (
         <div className={`${depth === 0 ? '' : 'bg-gray-50'} py-[24px] flex flex-col gap-[12px]`}>
             <div className="flex gap-[8px] items-center px-[24px]">

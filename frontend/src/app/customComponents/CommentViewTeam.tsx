@@ -22,7 +22,7 @@ interface CommentNodeProps {
     mutate: (payload: {
         id: string | string[]; // 게시글 id
         comment: string; //  댓글 내용
-        parentCommentId: string | null; // 부모코멘트 아이템의 id  대댓글이 아닌 첫 댓글일 경우 null로 전달
+        parent_id: string | null; // 부모코멘트 아이템의 id  대댓글이 아닌 첫 댓글일 경우 null로 전달
     }) => void; // 포트스 뮤테이트
     // eslint-disable-next-line no-unused-vars
     deleteMutate: (payload: { id: string | string[]; parentCommentId: string }) => void; // 댓글 삭제 뮤테이트 게시글 id 와 부모 코멘트 id 전달
@@ -85,7 +85,7 @@ const CommentNode = ({
                                 mutate({
                                     id: parentId,
                                     comment: field.value,
-                                    parentCommentId: comment.id,
+                                    parent_id: comment.id,
                                 });
                                 setValue(`comment_${comment.id}`, '');
                             }}

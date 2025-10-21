@@ -7,12 +7,16 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAllLogs } from '../hooks/useAllLogs';
 import { useDeleteLogs } from '../hooks/useDeleteAllLogs';
+import CustomConfirm from './CustomConfirm';
+import { useState } from 'react';
 
 const MyPageLogs = () => {
     const { data, isLoading, isError, error } = useAllLogs();
     const deleteMutation = useDeleteLogs();
     const router = useRouter();
     const queryClient = useQueryClient();
+    const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+    const [deleteId, setDeleteId] = useState('');
     if (data?.length === 0) {
         return <div>기록이 존재하지 않습니다</div>;
     }
@@ -31,12 +35,13 @@ const MyPageLogs = () => {
         );
     }
     const handleDelete = async (id: string) => {
-        if (!confirm('정말 삭제하시겠습니까?')) return;
         try {
             await deleteMutation.mutateAsync(id);
             await queryClient.invalidateQueries({ queryKey: ['alllogs'] });
+            setIsOpenConfirm(false);
         } catch (err) {
             console.error(err);
+            setIsOpenConfirm(false);
         }
     };
 
@@ -88,7 +93,8 @@ const MyPageLogs = () => {
                             <p
                                 className="bg-purple-500  rounded-[100px] min-w-[72px] min-h-[72px] flex justify-center items-center"
                                 onClick={(e) => {
-                                    handleDelete(logs.id);
+                                    setIsOpenConfirm(true);
+                                    setDeleteId(logs.id);
                                     e.stopPropagation();
                                 }}
                             >
@@ -98,6 +104,14 @@ const MyPageLogs = () => {
                     </div>
                 </div>
             ))}
+            {isOpenConfirm && (
+                <CustomConfirm
+                    onAccept={() => handleDelete(deleteId)}
+                    onCancel={() => setIsOpenConfirm(false)}
+                    title="기록 삭제"
+                    message="기록을 삭제하시겠습니까 ?"
+                />
+            )}
         </div>
     );
 };

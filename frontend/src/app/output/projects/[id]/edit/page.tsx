@@ -12,6 +12,8 @@ import { useEffect } from 'react';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 import { useEditProject } from '@/app/hooks/useEditProject';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import SearchSkill from '@/app/customComponents/SearchSkill';
 
 const ProjectsEdit = (props: { params: { id: string } }) => {
     const id = props.params.id;
@@ -19,6 +21,7 @@ const ProjectsEdit = (props: { params: { id: string } }) => {
     const mutate = useEditProject(id);
     const { data: like } = useLikeProejct(id);
     const router = useRouter();
+    const queryclient = useQueryClient();
     const method = useForm<UploadProjectsFormValuesType>({
         defaultValues: {
             title: '',
@@ -86,8 +89,13 @@ const ProjectsEdit = (props: { params: { id: string } }) => {
             formdata.append('role', data.role);
             formdata.append('projectURL', data.projectURL);
             formdata.append('distribution', data.distribution ? 'true' : 'false');
+            data.skills.forEach((item, i) => {
+                if (item.name) formdata.append(`skillIds[${i}]`, item.id);
+            });
 
             await mutate.mutateAsync(formdata);
+            queryclient.invalidateQueries();
+            router.push(`/output/projects/${id}`);
         } catch (err) {
             console.error(err);
             throw err;
@@ -202,6 +210,9 @@ const ProjectsEdit = (props: { params: { id: string } }) => {
                                 </li>
                             ))}
                         </ul>
+                    </section>
+                    <section>
+                        <SearchSkill fieldName="skills" />
                     </section>
                     <section className="flex flex-row gap-[12px] w-full h-auto text-[var(--color-gray-900)] justify-start items-center">
                         <h3 className="font-bold text-[24px]">Url</h3>
