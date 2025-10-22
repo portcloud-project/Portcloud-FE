@@ -9,6 +9,7 @@ import { useAllLogs } from '../hooks/useAllLogs';
 import { useDeleteLogs } from '../hooks/useDeleteAllLogs';
 import CustomConfirm from './CustomConfirm';
 import { useState } from 'react';
+import { userStore } from '../stores/userStore';
 
 const MyPageLogs = () => {
     const { data, isLoading, isError, error } = useAllLogs();
@@ -17,8 +18,16 @@ const MyPageLogs = () => {
     const queryClient = useQueryClient();
     const [isOpenConfirm, setIsOpenConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState('');
+    const user = userStore((state) => state.user);
     if (data?.length === 0) {
         return <div>기록이 존재하지 않습니다</div>;
+    }
+    if (!user.name && !user.nickname && !user.sub) {
+        return (
+            <div className="flex justify-center items-center w-full h-screen">
+                로그인 후에 이용가능한 기능입니다.
+            </div>
+        );
     }
     if (isLoading) {
         return (

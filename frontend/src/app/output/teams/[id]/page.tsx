@@ -9,6 +9,7 @@ import TopBtn from '@/app/customComponents/TopBtn';
 import { useDeleteTeam } from '@/app/hooks/useDeleteTeam';
 import { useTeamDetail } from '@/app/hooks/useTeamsDetail';
 import { useQueryClient } from '@tanstack/react-query';
+import Cookies from 'js-cookie';
 
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
@@ -19,6 +20,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
     const deleteMutation = useDeleteTeam();
     const router = useRouter();
     const queryclient = useQueryClient();
+    const token = Cookies.get('accessToken');
 
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
@@ -199,13 +201,20 @@ const OutputTeams = (props: { params: { id: string } }) => {
 
             {/* 좋아요 section */}
             <Like likeData={teams.likeCount} />
-            <LikePostTeam id={id} />
+
             <TopBtn />
-            <BookMarkTeam id={id} />
+            {token && (
+                <div>
+                    <LikePostTeam id={id} />
+                    <BookMarkTeam id={id} />
+                </div>
+            )}
             {/* 댓글 section */}
-            <section className="w-full flex ">
-                <CommentTeam id={id} />
-            </section>
+            {token && (
+                <section className="w-full flex ">
+                    <CommentTeam id={id} />
+                </section>
+            )}
             <section className="w-full flex ">
                 <CommentViewTeam id={id} />
             </section>

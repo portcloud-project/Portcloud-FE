@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import CustomConfirm from '@/app/customComponents/CustomConfirm';
 import LikePost from '@/app/customComponents/LikePostProject';
+import Cookies from 'js-cookie';
 
 const OutputProjects = (props: { params: { id: string } }) => {
     const id = props.params.id;
@@ -24,6 +25,7 @@ const OutputProjects = (props: { params: { id: string } }) => {
     const [isOpenConfirm, setIsOpenConfirm] = useState(false);
     const queryclient = useQueryClient();
     const { data: like } = useLikeProejct(id);
+    const token = Cookies.get('accessToken');
 
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
@@ -179,14 +181,20 @@ const OutputProjects = (props: { params: { id: string } }) => {
             <hr className="w-full h-[1px] text-[var(--color-gray-300)]" />
 
             <Like likeData={like} />
-            <section className="w-full flex ">
-                <CommentProject id={id} />
-            </section>
+            {token && (
+                <section className="w-full flex ">
+                    <CommentProject id={id} />
+                </section>
+            )}
             <section className="w-full flex ">
                 <CommentProjectView id={id} />
             </section>
-            <LikePost id={id} />
-            <BookMarkProject id={id} />
+            {token && (
+                <div>
+                    <LikePost id={id} />
+                    <BookMarkProject id={id} />
+                </div>
+            )}
             <TopBtn />
             {isOpenConfirm && (
                 <CustomConfirm

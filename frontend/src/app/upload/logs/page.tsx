@@ -2,13 +2,13 @@
 
 import LogsModal from '@/app/customComponents/LogsModal';
 import MarkdownEditor from '@/app/customComponents/MarkdownEditor';
+import { userStore } from '@/app/stores/userStore';
 import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 import { useState } from 'react';
 import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
-
 export interface UploadLogsFormValuesType {
     title: string;
     content: string;
@@ -32,6 +32,14 @@ const UploadLogs = () => {
     const router = useRouter();
     const queryclient = useQueryClient();
     const [isLoding, setIsLoading] = useState(false);
+    const user = userStore((state) => state.user);
+    if (!user.name && !user.nickname && !user.sub) {
+        return (
+            <div className="flex justify-center items-center w-full h-screen">
+                로그인 후에 이용가능한 기능입니다.
+            </div>
+        );
+    }
 
     const {
         handleSubmit,

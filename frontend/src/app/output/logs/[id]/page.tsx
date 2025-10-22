@@ -14,7 +14,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-
+import Cookies from 'js-cookie';
 const LogsOutput = () => {
     const params = useParams();
     const router = useRouter();
@@ -23,6 +23,7 @@ const LogsOutput = () => {
     const [isOpenConfirm, setIsOpenConfirm] = useState(false);
     const { data: like } = useLikeLogs(id);
     const deleteMutation = useDeleteLogs();
+    const token = Cookies.get('accessToken');
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
     if (!logs?.id) return <p>기록이 삭제되었거나 찾을 수 없습니다.</p>;
@@ -80,11 +81,15 @@ const LogsOutput = () => {
                 </section>
                 <hr />
                 <Like likeData={like} />
-                <CommentLogs id={id} />
+                {token && <CommentLogs id={id} />}
                 <CommentViewLogs id={id} />
             </div>
-            <LikePostLogs id={id} />
-            <BookMarkLogs id={id} />
+            {token && (
+                <div>
+                    <LikePostLogs id={id} />
+                    <BookMarkLogs id={id} />
+                </div>
+            )}
             <TopBtn />
             {isOpenConfirm && (
                 <CustomConfirm
