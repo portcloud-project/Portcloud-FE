@@ -35,7 +35,7 @@ const UserPortfolios = () => {
     console.log(filteredItems);
     return (
         <section className="flex gap-[48px] flex-col justify-center items-center px-[24px]">
-            {!searchTitle && (
+            {!searchTitle && filteredItems.length > 0 && (
                 <div className="w-full flex flex-col gap-[48px] justify-center items-center ">
                     <MainPortfolio title={'추천 포트폴리오'} />
                     <RecentPortfolio title={'최신 포트폴리오'} items={filteredItems} />
@@ -55,7 +55,11 @@ const UserPortfolios = () => {
                     <div className="text-[40px] font-bold">
                         아직 포트폴리오가 등록되지 않았어요!
                     </div>
-                    <div className="text-[28px] font-bold">{searchTitle}에 대한 검색 결과 0건</div>
+                    {searchTitle && (
+                        <div className="text-[28px] font-bold">
+                            {searchTitle}에 대한 검색 결과 0건
+                        </div>
+                    )}
                 </div>
             )}
             <div ref={ref}>{isFetchingNextPage && <p>데이터를 받아오는 중....</p>}</div>

@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
         if (!token) {
             return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
         }
-        const response = await axios.get(`${BASE_URL}api/mypage/portfolio`, {
+        const response = await axios.get(`${BASE_URL}api/mypage/activity/like`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -17,7 +17,9 @@ export async function GET(request: NextRequest) {
         console.log(response.data);
         return NextResponse.json(response.data);
     } catch (error) {
-        console.error('api 호출중 오류', error);
+        if (axios.isAxiosError(error) && error.response?.status === 404) {
+            return NextResponse.json(error.message);
+        }
         throw error;
     }
 }

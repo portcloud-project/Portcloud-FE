@@ -17,8 +17,10 @@ const fetchAllLogs = async (): Promise<AllLogs[]> => {
         const response = await axios.get<ApiResponse<AllLogs[]>>('/api/allLogs');
         if (response.data && Array.isArray(response.data.data)) {
             return response.data.data;
+        } else if (response.data.status === 404) {
+            throw new Error('기록이 존재하지 않습니다.');
         } else {
-            throw new Error('API 응답 형식이 올바르지 않습니다.');
+            throw new Error(response.data.message || '오류가 발생하였습니다.');
         }
     } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 404) {

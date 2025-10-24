@@ -16,6 +16,7 @@ import MypageTeam from '../customComponents/MypageTeam';
 import { useQueryClient } from '@tanstack/react-query';
 import MypageBookMark from '../customComponents/MypageBookMark';
 import Cookies from 'js-cookie';
+import MyActivityLike from '../customComponents/MyActivityLike';
 
 interface NewPasswordFormValuesType {
     password: string;
@@ -96,6 +97,16 @@ const Mypage = () => {
         { value: 'teams', title: '팀 관리' },
         { value: 'myActivity', title: '내 활동' },
         { value: 'settings', title: '설정' },
+    ];
+    const innerTapsActivityArr = [
+        {
+            value: 'like',
+            title: '좋아요',
+        },
+        {
+            value: 'comment',
+            title: '댓글',
+        },
     ];
     const user = userStore((state) => state.user);
     const logout = () => {
@@ -251,7 +262,26 @@ const Mypage = () => {
                     <MypageTeam />
                     <MypageAdd title="팀 구하기 업로드" route="/upload/teams" />
                 </TabsContent>
-                <TabsContent value="myActivity">여긴 내 활동</TabsContent>
+                <TabsContent value="myActivity" className="p-[20px]">
+                    <Tabs defaultValue="like" className="flex flex-col gap-[12px]">
+                        <TabsList className="flex w-full flex-row shadow-none border-none">
+                            {innerTapsActivityArr.map((a, i) => {
+                                return (
+                                    <TabsTrigger
+                                        key={i}
+                                        value={a.value}
+                                        className="flex w-[50%] justify-center border-b-2 border-t-0 border-r-0 shadow-none  data-[state=active]:border-purple-500"
+                                    >
+                                        {a.title}
+                                    </TabsTrigger>
+                                );
+                            })}
+                        </TabsList>
+                        <TabsContent value="like" className="flex justify-start">
+                            <MyActivityLike />
+                        </TabsContent>
+                    </Tabs>
+                </TabsContent>
                 <TabsContent value="settings" className="overflow-y-auto p-[32px]">
                     <div className="flex flex-col justify-start items-start gap-[32px]">
                         <h3 className="font-bold text-[24px] text-[var(--color-gray-900)]">설정</h3>

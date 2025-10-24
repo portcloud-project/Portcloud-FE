@@ -156,16 +156,16 @@ const OutputTeams = (props: { params: { id: string } }) => {
                         >
                             <h3 className="font-semibold whitespace-nowrap">필요 스킬</h3>
                             <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
-                            <p className="font-normal flex gap-[8px] ">
+                            <div className="font-normal flex gap-[8px] ">
                                 {a.skills.map((a, idx) => (
-                                    <div
+                                    <p
                                         key={`${a}_skill_${idx}`}
                                         className="flex text-purple-500 bg-purple-50 px-[16px] py-[6px] rounded-[20px] box-border text-[14px] font-semibold"
                                     >
                                         {a}
-                                    </div>
+                                    </p>
                                 ))}
-                            </p>
+                            </div>
                         </div>
                         <div
                             className={`flex justify-center  items-center w-[72px] h-[34px] border rounded-full absolute top-[18px] right-[20px] ${teams?.recruitStatus === 'RECRUITING' ? 'border-[var(--color-purple-500)] bg-[var(--color-purple-50)]' : 'border-[var(--color-gray-400)] bg-[var(--color-gray-100)]'}`}
