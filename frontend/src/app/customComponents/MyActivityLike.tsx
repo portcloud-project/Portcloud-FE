@@ -9,8 +9,12 @@ import { useActivityLike } from '../hooks/useActivityLike';
 const MyActivityLike = () => {
     const { data, isLoading, isError, error } = useActivityLike();
     const router = useRouter();
-    if (data?.length === 0) {
-        return <div>활동 기록이 없습니다.</div>;
+    if (!data || data?.length === 0) {
+        return (
+            <div className="absolute top-1/2 left-1/2 translate-x-1/2">
+                좋아요한 게시글이 없습니다.
+            </div>
+        );
     }
     if (isLoading) {
         return (
@@ -45,6 +49,7 @@ const MyActivityLike = () => {
             router.push(`/output/${path}/${id}`);
         }
     };
+
     return (
         <div className="flex flex-wrap gap-[12px]">
             {data?.map((active) => (
