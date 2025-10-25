@@ -18,8 +18,7 @@ const fetchAllProject = async (): Promise<UploadProjectsFormValuesType[]> => {
 
     // 2) 스키마 방어
     const maybe = res.data as any;
-    const content =
-        maybe?.data?.content ?? maybe?.content; // { data: { content: [] } } // { content: [] }
+    const content = maybe?.data?.content ?? maybe?.content;
 
     if (Array.isArray(content)) return content;
 
