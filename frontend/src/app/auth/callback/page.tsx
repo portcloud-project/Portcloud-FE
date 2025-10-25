@@ -1,5 +1,5 @@
-// app/auth/callback/page.tsx
 'use client';
+
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -10,7 +10,7 @@ export default function AuthCallback() {
     useEffect(() => {
         const code = sp.get('code');
         const error = sp.get('error');
-        const provider = (sp.get('provider') ?? 'google').toLowerCase();
+        // const provider = (sp.get('provider') ?? 'google').toLowerCase();
 
         if (error) {
             router.replace(`/login?error=${encodeURIComponent(error)}`);
@@ -21,11 +21,12 @@ export default function AuthCallback() {
             return;
         }
 
-        const url = new URL(`/api/auth/${provider}/callback`, window.location.origin);
+        // 브라우저 → Next API 콜백 프록시 → (302) 백엔드 콜백
+        const url = new URL(`/api/auth/google/callback`, window.location.origin);
         url.searchParams.set('code', code);
         url.searchParams.set('redirect', `${window.location.origin}/auth/callback/done`);
         window.location.replace(url.toString());
     }, [sp, router]);
 
-    return <p className="p-6">로그인 처리 중…</p>;
+    return <p className="p-6">구글 로그인 처리 중입니다…</p>;
 }
