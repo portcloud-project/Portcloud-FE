@@ -1,11 +1,15 @@
 'use client';
 
+import BookMarkTeam from '@/app/customComponents/BookMarkTeam';
 import CommentTeam from '@/app/customComponents/CommentTeam';
 import CommentViewTeam from '@/app/customComponents/CommentViewTeam';
 import Like from '@/app/customComponents/Like';
 import LikePostTeam from '@/app/customComponents/LikePostTeam';
+import TopBtn from '@/app/customComponents/TopBtn';
 import { useDeleteTeam } from '@/app/hooks/useDeleteTeam';
 import { useTeamDetail } from '@/app/hooks/useTeamsDetail';
+import { useQueryClient } from '@tanstack/react-query';
+import Cookies from 'js-cookie';
 
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
@@ -15,6 +19,8 @@ const OutputTeams = (props: { params: { id: string } }) => {
     const { data: teams, isLoading, isError, error } = useTeamDetail(id);
     const deleteMutation = useDeleteTeam();
     const router = useRouter();
+    const queryclient = useQueryClient();
+    const token = Cookies.get('accessToken');
 
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
@@ -27,7 +33,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
         }
         try {
             await deleteMutation.mutateAsync(id);
-            alert('해당 팀 구하기가 삭제되었습니다.');
+            queryclient.invalidateQueries();
             router.push('/works/teams');
         } catch (err) {
             console.error(err);
@@ -146,11 +152,20 @@ const OutputTeams = (props: { params: { id: string } }) => {
                         </div>
                         <div
                             key={i}
-                            className="w-fit h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]"
+                            className="w-full h-auto flex justify-start items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]"
                         >
                             <h3 className="font-semibold whitespace-nowrap">필요 스킬</h3>
                             <span className="text-[var(--color-gray-300)] text-[14px]">|</span>
-                            <p className="font-normal">{a.skills.map((a) => ` ${a}`)}</p>
+                            <div className="font-normal flex gap-[8px] ">
+                                {a.skills.map((a, idx) => (
+                                    <p
+                                        key={`${a}_skill_${idx}`}
+                                        className="flex text-purple-500 bg-purple-50 px-[16px] py-[6px] rounded-[20px] box-border text-[14px] font-semibold"
+                                    >
+                                        {a}
+                                    </p>
+                                ))}
+                            </div>
                         </div>
                         <div
                             className={`flex justify-center  items-center w-[72px] h-[34px] border rounded-full absolute top-[18px] right-[20px] ${teams?.recruitStatus === 'RECRUITING' ? 'border-[var(--color-purple-500)] bg-[var(--color-purple-50)]' : 'border-[var(--color-gray-400)] bg-[var(--color-gray-100)]'}`}
@@ -185,13 +200,21 @@ const OutputTeams = (props: { params: { id: string } }) => {
             <hr className="w-full h-[1px] text-[var(--color-gray-300)]" />
 
             {/* 좋아요 section */}
-            <Like likeData={teams.liked} />
-            <LikePostTeam id={id} />
+            <Like likeData={teams.likeCount} />
 
+            <TopBtn />
+            {token && (
+                <div>
+                    <LikePostTeam id={id} />
+                    <BookMarkTeam id={id} />
+                </div>
+            )}
             {/* 댓글 section */}
-            <section className="w-full flex ">
-                <CommentTeam id={id} />
-            </section>
+            {token && (
+                <section className="w-full flex ">
+                    <CommentTeam id={id} />
+                </section>
+            )}
             <section className="w-full flex ">
                 <CommentViewTeam id={id} />
             </section>

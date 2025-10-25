@@ -1,6 +1,8 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { commands } from '@uiw/react-md-editor';
+
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import { useId } from 'react';
@@ -48,7 +50,7 @@ const MarkdownEditor = ({
                 {dropDownLabel}
             </label>
 
-            <div data-color-mode="light" className="w-full">
+            <div data-color-mode="light" className="w-full ">
                 <MDEditor
                     // a11y
                     id={inputId}
@@ -61,8 +63,21 @@ const MarkdownEditor = ({
                     // UI
                     height={editorHeight}
                     defaultValue={defaultValue}
-                    preview="live"
-                    className={`border rounded-[8px] overflow-hidden transition duration-300 ease-in-out
+                    preview="edit"
+                    commands={[
+                        commands.bold, // **굵게**
+                        commands.italic, // *기울임*
+                        commands.strikethrough, // ~~취소선~~
+                        commands.code, // `코드`
+                        commands.quote, // > 인용
+                        commands.link, // [링크](url)
+                        commands.image, // ![이미지](url)
+                        commands.hr, // 수평선
+                        commands.unorderedListCommand, // 리스트
+                        commands.orderedListCommand, // 번호 리스트
+                        commands.checkedListCommand, // 체크리스트
+                    ]}
+                    className={`border rounded-[8px] overflow-hidden transition duration-300 ease-in-out resize-none
                         
             ${
                 error

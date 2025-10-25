@@ -29,14 +29,10 @@ function normalizeToArray(payload: any): { data: any[]; sourceKey: string | null
 }
 
 export async function GET(request: NextRequest) {
-    const BASE_URL =
-        process.env.NEXT_PUBLIC_BASE_URL || process.env.BASE_URL;
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || process.env.BASE_URL;
 
     if (!BASE_URL) {
-        return NextResponse.json(
-            { error: '서버 설정 오류: BASE_URL 누락' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: '서버 설정 오류: BASE_URL 누락' }, { status: 500 });
     }
 
     try {
@@ -63,7 +59,7 @@ export async function GET(request: NextRequest) {
                     status: upstream.status,
                     detail: upstream.data,
                 },
-                { status: 502 }
+                { status: 502 },
             );
         }
 
@@ -71,8 +67,8 @@ export async function GET(request: NextRequest) {
         const { data, sourceKey } = normalizeToArray(raw);
 
         return NextResponse.json({
-            data,                        // ✅ 항상 배열
-            meta: { sourceKey },         // 어디서 뽑았는지 추적용(선택)
+            data, // ✅ 항상 배열
+            meta: { sourceKey }, // 어디서 뽑았는지 추적용(선택)
         });
     } catch (err: any) {
         // 네트워크/타임아웃 등
@@ -81,7 +77,7 @@ export async function GET(request: NextRequest) {
                 error: '서버 오류',
                 detail: err?.message ?? 'unknown',
             },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }

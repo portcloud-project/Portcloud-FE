@@ -1,19 +1,20 @@
-import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
+import axios from 'axios';
 
-export async function GET(request: NextRequest) {
+export async function PATCH(request: NextRequest) {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-    const id = request.nextUrl.searchParams.get('id');
+    const token = request.cookies.get('accessToken')?.value;
+    const body = await request.json();
     try {
-        const token = request.cookies.get('accessToken')?.value;
-        const response = await axios.get(`${BASE_URL}api/portfolio/${id}/comment`, {
+        const response = await axios.patch(`${BASE_URL}api/user/change-password`, body, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response.data);
+
         return NextResponse.json(response.data);
     } catch (err) {
         console.error(err);
+        throw err;
     }
 }

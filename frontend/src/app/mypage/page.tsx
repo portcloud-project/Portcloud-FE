@@ -4,7 +4,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MypageAdd from '../customComponents/MypageAdd';
 import { userStore } from '../stores/userStore';
 import MyPagePortfolio from '../customComponents/MypagePortfolio';
-import MypageLogs from '../customComponents/MypageLogs';
 import MypageUserProfile from '../customComponents/MypageUserProfile';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useState } from 'react';
@@ -15,6 +14,9 @@ import Image from 'next/image';
 import MypageProject from '../customComponents/MypageProject';
 import MypageTeam from '../customComponents/MypageTeam';
 import { useQueryClient } from '@tanstack/react-query';
+import MypageBookMark from '../customComponents/MypageBookMark';
+import Cookies from 'js-cookie';
+import MyActivityLike from '../customComponents/MyActivityLike';
 
 interface NewPasswordFormValuesType {
     password: string;
@@ -65,6 +67,8 @@ const Mypage = () => {
         // handleSubmit,
         watch,
         getValues,
+        handleSubmit,
+        reset,
         formState: { errors, isSubmitting },
     } = methods;
 
@@ -94,7 +98,23 @@ const Mypage = () => {
         { value: 'myActivity', title: '내 활동' },
         { value: 'settings', title: '설정' },
     ];
+    const innerTapsActivityArr = [
+        {
+            value: 'like',
+            title: '좋아요',
+        },
+        {
+            value: 'comment',
+            title: '댓글',
+        },
+    ];
     const user = userStore((state) => state.user);
+    const logout = () => {
+        Cookies.remove('accessToken');
+        queryclient.setQueryData(['user'], null);
+        queryclient.invalidateQueries();
+        userStore.getState().clearUser();
+    };
 
     const onWithDrawSubmit = async (data: WithDrawFormValuesType) => {
         const code = getValuesWd('emailVerify');
@@ -106,10 +126,10 @@ const Mypage = () => {
             });
 
             if (res.status === 200) {
-                alert('탈퇴 성공');
                 queryclient.invalidateQueries();
+                logout();
             } else {
-                alert('탈퇴 실패');
+                console.error('오류발생');
             }
         } catch (err) {
             console.error(err);
@@ -154,6 +174,22 @@ const Mypage = () => {
             setVerifying(false);
         }
     };
+    const handleChangePassword = async (data: NewPasswordFormValuesType) => {
+        try {
+            const payload = {
+                currentPassword: data.password,
+                newPassword: data.newPassword,
+                newPasswordConfirm: data.newPasswordConfirm,
+            };
+            const response = await axios.patch('/api/change-password', payload);
+            logout();
+            reset();
+            return response.data;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    };
 
     if (!user.name && !user.nickname && !user.sub) {
         return (
@@ -177,6 +213,7 @@ const Mypage = () => {
                             <Image
                                 src={`https://port-cloud.com/img/${user.profileUrl}`}
                                 alt="profile"
+                                unoptimized
                                 fill
                                 className="object-cover rounded-full"
                             />
@@ -212,7 +249,7 @@ const Mypage = () => {
                     <MypageUserProfile />
                 </TabsContent>
                 <TabsContent value="bookMarks" className="overflow-y-auto p-[20px]">
-                    <MypageLogs />
+                    <MypageBookMark />
                 </TabsContent>
                 <TabsContent value="portfolios" className="overflow-y-auto p-[20px]">
                     <MyPagePortfolio />
@@ -225,13 +262,35 @@ const Mypage = () => {
                     <MypageTeam />
                     <MypageAdd title="팀 구하기 업로드" route="/upload/teams" />
                 </TabsContent>
-                <TabsContent value="myActivity">여긴 내 활동</TabsContent>
+                <TabsContent value="myActivity" className="p-[20px]">
+                    <Tabs defaultValue="like" className="flex flex-col gap-[12px]">
+                        <TabsList className="flex w-full flex-row shadow-none border-none">
+                            {innerTapsActivityArr.map((a, i) => {
+                                return (
+                                    <TabsTrigger
+                                        key={i}
+                                        value={a.value}
+                                        className="flex w-[50%] justify-center border-b-2 border-t-0 border-r-0 shadow-none  data-[state=active]:border-purple-500"
+                                    >
+                                        {a.title}
+                                    </TabsTrigger>
+                                );
+                            })}
+                        </TabsList>
+                        <TabsContent value="like" className="flex justify-start">
+                            <MyActivityLike />
+                        </TabsContent>
+                    </Tabs>
+                </TabsContent>
                 <TabsContent value="settings" className="overflow-y-auto p-[32px]">
                     <div className="flex flex-col justify-start items-start gap-[32px]">
                         <h3 className="font-bold text-[24px] text-[var(--color-gray-900)]">설정</h3>
                         {/* 비밀변호 변경 section */}
                         <FormProvider {...methods}>
-                            <form className="flex flex-col gap-[12px] w-[1001px] h-auto">
+                            <form
+                                className="flex flex-col gap-[12px] w-[1001px] h-auto"
+                                onSubmit={handleSubmit(handleChangePassword)}
+                            >
                                 <h3 className="font-bold text-[20px] text-[var(--color-gray-900)]">
                                     비밀번호 수정
                                 </h3>
@@ -353,7 +412,7 @@ const Mypage = () => {
                                             {...register('newPasswordConfirm', {
                                                 required: '비밀번호가 일치해야 합니다',
                                                 validate: (value) =>
-                                                    value === getValues('password') ||
+                                                    value === getValues('newPassword') ||
                                                     '비밀번호가 일치하지 않습니다',
                                             })}
                                         />

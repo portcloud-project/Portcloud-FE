@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import CustomAlert from '@/app/customComponents/CustomAlert';
 import { useQueryClient } from '@tanstack/react-query';
+import { userStore } from '@/app/stores/userStore';
 
 export interface UploadProjectsFormValuesType {
     title: string;
@@ -38,6 +39,7 @@ const UploadProjects = () => {
     const projectPositionArr = ['', 'Front-end-개발', 'Back-end-개발', 'PM-기획', 'UI/UX-디자인'];
     const peopleArr = [...Array.from({ length: 9 }, (_, i) => `${i + 1}명`), '10명 이상'];
     const queryclient = useQueryClient();
+    const user = userStore((state) => state.user);
 
     const methods = useForm<UploadProjectsFormValuesType>({
         defaultValues: {
@@ -64,6 +66,13 @@ const UploadProjects = () => {
 
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    if (!user.name && !user.nickname && !user.sub) {
+        return (
+            <div className="flex justify-center items-center w-full h-screen">
+                로그인 후에 이용가능한 기능입니다.
+            </div>
+        );
+    }
 
     const onUploadProjectsSubmit = async (data: UploadProjectsFormValuesType) => {
         try {

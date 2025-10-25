@@ -51,7 +51,8 @@ const UserTeams = () => {
     //   const categoryFromUrl = (search.get('category') ?? '') as CategoryCode;
 
     const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: false });
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useRecentTeam(category);
+    const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
+        useRecentTeam(category);
 
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
@@ -83,28 +84,49 @@ const UserTeams = () => {
 
     return (
         <section className="flex gap-[48px] flex-col justify-center items-center px-[48px]">
-            <MainTeamList title="추천 팀 프로젝트 구하기" />
-            <div className="w-full grid grid-cols-3 grid-rows-2 border border-[var(--color-purple-500)] rounded-[20px] overflow-hidden">
-                {positionArr.map((label, i) => {
-                    const isActive =
-                        (label === 'ALL' && category === '') || label.toLowerCase() === category;
+            {!searchTitle && (
+                <div className="w-full flex flex-col gap-[48px] justify-center items-center">
+                    <MainTeamList title="추천 팀 프로젝트 구하기" />
+                    <div className="w-full grid grid-cols-3 grid-rows-2 border border-[var(--color-purple-500)] rounded-[20px] overflow-hidden">
+                        {positionArr.map((label, i) => {
+                            const isActive =
+                                (label === 'ALL' && category === '') ||
+                                label.toLowerCase() === category;
 
-                    return (
-                        <button
-                            key={i}
-                            onClick={() => handleClickCategory(label)}
-                            className={`w-[464px] h-[80px] flex font-bold text-[20px] border border-[var(--color-purple-500)] justify-center items-center transition duration-300 ease-in-out cursor-pointer ${
-                                isActive
-                                    ? 'bg-[var(--color-purple-500)] text-white'
-                                    : 'bg-white text-black hover:bg-[var(--color-purple-500)] hover:text-white'
-                            }`}
-                        >
-                            {label}
-                        </button>
-                    );
-                })}
-            </div>
-            <RecentTeam teamItems={filteredItems} />
+                            return (
+                                <button
+                                    key={i}
+                                    onClick={() => handleClickCategory(label)}
+                                    className={`w-[464px] h-[80px] flex font-bold text-[20px] border border-[var(--color-purple-500)] justify-center items-center transition duration-300 ease-in-out cursor-pointer ${
+                                        isActive
+                                            ? 'bg-[var(--color-purple-500)] text-white'
+                                            : 'bg-white text-black hover:bg-[var(--color-purple-500)] hover:text-white'
+                                    }`}
+                                >
+                                    {label}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <RecentTeam teamItems={filteredItems} />
+                </div>
+            )}
+
+            {searchTitle && (
+                <div className="w-full flex flex-col gap-[16px]">
+                    <div className="flex gap-2">
+                        <div className="text-purple-500 font-bold">{searchTitle}</div>
+                        <div className="font-semibold">에 대한 검색 결과</div>
+                    </div>
+                    <RecentTeam teamItems={filteredItems} />
+                </div>
+            )}
+            {!isLoading && filteredItems.length === 0 && (
+                <div className="flex flex-col justify-center items-center absolute top-[40vh] gap-[24px]">
+                    <div className="text-[40px] font-bold">아직 팀구하기가 등록되지 않았어요!</div>
+                    <div className="text-[28px] font-bold">{searchTitle}에 대한 검색 결과 0건</div>
+                </div>
+            )}
             <div ref={ref}>{isFetchingNextPage && <p>데이터를 받아오는 중....</p>}</div>
         </section>
     );

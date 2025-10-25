@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     const token = request.cookies.get('accessToken')?.value;
     try {
         const response = await axios.post(
-            `${BASE_URL}api/portfolio/${id}/bookmark`,
+            `${BASE_URL}api/teampost/${id}/bookmark`,
             {},
             {
                 headers: {
@@ -15,7 +15,6 @@ export async function POST(request: NextRequest) {
                 },
             },
         );
-        console.log(response.data);
         return NextResponse.json(response.data);
     } catch (err) {
         console.error(err);

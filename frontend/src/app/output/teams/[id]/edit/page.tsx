@@ -4,6 +4,7 @@ import SearchSkill from '@/app/customComponents/SearchSkill';
 import UploadDropDown from '@/app/customComponents/UploadDropDown';
 import { useEditTeams } from '@/app/hooks/useEditTeams';
 import { TeamDetailType, useTeamDetail } from '@/app/hooks/useTeamsDetail';
+import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -19,6 +20,7 @@ const EditTeams = (props: { params: { id: string } }) => {
     const recuitRolesArray = useFieldArray({ control, name: 'recruitRoles' });
     const mutate = useEditTeams(id);
     const router = useRouter();
+    const queryclient = useQueryClient();
 
     useEffect(() => {
         if (teams) {
@@ -72,7 +74,9 @@ const EditTeams = (props: { params: { id: string } }) => {
 
     const handleEditSubmit = async (data: TeamDetailType) => {
         try {
-            mutate.mutateAsync(data);
+            await mutate.mutateAsync(data);
+            queryclient.invalidateQueries();
+            router.push(`/output/teams/${id}`);
         } catch (err) {
             console.error(err);
             throw err;
@@ -183,7 +187,7 @@ const EditTeams = (props: { params: { id: string } }) => {
                                                 dropDownPlaceholoder="모집 인원"
                                             />
                                         </div>
-                                        <p className="flex flex-wrap gap-[8px]">
+                                        <div className="flex flex-wrap gap-[8px]">
                                             {field.skills.map((a, idx) => (
                                                 <div
                                                     key={`${a}_skill_${idx}`}
@@ -192,7 +196,7 @@ const EditTeams = (props: { params: { id: string } }) => {
                                                     {a}
                                                 </div>
                                             ))}
-                                        </p>
+                                        </div>
                                         <div className="w-full h-auto flex flex-row justify-center items-center text-[var(--color-gray-900)] text-[16px] gap-[12px]">
                                             <SearchSkill
                                                 key={`${i}_skill`}

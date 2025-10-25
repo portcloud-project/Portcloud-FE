@@ -6,24 +6,17 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
-        const BASE_URL =
-            process.env.NEXT_PUBLIC_BASE_URL || process.env.BASE_URL || '';
+        const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || process.env.BASE_URL || '';
 
         // 1) BASE_URL 검증
         if (!BASE_URL || !/^https?:\/\//.test(BASE_URL)) {
-            return NextResponse.json(
-                { error: 'BASE_URL is missing or invalid' },
-                { status: 500 },
-            );
+            return NextResponse.json({ error: 'BASE_URL is missing or invalid' }, { status: 500 });
         }
 
         // 2) 토큰 읽기
         const token = cookies().get('accessToken')?.value;
         if (!token) {
-            return NextResponse.json(
-                { error: '로그인이 필요합니다.' },
-                { status: 401 },
-            );
+            return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
         }
 
         // 3) URL 안전하게 조립
