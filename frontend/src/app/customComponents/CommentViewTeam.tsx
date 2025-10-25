@@ -5,6 +5,7 @@ import { CommentProps } from './Comment';
 import { useCommentTeamPost } from '../hooks/useCommentTeamPost';
 import { useCommentViewTeam } from '../hooks/useCommentTeamView';
 import { useCommentTeamDelete } from '../hooks/useCommentTeamDelete';
+import Cookies from 'js-cookie';
 
 interface CommentItem {
     id: string; // 객체 자체의 id
@@ -22,7 +23,7 @@ interface CommentNodeProps {
     mutate: (payload: {
         id: string | string[]; // 게시글 id
         comment: string; //  댓글 내용
-        parentCommentId: string | null; // 부모코멘트 아이템의 id  대댓글이 아닌 첫 댓글일 경우 null로 전달
+        parent_id: string | null; // 부모코멘트 아이템의 id  대댓글이 아닌 첫 댓글일 경우 null로 전달
     }) => void; // 포트스 뮤테이트
     // eslint-disable-next-line no-unused-vars
     deleteMutate: (payload: { id: string | string[]; parentCommentId: string }) => void; // 댓글 삭제 뮤테이트 게시글 id 와 부모 코멘트 id 전달
@@ -45,7 +46,9 @@ const CommentNode = ({
     depth = 0,
     setValue,
 }: CommentNodeProps) => {
+    const token = Cookies.get('accessToken');
     const handleToggleReplies = (id: string) => {
+        if (!token) return;
         setRepliesToggle((prev) => ({ ...prev, [id]: !prev[id] }));
     };
 
@@ -66,14 +69,16 @@ const CommentNode = ({
                 )}
             </div>
             <p className="text-gray-900 text-[18px] px-[24px]">{comment.comment}</p>
-            <button
-                className="bg-gray-100 border border-gray-200 rounded-[20px] px-[16px] py-[6px] text-gray-700 text-[14px] font-semibold max-w-[60px] ml-[24px]"
-                onClick={() => handleToggleReplies(comment.id)}
-            >
-                답글
-            </button>
+            {token && (
+                <button
+                    className="bg-gray-100 border border-gray-200 rounded-[20px] px-[16px] py-[6px] text-gray-700 text-[14px] font-semibold max-w-[60px] ml-[24px]"
+                    onClick={() => handleToggleReplies(comment.id)}
+                >
+                    답글
+                </button>
+            )}
 
-            {repliesToggle[comment.id] && (
+            {token && repliesToggle[comment.id] && (
                 <Controller
                     name={`comment_${comment.id}`}
                     control={control}
@@ -85,7 +90,7 @@ const CommentNode = ({
                                 mutate({
                                     id: parentId,
                                     comment: field.value,
-                                    parentCommentId: comment.id,
+                                    parent_id: comment.id,
                                 });
                                 setValue(`comment_${comment.id}`, '');
                             }}

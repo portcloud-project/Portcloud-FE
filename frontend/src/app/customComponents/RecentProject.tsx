@@ -91,9 +91,10 @@ const RecentProject = ({ title, projectItems }: MainListProps) => {
                         );
                     })
                 ) : (
-                    <li className="w-[1392px] h-[248px] bg-gray-300 rounded-[20px] items-center flex justify-center text-white text-[20px] font-bold px-[24px]">
-                        목록이 없습니다
-                    </li>
+                    // <li className="w-[1392px] h-[248px] bg-gray-300 rounded-[20px] items-center flex justify-center text-white text-[20px] font-bold px-[24px]">
+                    //     목록이 없습니다
+                    // </li>
+                    <li></li>
                 )}
             </ul>
         </div>

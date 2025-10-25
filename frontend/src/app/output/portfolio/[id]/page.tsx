@@ -13,6 +13,7 @@ import TopBtn from '@/app/customComponents/TopBtn';
 import BookMarkPortfolio from '@/app/customComponents/BookMarkPortfolio';
 import CustomConfirm from '@/app/customComponents/CustomConfirm';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
 
 const PortfolioOutput = () => {
     const params = useParams();
@@ -22,6 +23,7 @@ const PortfolioOutput = () => {
     const { data: like } = useLikePortfolio(id);
     const deleteMutation = useDeletePortfolio();
     const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+    const token = Cookies.get('accessToken');
     const router = useRouter();
     if (isLoading) return <p>불러오는 중...</p>;
     if (isError) return <p className="text-red-500">에러 발생 {error.message}</p>;
@@ -200,16 +202,22 @@ const PortfolioOutput = () => {
                     </section>
                 )}
                 <Like likeData={like} />
-                <section className="w-full flex ">
-                    <Comment id={id} />
-                </section>
+                {token && (
+                    <section className="w-full flex ">
+                        <Comment id={id} />
+                    </section>
+                )}
                 <section className="w-full flex ">
                     <CommentView id={id} />
                 </section>
             </div>
 
-            <LikePost id={id} />
-            <BookMarkPortfolio id={id} />
+            {token && (
+                <div>
+                    <LikePost id={id} />
+                    <BookMarkPortfolio id={id} />
+                </div>
+            )}
             <TopBtn />
             {isConfirmOpen && (
                 <CustomConfirm

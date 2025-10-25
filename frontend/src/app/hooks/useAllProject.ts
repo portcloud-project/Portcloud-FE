@@ -9,8 +9,13 @@ const fetchAllProject = async (): Promise<UploadProjectsFormValuesType[]> => {
             '/api/allproject',
         );
     const content = response.data?.data?.content;
-    if (Array.isArray(content)) return content;
-    throw new Error('API 응답 형식이 올바르지 않습니다.');
+    if (Array.isArray(content)) {
+        return content;
+    } else if (response.data.status === 404) {
+        throw new Error('내 프로젝트가 존재하지 않습니다.');
+    } else {
+        throw new Error(response.data.message || '오류가 발생하였습니다.');
+    }
 };
 
 export const useAllProject = () => {

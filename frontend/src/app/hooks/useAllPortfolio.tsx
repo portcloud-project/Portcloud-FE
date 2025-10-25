@@ -16,8 +16,10 @@ const fetchAllportfolio = async (): Promise<AllPortfolio[]> => {
     const response = await axios.get<ApiResponse<AllPortfolio[]>>('/api/allportfolio');
     if (response.data && Array.isArray(response.data.data)) {
         return response.data.data;
+    } else if (response.data.status === 404) {
+        throw new Error('포트폴리오가 존재하지 않습니다.');
     } else {
-        throw new Error('API 응답 형식이 올바르지 않습니다.');
+        throw new Error(response.data.message || '오류가 발생하였습니다.');
     }
 };
 
