@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import useSectionManagement from '@/app/hooks/useSectionManagement';
 import { userStore } from '@/app/stores/userStore';
 import TeamRecruit from '@/app/customComponents/TeamRecruit';
+import { useQueryClient } from '@tanstack/react-query';
 
 export interface UploadTeamsFormValuesType {
     title: string;
@@ -35,6 +36,7 @@ export interface TeamSectionData {
 const UploadTeams = () => {
     const user = userStore((state) => state.user);
     const router = useRouter();
+    const queryclient = useQueryClient();
 
     const onSubmit = async (data: UploadTeamsFormValuesType) => {
         try {
@@ -47,6 +49,7 @@ const UploadTeams = () => {
                 skills: data.skill,
                 recruitRoles: data.recruitRoles,
             });
+            queryclient.invalidateQueries();
             router.push('/works/teams');
             return response.status;
         } catch (err) {

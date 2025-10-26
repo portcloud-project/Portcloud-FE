@@ -5,6 +5,7 @@ import { useCommentDelete } from '../hooks/useCommentDelete';
 import { useState } from 'react';
 import { CommentProps } from './Comment';
 import { useCommentView } from '../hooks/useCommentView';
+import Cookies from 'js-cookie';
 
 interface CommentItem {
     id: string; // 객체 자체의 id
@@ -45,7 +46,9 @@ const CommentNode = ({
     depth = 0,
     setValue,
 }: CommentNodeProps) => {
+    const token = Cookies.get('accessToken');
     const handleToggleReplies = (id: string) => {
+        if (!token) return;
         setRepliesToggle((prev) => ({ ...prev, [id]: !prev[id] }));
     };
 
@@ -66,14 +69,16 @@ const CommentNode = ({
                 )}
             </div>
             <p className="text-gray-900 text-[18px] px-[24px]">{comment.comment}</p>
-            <button
-                className="bg-gray-100 border border-gray-200 rounded-[20px] px-[16px] py-[6px] text-gray-700 text-[14px] font-semibold max-w-[60px] ml-[24px]"
-                onClick={() => handleToggleReplies(comment.id)}
-            >
-                답글
-            </button>
+            {token && (
+                <button
+                    className="bg-gray-100 border border-gray-200 rounded-[20px] px-[16px] py-[6px] text-gray-700 text-[14px] font-semibold max-w-[60px] ml-[24px]"
+                    onClick={() => handleToggleReplies(comment.id)}
+                >
+                    답글
+                </button>
+            )}
 
-            {repliesToggle[comment.id] && (
+            {token && repliesToggle[comment.id] && (
                 <Controller
                     name={`comment_${comment.id}`}
                     control={control}

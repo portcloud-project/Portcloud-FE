@@ -77,7 +77,7 @@ const Signup = () => {
         }
 
         try {
-            const res = await axios.post('/api/signup', {
+            await axios.post('/api/signup', {
                 email: data.email,
                 password: data.password,
                 name: data.name,
@@ -87,7 +87,7 @@ const Signup = () => {
                 agreeTerms: data.agreeTerms,
                 verificationCode: data.verificationCode,
             });
-            if (res.status === 200) alert('회원가입 성공!');
+
             router.push('/');
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             setIsLoading(false);

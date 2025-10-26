@@ -155,6 +155,7 @@ const MypageUserProfile = () => {
                                     src={`https://port-cloud.com/img/${user.profileUrl}`}
                                     alt="profile"
                                     fill
+                                    unoptimized
                                     className="object-cover rounded-full"
                                 />
                             </div>
