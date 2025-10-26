@@ -3,6 +3,7 @@ import { FaBookmark, FaRegBookmark } from 'react-icons/fa6';
 import { useBookMark } from '../hooks/useBookMark';
 import { useLikePortfolio } from '../hooks/useLikePortfolio';
 import { useBookMarkDelete } from '../hooks/useDeleteBookMark';
+import { motion } from 'framer-motion';
 
 interface Props {
     id: string | string[];
@@ -40,11 +41,19 @@ const BookMarkPortfolio = ({ id }: Props) => {
                 onClick={handleClick}
                 className="cursor-pointer bg-gray-100 p-[10px]  rounded-full border border-gray-200"
             >
-                {data?.bookMarkCheck ? (
-                    <FaBookmark size={24} color="" />
-                ) : (
-                    <FaRegBookmark size={24} />
-                )}
+                <motion.div
+                    key={data?.bookMarkCheck ? 'filled' : 'outline'}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    whileTap={{ scale: 1.2 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                >
+                    {data?.bookMarkCheck ? (
+                        <FaBookmark size={24} color="" />
+                    ) : (
+                        <FaRegBookmark size={24} />
+                    )}
+                </motion.div>
             </button>
         </div>
     );
