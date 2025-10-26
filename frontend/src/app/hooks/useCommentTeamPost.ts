@@ -4,17 +4,16 @@ import Cookies from 'js-cookie';
 interface CommentPayload {
     id: string | string[];
     comment: string;
-    parent_id?: string | null;
-    parentCommentId: string | null;
+    parentCommentId?: string | null;
 }
 export const useCommentTeamPost = () => {
     const token = Cookies.get('accessToken');
     const queryclient = useQueryClient();
     return useMutation<number, Error, CommentPayload>({
-        mutationFn: async ({ id, comment, parent_id }) => {
+        mutationFn: async ({ id, comment, parentCommentId }) => {
             const response = await axios.post(
                 `/api/comment-post-team?id=${id}`,
-                { comment, parent_id },
+                { comment, parentCommentId },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
