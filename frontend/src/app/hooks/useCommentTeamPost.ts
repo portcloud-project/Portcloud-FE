@@ -4,7 +4,8 @@ import Cookies from 'js-cookie';
 interface CommentPayload {
     id: string | string[];
     comment: string;
-    parent_id: string | null;
+    parent_id?: string | null;
+    parentCommentId: string | null;
 }
 export const useCommentTeamPost = () => {
     const token = Cookies.get('accessToken');
