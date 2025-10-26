@@ -3,7 +3,9 @@ import { FaBookmark, FaRegBookmark } from 'react-icons/fa6';
 import { useBookMark } from '../hooks/useBookMark';
 import { useBookMarkDelete } from '../hooks/useDeleteBookMark';
 import { useTeamDetail } from '../hooks/useTeamsDetail';
+
 import { motion } from 'framer-motion';
+
 interface Props {
     id: string | string[];
 }
@@ -31,10 +33,12 @@ const BookMarkTeam = ({ id }: Props) => {
     return (
         <div
             className="fixed right-[30%] top-[50%]     
+
                     s-mobile::right-[10%] s-mobile::top-[40%]
                     mobile:right-[20%] mobile:top-[45%]
     
                     tablet:right-[25%] tablet:top-[48%]"
+
         >
             <button
                 onClick={handleClick}
@@ -53,6 +57,7 @@ const BookMarkTeam = ({ id }: Props) => {
                         <FaRegBookmark size={24} />
                     )}
                 </motion.div>
+
             </button>
         </div>
     );

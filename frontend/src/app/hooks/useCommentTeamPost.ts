@@ -6,6 +6,7 @@ interface CommentPayload {
     comment: string;
     parent_id?: string | null;
     parentCommentId: string | null;
+
 }
 export const useCommentTeamPost = () => {
     const token = Cookies.get('accessToken');
