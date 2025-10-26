@@ -38,7 +38,6 @@ const BookMarkTeam = ({ id }: Props) => {
                     mobile:right-[20%] mobile:top-[45%]
     
                     tablet:right-[25%] tablet:top-[48%]"
-
         >
             <button
                 onClick={handleClick}
@@ -57,7 +56,6 @@ const BookMarkTeam = ({ id }: Props) => {
                         <FaRegBookmark size={24} />
                     )}
                 </motion.div>
-
             </button>
         </div>
     );

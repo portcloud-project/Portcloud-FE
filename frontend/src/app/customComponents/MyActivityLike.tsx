@@ -83,7 +83,6 @@ const MyActivityLike = () => {
                             // style={{
                             //     backgroundImage: `url(https://port-cloud.com/img/${active.file})`,
                             // }}
-
                         ></div>
                         {/* 오버레이 */}
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
