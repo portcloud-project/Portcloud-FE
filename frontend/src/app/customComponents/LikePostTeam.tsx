@@ -2,6 +2,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useTeamDetail } from '../hooks/useTeamsDetail';
 import { useLikeTeamPost } from '../hooks/useLikeTeamPost';
 import { useLikeTeamDelete } from '../hooks/useLikeTeamDelete';
+import { motion } from 'framer-motion';
 
 const LikePostTeam = ({ id }: { id: string | string[] }) => {
     const { mutate: like } = useLikeTeamPost(); // POST 좋아요
@@ -30,7 +31,27 @@ const LikePostTeam = ({ id }: { id: string | string[] }) => {
                 onClick={handleLike}
                 className="cursor-pointer bg-gray-100 p-[10px]  rounded-full border border-gray-200"
             >
-                {likeCheck ? <AiFillHeart size={24} color="red" /> : <AiOutlineHeart size={24} />}
+                {likeCheck ? (
+                    <motion.div
+                        key="filled"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1.2 }}
+                        exit={{ scale: 0 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+                    >
+                        <AiFillHeart size={24} color="red" />
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="outline"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    >
+                        <AiOutlineHeart size={24} />
+                    </motion.div>
+                )}
             </button>
         </div>
     );

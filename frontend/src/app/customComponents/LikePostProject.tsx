@@ -2,6 +2,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useLikeProjectPost } from '../hooks/useLikeProjectPost';
 import { useLikeProjectDelete } from '../hooks/useLikeProjectDelete';
 import { useLikeProejct } from '../hooks/useLikeProject';
+import { motion } from 'framer-motion';
 
 const LikePost = ({ id }: { id: string | string[] }) => {
     const { mutate: like } = useLikeProjectPost(); // POST 좋아요
@@ -31,9 +32,25 @@ const LikePost = ({ id }: { id: string | string[] }) => {
                 className="cursor-pointer bg-gray-100 p-[10px]  rounded-full border border-gray-200"
             >
                 {data?.likeCheck ? (
-                    <AiFillHeart size={24} color="red" />
+                    <motion.div
+                        key="filled"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1.2 }}
+                        exit={{ scale: 0 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+                    >
+                        <AiFillHeart size={24} color="red" />
+                    </motion.div>
                 ) : (
-                    <AiOutlineHeart size={24} />
+                    <motion.div
+                        key="outline"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    >
+                        <AiOutlineHeart size={24} />
+                    </motion.div>
                 )}
             </button>
         </div>
