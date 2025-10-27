@@ -18,6 +18,7 @@ const fetchCommentViewTeam = async (id: string | string[]): Promise<CommentView[
         const response = await axios.get<ApiResponse<CommentView[]>>(
             `/api/comment-get-team?id=${id}`,
         );
+        console.log(response.data.data);
         return response.data.data; // 여기서 배열 반환
     } catch (error) {
         console.error(error);
