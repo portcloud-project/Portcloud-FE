@@ -15,7 +15,6 @@ const CommentTeam = ({ id }: CommentProps) => {
     const { mutate } = useCommentTeamPost();
 
     const onSubmit = (data: CommentForm) => {
-        console.log(data.parentId);
         mutate({ id, comment: data.comment, parent_id: data.parentId });
         setValue('comment', '');
     };
