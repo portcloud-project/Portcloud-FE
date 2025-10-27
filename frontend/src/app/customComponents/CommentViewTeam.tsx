@@ -50,6 +50,14 @@ const CommentNode = ({
     const handleToggleReplies = (id: string) => {
         if (!token) return;
         setRepliesToggle((prev) => ({ ...prev, [id]: !prev[id] }));
+        console.log(
+            '🧩 comment.id:',
+            comment.id,
+            'depth:',
+            depth,
+            'replies length:',
+            comment.replies?.length,
+        );
     };
 
     return (
@@ -136,6 +144,7 @@ const CommentViewTeam = ({ id }: CommentProps) => {
     const { mutate: deleteMutate } = useCommentTeamDelete();
     const { control, setValue } = useForm();
     const [repliesToggle, setRepliesToggle] = useState<Record<string, boolean>>({});
+    console.log(data);
 
     return (
         <section className="w-full flex flex-col gap-[32px]">
