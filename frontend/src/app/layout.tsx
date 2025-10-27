@@ -4,6 +4,8 @@ import './globals.css';
 import Header from './layoutComponents/Header';
 import Footer from './layoutComponents/Footer';
 import QueryProvider from './layoutComponents/QueryProvider';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
     variable: '--font-geist-sans',
@@ -31,13 +33,13 @@ export default function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
             >
                 <QueryProvider>
-                    <Header />
-
-                    <main className="flex-1 py-[48px] w-full h-auto flex flex-col justify-start items-center">
-                        {children}
-                    </main>
-
-                    <Footer />
+                    <GoogleOAuthProvider clientId={process.env.GOOGLE_DEV_CLIENT_ID!}>
+                        <Header />
+                        <main className="flex-1 py-[48px] w-full h-auto flex flex-col justify-start items-center">
+                            {children}
+                        </main>
+                        <Footer />
+                    </GoogleOAuthProvider>
                 </QueryProvider>
             </body>
         </html>

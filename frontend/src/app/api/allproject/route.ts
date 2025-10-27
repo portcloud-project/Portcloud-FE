@@ -29,7 +29,7 @@ export async function GET() {
             cache: 'no-store',
         });
 
-        console.log(upstream);
+        console.log('upstream은?', upstream);
 
         // 5) 업스트림 상태코드 보존 + 본문 전달
         const text = await upstream.text();

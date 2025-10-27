@@ -15,6 +15,7 @@ import { userStore } from '../stores/userStore';
 import { useQueryClient } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import CustomAlert from './CustomAlert';
+import { useGoogleLogin } from '@react-oauth/google';
 
 interface LoginForm {
     email: string;
@@ -67,9 +68,22 @@ const Login = ({
         }
     };
 
-    const handleGoogleLogin = () => {
-        window.location.assign('/api/auth/google/url');
-    };
+    const loginWithGoogle = useGoogleLogin({
+        flow: 'auth-code', // ★ code만 받는 플로우
+        onSuccess: async (res) => {
+            const code = res.code; // ★ 여기서 auth code 확보
+            // code를 Next API 콜백 프록시로 "브라우저 리다이렉트"
+            const url = new URL(`/api/auth/google/callback`, window.location.origin);
+            url.searchParams.set('code', code);
+            url.searchParams.set('redirect', `${window.location.origin}/auth/callback/done`);
+            window.location.replace(url.toString());
+        },
+        onError: () => {
+            window.location.replace('/login?error=google_login_failed');
+        },
+        // scope 등 필요하면 추가
+        // scope: 'openid email profile'
+    });
 
     return (
         <CardLayout setLoginModal={setLoginModal}>
@@ -160,7 +174,7 @@ const Login = ({
                         </button>
                         <button
                             className="w-full h-[48px] rounded-[8px] text-black text-[16px] font-semibold leading-[24px] border border-[var(--color-gray-400)] bg-white px-[24px] py-[12px] flex flex-row justify-center items-center gap-[6px] hover:bg-[var(--color-gray-400)] transition duration-300 ease-in-out cursor-pointer"
-                            onClick={handleGoogleLogin}
+                            onClick={loginWithGoogle}
                             type="button"
                         >
                             <FcGoogle className="w-[24px] h-[24px]" />
