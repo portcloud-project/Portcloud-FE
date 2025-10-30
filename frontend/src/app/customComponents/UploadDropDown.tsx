@@ -44,7 +44,7 @@ const UploadDropDown = ({
     const { control } = useFormContext();
 
     return (
-        <div className={`w-fit flex flex-col justify-between items-start ${gap}`}>
+        <div className={`${width} flex flex-col justify-between items-start ${gap}`}>
             <label
                 htmlFor="isDeploy"
                 className={`text-[var(--color-gray-900)] ${labelText} ${labelFont}`}
@@ -81,7 +81,8 @@ const UploadDropDown = ({
                             </p>
                         )}
                         <DropdownMenuContent
-                            className={`${width} flex flex-col gap-[4px] p-[6px]`}
+                            className={`flex flex-col gap-[4px] p-[6px]`}
+                            style={{ width: 'var(--radix-dropdown-menu-trigger-width)' }}
                             side="bottom"
                             align="start"
                             sideOffset={6}

@@ -51,11 +51,12 @@ const MyActivityLike = () => {
     };
 
     return (
-        <div className="flex flex-wrap gap-[12px]">
+        <div className="flex flex-wrap gap-[12px] mobile:justify-center laptop:justify-start w-full">
             {data?.map((active) => (
                 <div
                     key={`${active.id}`}
-                    className="group min-w-[333px]  max-w-[333px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:w-full"
+                    className="group relative w-full laptop:w-[calc(33.3%-8px)] tablet:w-[calc(50%-6px)] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer "
+                    // className="group relative w-full sm:w-1/2 md:w-1/3 lg:w-1/4 aspect-[4/3] cursor-pointer perspective-[1000px]"
                     onClick={() => onClickByType(active.type, active.id)}
                 >
                     {/* 앞면 */}
