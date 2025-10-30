@@ -120,9 +120,9 @@ const MyActivityLike = () => {
                         <div className="absolute inset-0 rounded-[20px] overflow-hidden duration-700 ease-in-out group-hover:opacity-0">
                             <div
                                 className="absolute inset-0 bg-cover bg-center"
-                                // style={{
-                                //     backgroundImage: `url(https://port-cloud.com/img/${active.file})`,
-                                // }}
+                                style={{
+                                    backgroundImage: `url(https://port-cloud.com/img/${active.thumbnailURL})`,
+                                }}
                             ></div>
 
                             <div className="absolute bottom-0 left-0 right-0 h-[100px] bg-gradient-to-t from-black/60 to-transparent rounded-b-[20px] z-10 flex flex-col justify-end p-[24px] gap-[4px]">
@@ -138,9 +138,9 @@ const MyActivityLike = () => {
                             {/* 뒷면 배경 */}
                             <div
                                 className="absolute inset-0 bg-cover bg-center"
-                                // style={{
-                                //     backgroundImage: `url(https://port-cloud.com/img/${active.file})`,
-                                // }}
+                                style={{
+                                    backgroundImage: `url(https://port-cloud.com/img/${active.thumbnailURL})`,
+                                }}
                             ></div>
                             {/* 오버레이 */}
                             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>

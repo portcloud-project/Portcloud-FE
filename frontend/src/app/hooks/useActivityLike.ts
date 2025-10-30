@@ -6,6 +6,7 @@ interface ActivityLike {
     title: string;
     createTime: string;
     type: string;
+    thumbnailURL: string;
 }
 
 const fetchActivityLike = async (): Promise<ActivityLike[]> => {

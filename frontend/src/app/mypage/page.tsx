@@ -17,6 +17,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import MypageBookMark from '../customComponents/MypageBookMark';
 import Cookies from 'js-cookie';
 import MyActivityLike from '../customComponents/MyActivityLike';
+import MyActivityComment from '../customComponents/MyActivityComment';
 
 interface NewPasswordFormValuesType {
     password: string;
@@ -279,6 +280,9 @@ const Mypage = () => {
                         </TabsList>
                         <TabsContent value="like" className="flex justify-start">
                             <MyActivityLike />
+                        </TabsContent>
+                        <TabsContent value="comment" className="flex justify-start">
+                            <MyActivityComment />
                         </TabsContent>
                     </Tabs>
                 </TabsContent>
