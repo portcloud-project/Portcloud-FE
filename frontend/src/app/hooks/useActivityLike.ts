@@ -11,7 +11,7 @@ interface ActivityLike {
 const fetchActivityLike = async (): Promise<ActivityLike[]> => {
     try {
         const response = await axios.get('/api/activity-like');
-        return response.data.data;
+        return response.data.data || [];
     } catch (err) {
         console.error(err);
         throw err;
