@@ -6,6 +6,7 @@ import { useCommentViewProject } from '../hooks/useCommentProjectView';
 import { useCommentProjectPost } from '../hooks/useCommentProjectPost';
 import { useCommentProjectDelete } from '../hooks/useCommentProjectDelete';
 import Cookies from 'js-cookie';
+import CustomConfirm from './CustomConfirm';
 
 interface CommentItem {
     id: string; // 객체 자체의 id
@@ -51,6 +52,7 @@ const CommentNode = ({
         if (!token) return;
         setRepliesToggle((prev) => ({ ...prev, [id]: !prev[id] }));
     };
+    const [isOpenConfirm, setIsOpenConfirm] = useState(false);
 
     return (
         <div className={`${depth === 0 ? '' : 'bg-gray-50'} py-[24px] flex flex-col gap-[12px]`}>
@@ -62,7 +64,7 @@ const CommentNode = ({
                 {comment.owner && (
                     <button
                         className="flex ml-auto text-gray-500 text-[16px]"
-                        onClick={() => deleteMutate({ id: parentId, parentCommentId: comment.id })}
+                        onClick={() => setIsOpenConfirm(true)}
                     >
                         삭제
                     </button>
@@ -93,6 +95,7 @@ const CommentNode = ({
                                     parentCommentId: comment.id,
                                 });
                                 setValue(`comment_${comment.id}`, '');
+                                setRepliesToggle((prev) => ({ ...prev, [comment.id]: false }));
                             }}
                         >
                             <input
@@ -128,6 +131,14 @@ const CommentNode = ({
                         setValue={setValue}
                     />
                 ))}
+            {isOpenConfirm && (
+                <CustomConfirm
+                    onAccept={() => deleteMutate({ id: parentId, parentCommentId: comment.id })}
+                    onCancel={() => setIsOpenConfirm(false)}
+                    title="댓글을 삭제하시겠습니까 ?"
+                    message="정말로 이 댓글을 삭제하시겠습니까 ?"
+                />
+            )}
         </div>
     );
 };
