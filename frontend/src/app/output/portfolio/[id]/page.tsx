@@ -42,7 +42,7 @@ const PortfolioOutput = () => {
     };
 
     return (
-        <main className="w-[768px]  flex  justify-start items-center ">
+        <main className="max-w-[768px] w-full flex justify-start items-center px-[12px] tablet:px-0 ">
             <div className="flex gap-[48px] flex-col w-full">
                 <section className="flex gap-[24px] flex-col w-full">
                     <h1 className="text-[40px] font-bold">{portfolio.title}</h1>

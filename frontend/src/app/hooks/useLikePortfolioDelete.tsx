@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-export const usePortfolioDelete = () => {
+export const usePortfolioDelete = (onSuccess?: () => void) => {
     const token = Cookies.get('accessToken');
 
     return useMutation({
@@ -13,6 +13,9 @@ export const usePortfolioDelete = () => {
                 },
             });
             return response.status;
+        },
+        onSuccess: () => {
+            if (onSuccess) onSuccess();
         },
     });
 };

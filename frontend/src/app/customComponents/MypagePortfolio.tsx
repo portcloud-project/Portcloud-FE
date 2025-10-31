@@ -48,7 +48,7 @@ const MyPagePortfolio = () => {
             {data?.map((portfolio) => (
                 <div
                     key={`${portfolio.id}`}
-                    className="group min-w-[323px] max-w-[323px] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer flex-1 tablet:shrink-0 tablet:w-full"
+                    className="group w-full laptop:w-[calc(33.3%-8px)] tablet:w-[calc(50%-6px)] aspect-[4/3] min-h-[100px] perspective-[1000px] cursor-pointer "
                     onClick={() => router.push(`/output/portfolio/${portfolio.id}`)}
                 >
                     {/* 앞면 */}

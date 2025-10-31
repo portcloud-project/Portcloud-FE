@@ -19,9 +19,7 @@ const MyPageLogs = () => {
     const [isOpenConfirm, setIsOpenConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState('');
     const user = userStore((state) => state.user);
-    if (data?.length === 0) {
-        return <div>기록이 존재하지 않습니다</div>;
-    }
+
     if (!user.name && !user.nickname && !user.sub) {
         return (
             <div className="flex justify-center items-center w-full h-screen">
@@ -36,6 +34,7 @@ const MyPageLogs = () => {
             </div>
         );
     }
+
     if (isError) {
         return (
             <p className="text-red-500 flex items-center justify-center w-full h-[50vh]">
@@ -56,6 +55,13 @@ const MyPageLogs = () => {
 
     return (
         <div className="flex flex-wrap gap-[24px]">
+            {data?.length === 0 && (
+                <div>
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-lg">
+                        기록이 존재하지 않습니다.
+                    </div>
+                </div>
+            )}
             {data?.map((logs) => (
                 <div
                     key={`${logs.id}`}

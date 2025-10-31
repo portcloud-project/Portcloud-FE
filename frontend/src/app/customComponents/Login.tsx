@@ -188,7 +188,7 @@ const Login = ({
                     message="잠시 시간이 소요될 수 있습니다."
                     title="로그인 중..."
                     isError={isError}
-                    errorMsg="로그인에 실패하였습니다."
+                    errorMsg="이메일 또는 비밀번호가 올바르지 않습니다."
                 />
             )}
         </CardLayout>

@@ -3,6 +3,7 @@ import { useLikeProjectPost } from '../hooks/useLikeProjectPost';
 import { useLikeProjectDelete } from '../hooks/useLikeProjectDelete';
 import { useLikeProejct } from '../hooks/useLikeProject';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 const LikePost = ({ id }: { id: string | string[] }) => {
     const { mutate: like } = useLikeProjectPost(); // POST 좋아요
@@ -17,15 +18,26 @@ const LikePost = ({ id }: { id: string | string[] }) => {
             like(id, { onSuccess: () => refetch() });
         }
     };
-    console.log(data);
+
+    const [pos, setPos] = useState({ top: 0, right: 0 });
+
+    useEffect(() => {
+        const updatePosition = () => {
+            setPos({
+                top: window.innerHeight * 0.4,
+                right: window.innerWidth * 0.07,
+            });
+        };
+
+        updatePosition();
+        window.addEventListener('resize', updatePosition);
+        return () => window.removeEventListener('resize', updatePosition);
+    }, []);
 
     return (
         <div
-            className="fixed right-[30%] top-[40%]     
-                s-mobile::right-[10%] s-mobile::top-[30%]
-                mobile:right-[20%] mobile:top-[35%]
-
-                tablet:right-[25%] tablet:top-[38%]"
+            className="fixed transition-all duration-300"
+            style={{ top: pos.top, right: pos.right }}
         >
             <button
                 onClick={handleLike}

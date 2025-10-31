@@ -34,7 +34,7 @@ const ProjectsEdit = (props: { params: { id: string } }) => {
             skills: [],
             thumbnailImg: '',
             thumbnailURL: '',
-            demonstrationVideo: '',
+            demonstrationVideoUrl: '',
             projectPosition: '',
             startDate: '',
         },
@@ -54,7 +54,7 @@ const ProjectsEdit = (props: { params: { id: string } }) => {
                 skills: project.skills,
                 thumbnailImg: project.thumbnailImg,
                 thumbnailURL: project.thumbnailURL,
-                demonstrationVideo: project.demonstrationVideo,
+                // demonstrationVideo: project.demonstrationVideoUrl,
                 projectPosition: project.projectPosition,
                 startDate: project.startDate,
             });
@@ -92,7 +92,9 @@ const ProjectsEdit = (props: { params: { id: string } }) => {
             data.skills.forEach((item, i) => {
                 if (item.name) formdata.append(`skillIds[${i}]`, item.id);
             });
-
+            if (data.demonstrationVideo?.[0]) {
+                formdata.append('demonstrationVideo', data.demonstrationVideo[0]);
+            }
             await mutate.mutateAsync(formdata);
             queryclient.invalidateQueries();
             router.push(`/output/projects/${id}`);
@@ -262,23 +264,23 @@ const ProjectsEdit = (props: { params: { id: string } }) => {
 
                     {/* 영상 section */}
                     <section className="flex flex-col gap-[12px] w-full h-auto text-[var(--color-gray-900)] justify-center items-start">
-                        <h3 className="font-bold text-[24px]">영상</h3>
-                        <div className="border border-[var(--color-gray-300)] w-full h-[312px] p-[24px] rounded-[8px] text-[16px] text-[var(--color-gray-900)] font-normal">
-                            {project.demonstrationVideo ? (
-                                project.demonstrationVideo.match(/\.(mp4|webm|ogg)$/i) ? (
+                        <h3 className="font-bold text-[24px]">등록된 영상</h3>
+                        <div>
+                            {project.demonstrationVideoUrl ? (
+                                project.demonstrationVideoUrl.match(/\.(mp4|webm|ogg)$/i) ? (
                                     <video
-                                        src={project.demonstrationVideo}
+                                        src={`https://port-cloud.com/img/${project.demonstrationVideoUrl}`}
                                         controls
                                         className="w-full h-full object-contain rounded"
                                     />
-                                ) : project.demonstrationVideo.match(
+                                ) : project.demonstrationVideoUrl.match(
                                       /\.(jpg|jpeg|png|gif|webp)$/i,
                                   ) ? (
                                     <div
                                         className="h-full w-auto"
-                                        style={{
-                                            backgroundImage: `url(https://port-cloud.com/img/${project.demonstrationVideo})`,
-                                        }}
+                                        // style={{
+                                        //     backgroundImage: `url(https://port-cloud.com/img/${project.demonstrationVideoUrl})`,
+                                        // }}
                                     ></div>
                                 ) : (
                                     <span>지원하지 않는 형식입니다.</span>
@@ -286,6 +288,22 @@ const ProjectsEdit = (props: { params: { id: string } }) => {
                             ) : (
                                 <span>데모 자료가 없습니다.</span>
                             )}
+                        </div>
+                        <h3 className="font-bold text-[24px]">영상 등록</h3>
+                        <label htmlFor="demonstrationVideo">
+                            * 영상등록시 기존 영상이 교체됩니다.
+                        </label>
+                        <div
+                            className="border border-[var(--color-gray-300)] w-full h-[312px] p-[24px] rounded-[8px] text-[16px] text-[var(--color-gray-900)] font-normal"
+                            style={{
+                                backgroundImage: `url(https://port-cloud.com/img/${project.demonstrationVideoUrl})`,
+                            }}
+                        >
+                            <input
+                                type="file"
+                                {...method.register('demonstrationVideo')}
+                                className="w-full h-full"
+                            />
                         </div>
                         <div className="flex ml-auto">
                             <button

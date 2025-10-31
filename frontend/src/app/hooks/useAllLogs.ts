@@ -17,15 +17,23 @@ const fetchAllLogs = async (): Promise<AllLogs[]> => {
         const response = await axios.get<ApiResponse<AllLogs[]>>('/api/allLogs');
         if (response.data && Array.isArray(response.data.data)) {
             return response.data.data;
-        } else if (response.data.status === 404) {
-            throw new Error('기록이 존재하지 않습니다.');
+        }
+        if (typeof response.data === 'number' && response.data === 404) {
+            return [];
         } else {
             throw new Error(response.data.message || '오류가 발생하였습니다.');
         }
     } catch (error) {
-        if (axios.isAxiosError(error) && error.response?.status === 404) {
-            throw new Error('기록이 존재하지 않습니다.');
+        if (axios.isAxiosError(error)) {
+            // 404 처리
+            if (error.response?.data.status === 404) {
+                console.log(error);
+                throw new Error(error.response.data?.message || '기록이 존재하지 않습니다.');
+            }
+            // 기타 Axios 에러
+            throw new Error(error.response?.data?.message || '서버 요청 중 오류가 발생했습니다.');
         }
+        // Axios가 아닌 에러
         throw error;
     }
 };

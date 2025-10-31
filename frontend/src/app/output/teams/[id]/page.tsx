@@ -67,7 +67,7 @@ const OutputTeams = (props: { params: { id: string } }) => {
     ];
 
     return (
-        <main className="flex flex-col justify-start itmes-start w-[768px] h-auto gap-[48px]">
+        <main className="flex flex-col justify-start itmes-start max-w-[768px] w-full h-auto gap-[48px] px-[12px] tablet:px-0">
             {/* 작성 정보 section */}
             <section className="flex flex-col gap-[24px] w-full h-auto">
                 {/* 제목, 배포현황 */}
