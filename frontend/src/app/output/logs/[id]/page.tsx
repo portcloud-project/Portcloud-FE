@@ -38,23 +38,28 @@ const LogsOutput = () => {
     };
 
     return (
-        <main className="w-[768px]  flex  justify-start items-center ">
+        <main className="max-w-[768px] w-full px-[12px] flex  justify-start items-center tablet:px-0">
             <div className="flex gap-[48px] flex-col w-full">
                 <section className="flex gap-[24px] flex-col w-full">
                     <h1 className="text-[40px] font-bold">{logs?.title}</h1>
                     <div className="flex w-full justify-between text-[16px] text-gray-500 ">
-                        <div className="flex w-fit items-center gap-[12px]">
-                            <p className="">작성자</p>
-                            <p className="flex font-semibold">{logs?.writeName}</p>
-                            <div className="border-r h-[14px] border-gray-300" />
-                            <p className="">작성시간</p>
-                            <div className="border-r h-[14px] border-gray-300" />
-                            <p className="font-semibold">
-                                {dayjs(logs?.createdAt).format('YYYY-MM-DD')}
-                            </p>
-                            <div className="border-r h-[14px] border-gray-300" />
-                            <p className=" text-purple-500">카테고리</p>
-                            <p className="text-purple-500 font-semibold">{logs?.category}</p>
+                        <div className="flex-col w-fit items-center gap-[12px] mobile:flex mobile:flex-row">
+                            <div className="flex gap-[12px] items-center">
+                                <p className="">작성자</p>
+                                <p className="flex font-semibold">{logs?.writeName}</p>
+                            </div>
+                            <div className="border-r h-[14px] border-gray-300 hidden mobile:flex" />
+                            <div className="flex gap-[12px] items-center">
+                                <p className="">작성시간</p>
+                                <p className="font-semibold">
+                                    {dayjs(logs?.createdAt).format('YYYY-MM-DD')}
+                                </p>
+                            </div>
+                            <div className="flex gap-[12px] items-center">
+                                <div className="border-r h-[14px] border-gray-300 hidden mobile:flex" />
+                                <p className=" text-purple-500">카테고리</p>
+                                <p className="text-purple-500 font-semibold">{logs?.category}</p>
+                            </div>
                         </div>
                         {logs?.owner && (
                             <div className="flex w-fit items-center gap-[12px]">

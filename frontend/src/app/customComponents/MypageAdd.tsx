@@ -9,7 +9,7 @@ interface MypageAddProps {
 const MypageAdd = ({ title, route }: MypageAddProps) => {
     const router = useRouter();
     return (
-        <div className="min-w-[323px] max-w-[323px] min-h-[242px] max-h-[242px] flex justify-center items-center rounded-[20px] bg-none border border-gray-300">
+        <div className=" w-full  laptop:w-[calc(33.3%-8px)]  tablet:w-[calc(50%-6px)] flex justify-center aspect-[4/3] items-center rounded-[20px] bg-none border border-gray-300">
             <div className="flex gap-[24px] flex-col justify-center items-center  ">
                 <div
                     className="w-fit bg-purple-500 p-[22px] rounded-[100px] cursor-pointer"

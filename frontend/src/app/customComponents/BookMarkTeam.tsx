@@ -5,6 +5,7 @@ import { useBookMarkDelete } from '../hooks/useDeleteBookMark';
 import { useTeamDetail } from '../hooks/useTeamsDetail';
 
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 interface Props {
     id: string | string[];
@@ -30,14 +31,24 @@ const BookMarkTeam = ({ id }: Props) => {
         }
     };
 
+    const [pos, setPos] = useState({ top: 0, right: 0 });
+    useEffect(() => {
+        const updatePosition = () => {
+            setPos({
+                top: window.innerHeight * 0.45,
+                right: window.innerWidth * 0.07,
+            });
+        };
+
+        updatePosition();
+        window.addEventListener('resize', updatePosition);
+        return () => window.removeEventListener('resize', updatePosition);
+    }, []);
+
     return (
         <div
-            className="fixed right-[30%] top-[50%]     
-
-                    s-mobile::right-[10%] s-mobile::top-[40%]
-                    mobile:right-[20%] mobile:top-[45%]
-    
-                    tablet:right-[25%] tablet:top-[48%]"
+            className="fixed transition-all duration-300"
+            style={{ top: pos.top, right: pos.right }}
         >
             <button
                 onClick={handleClick}

@@ -144,7 +144,7 @@ const MypageUserProfile = () => {
         <main className="flex flex-col w-full gap-[50px] relative h-full">
             <FormProvider {...method}>
                 <form onSubmit={method.handleSubmit(onSubmit)} className="flex flex-col gap-[40px]">
-                    <section className="w-[500px] flex flex-col gap-[16px]">
+                    <section className="w-full flex flex-col gap-[16px]">
                         <h1 className="text-[36px] font-bold">프로필 수정</h1>
                         <label htmlFor="profile" className="text-gray-500">
                             * 10MB 이내의 파일을 업로드 해주세요.
@@ -205,7 +205,7 @@ const MypageUserProfile = () => {
                             arr={categoryArr}
                             dropDownLabel={'관심 직군'}
                             dropDownPlaceholoder={'관심 직군을 선택해주세요.'}
-                            width={'min-w-[1024px]'}
+                            width={'w-full'}
                             height={'min-h-[64px]'}
                             labelText={'text-[20px] font-bold'}
                             labelFont={'text-[16px]'}

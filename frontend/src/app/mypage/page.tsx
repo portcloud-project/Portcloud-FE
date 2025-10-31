@@ -17,6 +17,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import MypageBookMark from '../customComponents/MypageBookMark';
 import Cookies from 'js-cookie';
 import MyActivityLike from '../customComponents/MyActivityLike';
+import MyActivityComment from '../customComponents/MyActivityComment';
 
 interface NewPasswordFormValuesType {
     password: string;
@@ -204,7 +205,7 @@ const Mypage = () => {
             <h3 className="font-bold text-[28px] text-black">마이 페이지</h3>
             <Tabs
                 defaultValue="profile"
-                className="w-[1392px] h-[764px] border border-[var(--color-gray-300)]"
+                className="w-full h-[764px] border border-[var(--color-gray-300)]"
             >
                 <TabsList>
                     <div className="flex flex-col justify-center items-center gap-[24px] w-full h-[344px] py-[48px] border-b-[1px] border-[var(--color-gray-300)]">
@@ -262,7 +263,7 @@ const Mypage = () => {
                     <MypageTeam />
                     <MypageAdd title="팀 구하기 업로드" route="/upload/teams" />
                 </TabsContent>
-                <TabsContent value="myActivity" className="p-[20px]">
+                <TabsContent value="myActivity" className="p-[20px] overflow-y-auto">
                     <Tabs defaultValue="like" className="flex flex-col gap-[12px]">
                         <TabsList className="flex w-full flex-row shadow-none border-none">
                             {innerTapsActivityArr.map((a, i) => {
@@ -279,6 +280,9 @@ const Mypage = () => {
                         </TabsList>
                         <TabsContent value="like" className="flex justify-start">
                             <MyActivityLike />
+                        </TabsContent>
+                        <TabsContent value="comment" className="flex justify-start">
+                            <MyActivityComment />
                         </TabsContent>
                     </Tabs>
                 </TabsContent>
