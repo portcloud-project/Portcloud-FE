@@ -10,9 +10,7 @@ export async function GET(requset: NextRequest) {
                 Authorization: `Bearer ${token}`,
             },
         });
-        const data = res.data;
-
-        return NextResponse.json(data, { status: 200 });
+        return NextResponse.json(res.data, { status: 200 });
     } catch (error) {
         console.error('api 호출중 오류', error);
         throw error;

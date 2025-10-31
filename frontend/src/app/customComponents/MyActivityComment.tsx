@@ -9,6 +9,7 @@ const MyActivityComment = () => {
         project: '프로젝트',
         portfolio: '포트폴리오',
         teampost: '팀구하기',
+        blog: '기록',
     };
 
     const onClickByType = (type: string, id: string) => {
