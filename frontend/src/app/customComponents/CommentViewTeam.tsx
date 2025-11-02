@@ -51,6 +51,14 @@ const CommentNode = ({
     const handleToggleReplies = (id: string) => {
         if (!token) return;
         setRepliesToggle((prev) => ({ ...prev, [id]: !prev[id] }));
+        console.log(
+            '🧩 comment.id:',
+            comment.id,
+            'depth:',
+            depth,
+            'replies length:',
+            comment.replies?.length,
+        );
     };
     const [isOpenConfirm, setIsOpenConfirm] = useState(false);
 

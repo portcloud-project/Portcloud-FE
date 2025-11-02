@@ -20,6 +20,17 @@ import Cookies from 'js-cookie';
 import { useQueryClient } from '@tanstack/react-query';
 import { useUser } from '../hooks/useUser';
 import { userStore } from '../stores/userStore';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { LucideLogOut, LucideUser } from 'lucide-react';
 const Header = () => {
     const navArr = [
         { title: '프로젝트', link: '/works/projects' },
@@ -31,7 +42,8 @@ const Header = () => {
     const [loginModal, setLoginModal] = useState<boolean>(false);
     const queryClient = useQueryClient();
     const router = useRouter();
-    const { data: user, isLoading } = useUser();
+    const { data: isUser, isLoading } = useUser();
+    const user = userStore((state) => state.user);
 
     const logout = () => {
         Cookies.remove('accessToken');
@@ -117,20 +129,45 @@ const Header = () => {
 
                 {/* login section */}
                 <div className="w-fit h-[24px] flex justify-end items-center gap-[12px]">
-                    {user ? (
+                    {isUser ? (
                         <>
-                            <h3 className="cursor-pointer" onClick={() => router.push('/mypage')}>
-                                마이페이지
-                            </h3>
-                            <h3
-                                className="cursor-pointer"
-                                onClick={() => {
-                                    logout();
-                                    setLoginModal(false);
-                                }}
-                            >
-                                로그아웃
-                            </h3>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <button className="cursor-pointer">
+                                        <Avatar>
+                                            <AvatarImage src={user.profileUrl ?? undefined} />
+                                            <AvatarFallback>Img</AvatarFallback>
+                                        </Avatar>
+                                    </button>
+                                </DropdownMenuTrigger>
+
+                                <DropdownMenuContent className="w-56" align="end">
+                                    <DropdownMenuLabel>
+                                        Hello!
+                                        <h3 className="text-lg">{user.nickname}</h3>
+                                        <p className="text-sm text-[#adadad]">{user.name}</p>
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuItem
+                                            className="text-primary font-bold transition-all duration-300 ease-in-out text-lg bg-white px-1 rounded-lg border-2 border-white hover:bg-[#dadadabe] cursor-pointer"
+                                            onClick={() => {
+                                                logout();
+                                                setLoginModal(false);
+                                            }}
+                                        >
+                                            <LucideLogOut />
+                                            로그아웃
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem
+                                            className="text-primary font-bold transition-all duration-300 ease-in-out text-lg bg-white px-1 rounded-lg border-2 border-white hover:bg-[#dadadabe] cursor-pointer"
+                                            onClick={() => router.push('/mypage')}
+                                        >
+                                            <LucideUser /> 마이페이지
+                                        </DropdownMenuItem>
+                                    </DropdownMenuGroup>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </>
                     ) : (
                         <>
