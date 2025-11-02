@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import EmailVerification from '../customComponents/Emailverification';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { FaCheck } from 'react-icons/fa6';
+import ResetEmailVerification from '../customComponents/ResetPassword';
 
 interface PasswordResetValuesType {
     email: string;
@@ -165,7 +165,7 @@ const PasswordReset = () => {
                             </div>
                         </>
                     ) : (
-                        <EmailVerification
+                        <ResetEmailVerification
                             verified={isVerified}
                             onVerified={() => setIsVerified(true)}
                             setNext={setNext}
