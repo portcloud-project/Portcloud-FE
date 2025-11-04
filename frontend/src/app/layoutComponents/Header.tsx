@@ -62,6 +62,7 @@ const Header = () => {
     };
 
     if (isLoading) return null;
+    console.log(user.profileUrl);
 
     return (
         <header className="top-0 left-0 w-full h-auto flex justify-center items-center z-45 bg-white border-b border-[var(--color-gray-300)]">
@@ -135,7 +136,9 @@ const Header = () => {
                                 <DropdownMenuTrigger asChild>
                                     <button className="cursor-pointer">
                                         <Avatar>
-                                            <AvatarImage src={user.profileUrl ?? undefined} />
+                                            <AvatarImage
+                                                src={`https://port-cloud.com/img/${user.profileUrl}`}
+                                            />
                                             <AvatarFallback>Img</AvatarFallback>
                                         </Avatar>
                                     </button>
