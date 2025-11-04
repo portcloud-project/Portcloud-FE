@@ -65,7 +65,7 @@ const ResetEmailVerification = ({ onVerified, verified: verifiedProp = false, se
 
         try {
             setVerifying(true);
-            const res = await axios.post('/api/verifyemail', {
+            const res = await axios.post('/api/reset-vertifycation', {
                 verificationCode: code,
             });
             if (res.status === 200) {
@@ -86,6 +86,11 @@ const ResetEmailVerification = ({ onVerified, verified: verifiedProp = false, se
 
     return (
         <div className="w-full h-fit flex flex-col justify-center items-start gap-[6px]">
+            <div className="text-[20px] mb-[20px]">
+                {!verifyStep
+                    ? '비밀번호 재설정을 위해 포트클라우드에 가입한 이메일을 입력해 주세요.'
+                    : '입력하신 이메일 주소로 인증번호가 발송되었습니다. 인증번호 6자리를 입력해주세요.'}
+            </div>
             {/* 이메일 */}
             <label
                 htmlFor="email"

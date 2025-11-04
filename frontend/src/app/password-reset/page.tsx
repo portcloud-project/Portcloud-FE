@@ -5,6 +5,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { FaCheck } from 'react-icons/fa6';
 import ResetEmailVerification from '../customComponents/ResetPassword';
+import { usePasswordReset } from '../hooks/useResetPassword';
+import { useRouter } from 'next/navigation';
 
 interface PasswordResetValuesType {
     email: string;
@@ -15,8 +17,9 @@ interface PasswordResetValuesType {
 const PasswordReset = () => {
     const [pwVisible, setPwVisible] = useState<boolean>(false);
     const [isVerified, setIsVerified] = useState<boolean>(false);
+    const { mutate } = usePasswordReset();
     const [next, setNext] = useState<boolean>(false);
-
+    const router = useRouter();
     const methods = useForm<PasswordResetValuesType>({
         mode: 'onChange',
         reValidateMode: 'onChange',
@@ -37,23 +40,35 @@ const PasswordReset = () => {
             errors,
             // isSubmitting
         },
+        handleSubmit,
     } = methods;
 
     const password = watch('password', '');
+
+    const handlePasswordSubmit = async (passwordData: PasswordResetValuesType) => {
+        try {
+            await mutate({
+                newPassword: passwordData.password,
+                newPasswordConfirm: passwordData.passwordConfirm,
+            });
+            router.push('/');
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const rules = [
         { label: '8자 이상 16자 이내', valid: password.length >= 8 && password.length <= 16 },
         { label: '특수문자 포함', valid: /[^A-Za-z0-9]/.test(password) },
         { label: '대문자 포함', valid: /[A-Z]/.test(password) },
     ];
+
     return (
         <main className="w-[480px] h-auto px-[24px] flex flex-col justify-start items-start gap-[24px] font-bold text-black">
             <h3 className="text-[28px]">비밀번호 재설정</h3>
-            <p className="text-[20px]">
-                비밀번호 재설정을 위해 포트클라우드에 가입한 이메일을 입력해 주세요.
-            </p>
+            {next && <p className="text-[20px]">새로운 비밀번호를 입력해주세요.</p>}
             <FormProvider {...methods}>
-                <form>
+                <form onSubmit={handleSubmit(handlePasswordSubmit)} className="w-full">
                     {next ? (
                         <>
                             {/* password section */}
@@ -170,6 +185,14 @@ const PasswordReset = () => {
                             onVerified={() => setIsVerified(true)}
                             setNext={setNext}
                         />
+                    )}
+                    {next && (
+                        <button
+                            type="submit"
+                            className="flex w-full mt-[12px] py-[12px] justify-center border rounded-full bg-purple-500 text-white cursor-pointer hover:bg-purple-600 transition-colors"
+                        >
+                            비밀번호 재설정
+                        </button>
                     )}
                 </form>
             </FormProvider>

@@ -6,7 +6,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-
+        console.log('api/user/send-password-reset-verification 호출');
         const { data } = await axios.post(
             `${BASE_URL}api/user/send-password-reset-verification`,
             body,

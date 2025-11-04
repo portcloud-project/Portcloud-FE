@@ -1,8 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-const fetchResetPassword = async () => {
+
+interface PasswordResetPayload {
+    newPassword: string;
+    newPasswordConfirm: string;
+}
+const fetchResetPassword = async (data: PasswordResetPayload) => {
     try {
-        const response = await axios.post('/api/password-reset');
+        const response = await axios.post('/api/password-reset', data);
         return response.data.data || [];
     } catch (err) {
         console.error(err);
@@ -10,11 +15,8 @@ const fetchResetPassword = async () => {
     }
 };
 
-export const useActivityComment = () => {
+export const usePasswordReset = () => {
     return useMutation({
-        mutationFn: () => {
-            const data = fetchResetPassword();
-            return data;
-        },
+        mutationFn: (data: PasswordResetPayload) => fetchResetPassword(data),
     });
 };

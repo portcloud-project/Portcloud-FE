@@ -19,7 +19,6 @@ const Logs = () => {
         triggerOnce: false,
     });
     const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useRecentLogs();
-
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) {
             fetchNextPage();
@@ -33,6 +32,7 @@ const Logs = () => {
         if (searchType === 'title') return item.title.toLowerCase().includes(searchTitle);
         if (searchType === 'nickname') return item.writeName.toLowerCase().includes(searchTitle);
     });
+    console.log(filteredItems);
     return (
         <main className="w-full px-[24px] flex flex-col justify-start items-start mx-auto laptop:max-w-[1440px] tablet:w-full gap-[48px]">
             {!searchTitle && (
